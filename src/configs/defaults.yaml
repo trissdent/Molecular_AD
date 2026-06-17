@@ -5,9 +5,9 @@ data:
   data_dir: "/mnt/data_lab513/adni/sMRI/processed/data/"
   feature_csv_path: "/home/minhtri/Molecular_AD/data/mri_features.csv"
   cache_dir: "/home/minhtri/Molecular_AD/output/cache"
-  batch_size: 4
+  batch_size: 16
   num_workers: 4
-  max_samples: 24
+  max_samples: 72
 
 # Model
 model:
@@ -19,12 +19,12 @@ model:
 
 # Training
 training:
-  max_epochs: 2
+  max_epochs: 7
   lr: 0.0001
   optimizer: "adam"
   scheduler: null
-  checkpoint_dir: "./checkpoints/"
-  log_dir: "./logs/"
+  checkpoint_dir: "../checkpoints/"
+  log_dir: "../logs/"
   dci_every_n_epochs: 1
 
 # Loss

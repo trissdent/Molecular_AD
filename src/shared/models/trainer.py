@@ -2,6 +2,8 @@ import pytorch_lightning as pl
 from pytorch_lightning.callbacks import ModelCheckpoint
 from pytorch_lightning.loggers import CSVLogger
 import torch
+import numpy as np
+from shared.models.CIMLR import CIMLR_Feature_Ranking
 
 
 class LightningModel(pl.LightningModule):
@@ -17,12 +19,15 @@ class LightningModel(pl.LightningModule):
 
         self.train_z = []
         self.train_features = []
+        self.train_image_ids = []
         self.val_z = []
         self.val_features = []
 
     def training_step(self, batch, batch_idx):
         volume, features, image_id = batch
         model_output = self.model(volume)
+        # Inject image_ids so loss_function can look up cached cluster probs
+        model_output["image_ids"] = image_id
         total_loss, loss_dict = self.loss_handler(model_output, volume, features)
 
         self.log("train_loss", loss_dict["total_loss"], prog_bar=True, on_step=False, on_epoch=True)
@@ -34,12 +39,16 @@ class LightningModel(pl.LightningModule):
 
         self.train_z.append(model_output["z"].detach().cpu())
         self.train_features.append(features.detach().cpu())
+        # Collect image_ids for per-epoch CIMLR clustering
+        ids = image_id if isinstance(image_id, (list, tuple)) else list(image_id)
+        self.train_image_ids.extend(ids)
 
         return total_loss
 
     def validation_step(self, batch, batch_idx):
         volume, features, image_id = batch
         model_output = self.model(volume)
+        model_output["image_ids"] = image_id
         total_loss, loss_dict = self.loss_handler(model_output, volume, features)
 
         self.log("val_loss", loss_dict["total_loss"], prog_bar=True, on_step=False, on_epoch=True)
@@ -84,8 +93,30 @@ class LightningModel(pl.LightningModule):
                 f"Val DCI — D: {val_dci['disentanglement']:.4f}, I: {val_dci['informativeness']:.4f} | "
                 f"Stable dims: {len(stable_dims)}")
 
+        WARMUP = 5
+        if (self.current_epoch + 1) > WARMUP and len(self.train_z) > 0:
+            z = torch.cat(self.train_z, dim=0).cpu().numpy()
+            X = torch.cat(self.train_features, dim=0).cpu().numpy()
+            zn = z / (np.linalg.norm(z, axis=1, keepdims=True) + 1e-8)
+            A = zn @ zn.T
+            top_idx, _ = CIMLR_Feature_Ranking(A, X)
+            top20 = top_idx[:20].tolist()
+            prev = getattr(self, "prev_top20", None)
+            overlap = len(set(top20) & set(prev)) if prev else 0
+            self.prev_top20 = top20
+            self.loss_handler.loss_fn.active_feature_idx = top20
+            print(f"[Epoch {self.current_epoch}] top20 overlap: {overlap}/20 | {sorted(top20)}")
+
+        # Per-epoch CIMLR clustering on all accumulated train Z (lag pattern).
+        # Results cached in loss_fn.cluster_probs_cache, used by next epoch's batches.
+        if len(self.train_z) > 0 and hasattr(self.loss_handler, 'loss_fn') and \
+                hasattr(self.loss_handler.loss_fn, 'update_cluster_cache'):
+            z_all = torch.cat(self.train_z, dim=0).cpu().numpy().astype('float64')
+            self.loss_handler.loss_fn.update_cluster_cache(self.train_image_ids, z_all)
+
         self.train_z = []
         self.train_features = []
+        self.train_image_ids = []
         self.val_z = []
         self.val_features = []
 
@@ -116,11 +147,11 @@ class Trainer:
 
         checkpoint_callback = ModelCheckpoint(
             dirpath=self.checkpoint_dir,
-            filename="{epoch:02d}-{val_loss:.3f}",
+            filename="best",
             monitor="val_loss",
             mode="min",
-            save_top_k=3,
-            save_last=True,
+            save_top_k=1,
+            save_last=False,
         )
 
         if self.experiment_dir:

@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.stats import beta
-from utils import LaplacianScore
+from .utils import LaplacianScore
 
 def betaScores(r):
     n = np.sum(~np.isnan(r))

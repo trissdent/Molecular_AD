@@ -1,10 +1,9 @@
 import numpy as np
 import time
-from utils import multipleK, Network_Diffusion, NE_dn, eig1, L2_distance_1, projsplx_c, umkl_bo, Kbeta, tsne_p_bo, litekmeans, dist2
+from .utils import multipleK, Network_Diffusion, NE_dn, eig1, L2_distance_1, projsplx_c, umkl_bo, Kbeta, tsne_p_bo, litekmeans, dist2
 
 def CIMLR(alldata, c, k=10):
     t0 = time.time()
-    order = 2
     no_dim = c
     NITER = 30
     num = alldata[0].shape[0]
@@ -47,7 +46,7 @@ def CIMLR(alldata, c, k=10):
     F = NE_dn(F, 'ave')
     
     evs = np.zeros((c, NITER + 1))
-    evs[:, 0] = evs_init
+    evs[:, 0] = evs_init[:c]
     converge = np.zeros(NITER)
     S_old = np.copy(S)
     
@@ -74,7 +73,7 @@ def CIMLR(alldata, c, k=10):
         F, temp_val, ev = eig1(L, c, 0)
         F = NE_dn(F, 'ave')
         F = (1 - beta) * F_old + beta * F
-        evs[:, iter+1] = ev
+        evs[:, iter+1] = ev[:c]
         
         DD = np.zeros(D_Kernels.shape[2])
         for i in range(D_Kernels.shape[2]):

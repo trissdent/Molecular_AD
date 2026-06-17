@@ -40,6 +40,14 @@ def multipleK(x):
                 W = norm.pdf(Diff, 0, sigma[j] * Sig)
                 Kernels.append((W + W.T) / 2.0)
                 
+    if len(Kernels) == 0:
+        # Fallback: batch is too small for any allk value (need N >= 12).
+        # Build a single trivial RBF kernel so CIMLR can still run.
+        Sig = np.mean(Diff) + np.finfo(float).eps
+        W = norm.pdf(Diff, 0, Sig)
+        W = (W + W.T) / 2.0
+        Kernels.append(W)
+
     Kernels = np.stack(Kernels, axis=-1)
     D_Kernels = np.zeros_like(Kernels)
     for i in range(Kernels.shape[2]):

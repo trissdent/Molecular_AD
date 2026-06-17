@@ -1,5 +1,5 @@
 import numpy as np
-from utils import multipleK, Network_Diffusion
+from .utils import multipleK, Network_Diffusion
 from scipy.sparse import spdiags
 
 def discretisationEigenVectorData(EigenVector):
