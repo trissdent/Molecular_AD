@@ -77,9 +77,25 @@ class BetaTCVAELoss:
     def _prediction_loss(self, feature_pred, feature_target):
         return F.mse_loss(feature_pred, feature_target, reduction='mean')
 
+    # def _cluster_loss(self, cluster_pairwise, z):
+    #     z_np = z.detach().cpu().numpy()
+    #     gmm = GaussianMixture(n_components=self.n_clusters, covariance_type='full', random_state=42)
+    #     gmm.fit(z_np)
+    #     probs = gmm.predict_proba(z_np)
+    #     probs = torch.from_numpy(probs).float().to(z.device)
+    #     gmm_pairwise = torch.matmul(probs, probs.t())
+    #     return F.binary_cross_entropy_with_logits(cluster_pairwise, gmm_pairwise)
     def _cluster_loss(self, cluster_pairwise, z):
-        z_np = z.detach().cpu().numpy()
-        gmm = GaussianMixture(n_components=self.n_clusters, covariance_type='full', random_state=42)
+        # Skip clustering if batch too small to fit n_clusters
+        if z.size(0) < self.n_clusters:
+            return torch.tensor(0.0, device=z.device, requires_grad=True)
+        z_np = z.detach().cpu().numpy().astype('float64')
+        gmm = GaussianMixture(
+            n_components=self.n_clusters,
+            covariance_type='diag',
+            reg_covar=1e-4,
+            random_state=42,
+        )
         gmm.fit(z_np)
         probs = gmm.predict_proba(z_np)
         probs = torch.from_numpy(probs).float().to(z.device)

@@ -29,8 +29,9 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
         feature_csv_path=config.data.feature_csv_path,
         transform=transform,
         cache_dir=config.data.cache_dir,
+        max_samples=config.data.max_samples,
     )
-
+    print("dataset size:", len(train_dataset))
     n = len(train_dataset)
     n_train = int(0.8 * n)
     n_val = n - n_train

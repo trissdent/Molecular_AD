@@ -1,0 +1,102 @@
+2026-02-02 15:57:02 | 003_S_6260 - 1590171 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-02 18:32:04 | 003_S_4118 - 1124855 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-02 19:37:30 | 005_S_10300 - 11088080 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-03 07:12:23 | 006_S_6689 - 1563078 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-03 16:55:17 | 007_S_4911 - 365003 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-04 00:55:08 | 003_S_5165 - 388988 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-04 11:36:05 | 012_S_10277 - 11052174 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-04 17:23:33 | 013_S_7103 - 1634179 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-05 03:38:35 | 016_S_4353 - 267937 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-05 11:49:17 | 016_S_4887 - 325642 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-05 19:46:29 | 016_S_6800 - 1426470 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-06 22:36:07 | 021_S_6940 - 1441119 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-09 22:58:03 | 003_S_4118 - 1124855 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-09 23:53:25 | 007_S_4911 - 365003 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-10 00:25:58 | 016_S_4353 - 267937 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-10 06:21:38 | 016_S_4887 - 325642 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-10 14:40:20 | 027_S_5197 - 375825 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-13 11:44:53 | 033_S_5198 - 1072872 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-14 10:32:01 | 035_S_7050 - 10864495 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-15 01:41:04 | 037_S_6216 - 992628 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-16 14:00:11 | 057_S_6869 - 1551527 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-18 02:13:26 | 098_S_4018 - 305979 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-19 05:47:12 | 114_S_4404 - 949873 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-19 07:03:36 | 114_S_6368 - 1020513 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-19 20:32:11 | 126_S_4507 - 1165186 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-20 05:10:32 | 126_S_6721 - 10864481 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-20 06:21:17 | 126_S_6721 - 1439611 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-20 13:35:35 | 127_S_4240 - 294276 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-21 01:48:39 | 127_S_4992 - 397991 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-22 08:53:50 | 129_S_6457 - 1014334 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-23 16:16:54 | 137_S_4862 - 1225162 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-24 03:40:04 | 129_S_6857 - 11294667 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-24 07:28:32 | 168_S_6735 - 1175356 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+
+2026-02-24 19:19:53 | 305_S_6881 - 1330894 | recon-all failed: threshold mask volume at 0.001
+threshold mask volume at 0.001
+

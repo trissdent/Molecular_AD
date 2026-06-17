@@ -19,15 +19,26 @@ class MRIDataset(Dataset):
         self.cache_dir = cache_dir
 
         # Load features
-        df = pd.read_csv(feature_csv_path)
-        df = df.set_index('image_id')
-        df = df.drop(columns=['subject_id'], errors='ignore')
-        df = df.select_dtypes(include=[np.number])
-        self.features_df = df
-        self.feature_names = list(df.columns)
-        print(f"Loaded {len(self.feature_names)} features for {len(df)} images")
+        self.features_df, self.feature_names = self._load_features(feature_csv_path)
+        self.feature_mean = self._feature_mean
+        self.feature_std = self._feature_std
+        print(f"Loaded {len(self.feature_names)} features for {len(self.features_df)} images")
 
         self.samples = self._scan_files(max_samples)
+
+
+    def _load_features(self, feature_csv_path):
+        df = pd.read_csv(feature_csv_path)
+        df = df.set_index('image_id')
+        df.index = df.index.astype(str)
+        df = df.drop(columns=['subject_id'], errors='ignore')
+        df = df.select_dtypes(include=[np.number])
+
+        self._feature_mean = df.mean()
+        self._feature_std = df.std().replace(0, 1.0)   
+        df = (df - self._feature_mean) / self._feature_std
+
+        return df, list(df.columns)
 
     def _scan_files(self, max_samples):
         samples = []

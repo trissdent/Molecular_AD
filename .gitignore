@@ -209,6 +209,6 @@ __marimo__/
 
 *.ipynb
 /data/
-/log/
+/logs/
 /output/
 /prep_src/

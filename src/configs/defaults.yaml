@@ -2,29 +2,30 @@
 
 # Data
 data:
-  data_dir: "/mnt/data_lab513/adni/sMRI/processed/"
+  data_dir: "/mnt/data_lab513/adni/sMRI/processed/data/"
   feature_csv_path: "/home/minhtri/Molecular_AD/data/mri_features.csv"
   cache_dir: "/home/minhtri/Molecular_AD/output/cache"
   batch_size: 4
   num_workers: 4
+  max_samples: 24
 
 # Model
 model:
   name: "beta_tc_vae"
   z_dim: 256
   in_channels: 1
-  num_features: 340
+  num_features: 539
   cluster_projection_dim: 128
 
 # Training
 training:
-  max_epochs: 100
+  max_epochs: 2
   lr: 0.0001
   optimizer: "adam"
   scheduler: null
   checkpoint_dir: "./checkpoints/"
   log_dir: "./logs/"
-  dci_every_n_epochs: 5
+  dci_every_n_epochs: 1
 
 # Loss
 loss:
@@ -35,7 +36,7 @@ loss:
   recon_weight: 1.0
   prediction_weight: 1.0
   cluster_weight: 0.5
-  n_clusters: 10
+  n_clusters: 2
 
 # Metrics
 metrics:
