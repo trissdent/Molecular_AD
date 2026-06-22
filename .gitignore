@@ -212,3 +212,5 @@ __marimo__/
 /logs/
 /output/
 /prep_src/
+/log_pre/
+*_gitig_*

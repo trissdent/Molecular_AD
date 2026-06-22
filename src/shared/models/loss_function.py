@@ -3,8 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
 from sklearn.mixture import GaussianMixture
-from shared.models.CIMLR import CIMLR
-
+from shared.models.CIMLR import CIMLR, Estimate_Number_of_Clusters_CIMLR
 
 class LossHandler:
 
@@ -127,10 +126,11 @@ class BetaTCVAELoss:
     # ------------------------------------------------------------------
     # Called once per epoch end from trainer.on_train_epoch_end()
     # ------------------------------------------------------------------
-    def update_cluster_cache(self, image_ids: list, z_np: np.ndarray):
+    def update_cluster_cache(self, image_ids: list, z_np: np.ndarray, estimate_c: bool = False):
         """
         Run CIMLR + GMM on the full-epoch accumulated Z and store soft cluster
-        probabilities keyed by image_id.
+        probabilities keyed by image_id. Also stores CIMLR's similarity S for
+        reuse by the top-20 feature ranking.
 
         Args:
             image_ids: list of image IDs in the same order as z_np rows.
@@ -143,7 +143,17 @@ class BetaTCVAELoss:
 
         try:
             k = min(10, N - 2)
-            _, S, _, _, _, _, _, _ = CIMLR([z_np], self.n_clusters, k=k)
+            if estimate_c:
+                
+                candidates = np.array([2, 3, 4, 5, 6])
+                K1, K2 = Estimate_Number_of_Clusters_CIMLR([z_np], candidates)
+                best_c = int(candidates[np.argmin(K1)])
+                if best_c != self.n_clusters:
+                    print(f"[ClusterCount] c: {self.n_clusters} → {best_c}")
+                    self.n_clusters = best_c
+            _, S, _, _, _, _, _, LF = CIMLR([z_np], self.n_clusters, k=k)
+            LF = np.real(LF)
+            self.last_S = np.real(S)   # save similarity for top-20 ranking reuse
 
             gmm = GaussianMixture(
                 n_components=self.n_clusters,
@@ -151,8 +161,8 @@ class BetaTCVAELoss:
                 reg_covar=1e-4,
                 random_state=42,
             )
-            gmm.fit(S)
-            probs = gmm.predict_proba(S)  # (N, n_clusters)
+            gmm.fit(LF)
+            probs = gmm.predict_proba(LF)  # (N, n_clusters)
 
             # Update cache
             self.cluster_probs_cache = {}

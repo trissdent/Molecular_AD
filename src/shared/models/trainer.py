@@ -31,11 +31,11 @@ class LightningModel(pl.LightningModule):
         total_loss, loss_dict = self.loss_handler(model_output, volume, features)
 
         self.log("train_loss", loss_dict["total_loss"], prog_bar=True, on_step=False, on_epoch=True)
-        self.log("train_recon", loss_dict["recon_loss"], on_step=False, on_epoch=True)
-        self.log("train_kl", loss_dict["kl_loss"], on_step=False, on_epoch=True)
-        self.log("train_tc", loss_dict["tc"], on_step=False, on_epoch=True)
-        self.log("train_pred", loss_dict["pred_loss"], on_step=False, on_epoch=True)
-        self.log("train_cluster", loss_dict["cluster_loss"], on_step=False, on_epoch=True)
+        self.log("train_recon", loss_dict["recon_loss"], prog_bar=True, on_step=False, on_epoch=True)
+        self.log("train_kl", loss_dict["kl_loss"], prog_bar=True, on_step=False, on_epoch=True)
+        self.log("train_tc", loss_dict["tc"], prog_bar=True, on_step=False, on_epoch=True)
+        self.log("train_pred", loss_dict["pred_loss"], prog_bar=True, on_step=False, on_epoch=True)
+        self.log("train_cluster", loss_dict["cluster_loss"], prog_bar=True, on_step=False, on_epoch=True)
 
         self.train_z.append(model_output["z"].detach().cpu())
         self.train_features.append(features.detach().cpu())
@@ -52,11 +52,11 @@ class LightningModel(pl.LightningModule):
         total_loss, loss_dict = self.loss_handler(model_output, volume, features)
 
         self.log("val_loss", loss_dict["total_loss"], prog_bar=True, on_step=False, on_epoch=True)
-        self.log("val_recon", loss_dict["recon_loss"], on_step=False, on_epoch=True)
-        self.log("val_kl", loss_dict["kl_loss"], on_step=False, on_epoch=True)
-        self.log("val_tc", loss_dict["tc"], on_step=False, on_epoch=True)
-        self.log("val_pred", loss_dict["pred_loss"], on_step=False, on_epoch=True)
-        self.log("val_cluster", loss_dict["cluster_loss"], on_step=False, on_epoch=True)
+        self.log("val_recon", loss_dict["recon_loss"], prog_bar=True, on_step=False, on_epoch=True)
+        self.log("val_kl", loss_dict["kl_loss"], prog_bar=True, on_step=False, on_epoch=True)
+        self.log("val_tc", loss_dict["tc"], prog_bar=True, on_step=False, on_epoch=True)
+        self.log("val_pred", loss_dict["pred_loss"], prog_bar=True, on_step=False, on_epoch=True)
+        self.log("val_cluster", loss_dict["cluster_loss"], prog_bar=True, on_step=False, on_epoch=True)
 
         # Collect for DCI
         self.val_z.append(model_output["z"].detach().cpu())
@@ -88,31 +88,37 @@ class LightningModel(pl.LightningModule):
             self.log("val_C", val_dci["completeness"])
             self.log("stable_dims", float(len(stable_dims)), prog_bar=True)
 
+            cur = set(int(d) for d in stable_dims)
+            prev = getattr(self, "prev_stable_dims", None)
+            overlap = len(cur & prev) if prev is not None else 0
+            denom = len(prev) if prev else len(cur)
+            self.prev_stable_dims = cur
+
             print(f"\n[Epoch {self.current_epoch}] "
                 f"Train DCI — D: {train_dci['disentanglement']:.4f}, I: {train_dci['informativeness']:.4f} | "
                 f"Val DCI — D: {val_dci['disentanglement']:.4f}, I: {val_dci['informativeness']:.4f} | "
-                f"Stable dims: {len(stable_dims)}")
+                f"Stable dims: {len(stable_dims)} | "
+                f"overlap: {overlap}/{denom} | {sorted(cur)}")
+
+        if len(self.train_z) > 0 and hasattr(self.loss_handler, 'loss_fn') and \
+                hasattr(self.loss_handler.loss_fn, 'update_cluster_cache'):
+            z_all = torch.cat(self.train_z, dim=0).cpu().numpy().astype('float64')
+            estimate_c = (self.current_epoch + 1) % 5 == 0   # re-estimate every 10 epochs
+            self.loss_handler.loss_fn.update_cluster_cache(
+                self.train_image_ids, z_all, estimate_c=estimate_c
+            )
 
         WARMUP = 5
-        if (self.current_epoch + 1) > WARMUP and len(self.train_z) > 0:
-            z = torch.cat(self.train_z, dim=0).cpu().numpy()
+        S = getattr(self.loss_handler.loss_fn, "last_S", None)
+        if (self.current_epoch + 1) > WARMUP and S is not None and len(self.train_features) > 0:
             X = torch.cat(self.train_features, dim=0).cpu().numpy()
-            zn = z / (np.linalg.norm(z, axis=1, keepdims=True) + 1e-8)
-            A = zn @ zn.T
-            top_idx, _ = CIMLR_Feature_Ranking(A, X)
+            top_idx, _ = CIMLR_Feature_Ranking(S, X)
             top20 = top_idx[:20].tolist()
             prev = getattr(self, "prev_top20", None)
             overlap = len(set(top20) & set(prev)) if prev else 0
             self.prev_top20 = top20
             self.loss_handler.loss_fn.active_feature_idx = top20
             print(f"[Epoch {self.current_epoch}] top20 overlap: {overlap}/20 | {sorted(top20)}")
-
-        # Per-epoch CIMLR clustering on all accumulated train Z (lag pattern).
-        # Results cached in loss_fn.cluster_probs_cache, used by next epoch's batches.
-        if len(self.train_z) > 0 and hasattr(self.loss_handler, 'loss_fn') and \
-                hasattr(self.loss_handler.loss_fn, 'update_cluster_cache'):
-            z_all = torch.cat(self.train_z, dim=0).cpu().numpy().astype('float64')
-            self.loss_handler.loss_fn.update_cluster_cache(self.train_image_ids, z_all)
 
         self.train_z = []
         self.train_features = []

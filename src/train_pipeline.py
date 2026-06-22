@@ -1,4 +1,4 @@
-import torch
+import torch, os
 from torch.utils.data import DataLoader
 from configs.config import ConfigReader
 from shared.models.loss_function import LossHandler
@@ -10,7 +10,8 @@ from shared.models.visualization import plot_training_curves
 from shared.services.data.dataset import MRIDataset
 from shared.services.data.transforms import MRITransformer
 from shared.services.models_hub.beta_tc_vae.model import BetaTCVAE
-
+import pandas as pd
+from sklearn.model_selection import train_test_split
 
 def run(config_path="./configs/defaults.yaml", experiment_path=None):
     config = ConfigReader.merge(config_path, experiment_path)
@@ -24,21 +25,60 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
         margin=config.transform.margin,
     )
 
-    train_dataset = MRIDataset(
-        data_dir=config.data.data_dir,
-        feature_csv_path=config.data.feature_csv_path,
-        transform=transform,
-        cache_dir=config.data.cache_dir,
-        max_samples=config.data.max_samples,
+    demo = pd.read_csv("/home/minhtri/Molecular_AD/data/all_demographics.csv")
+    demo["image_id"] = demo["image_id"].astype(str)
+    demo = demo.dropna(subset=["diagnosis"])
+    label_lookup = dict(zip(demo["image_id"], demo["diagnosis"].str.lower()))
+
+    feat_df = pd.read_csv(config.data.feature_csv_path)
+    feat_df["image_id"] = feat_df["image_id"].astype(str)
+    all_ids = feat_df["image_id"].tolist()
+
+    ids, labels = [], []
+    for iid in all_ids:
+        if iid in label_lookup:
+            ids.append(iid)
+            labels.append(label_lookup[iid])
+    print(f"Usable (has features + label): {len(ids)} of {len(all_ids)} feature rows")
+
+    train_ids, temp_ids, train_lab, temp_lab = train_test_split(
+        ids, labels, test_size=0.30, stratify=labels, random_state=42,
     )
-    print("dataset size:", len(train_dataset))
-    n = len(train_dataset)
-    n_train = int(0.8 * n)
-    n_val = n - n_train
-    generator = torch.Generator().manual_seed(42)
-    train_subset, val_subset = torch.utils.data.random_split(
-        train_dataset, [n_train, n_val], generator=generator,
+    val_ids, test_ids = train_test_split(
+        temp_ids, test_size=0.50, stratify=temp_lab, random_state=42,
     )
+    print(f"Split — train: {len(train_ids)}, val: {len(val_ids)}, test: {len(test_ids)}")
+    # train_ids = train_ids[:50]
+    # val_ids = val_ids[:15]
+    # test_ids = test_ids[:15]
+    def make_ds(id_list):
+        return MRIDataset(
+            data_dir=config.data.data_dir,
+            feature_csv_path=config.data.feature_csv_path,
+            transform=transform,
+            cache_dir=config.data.cache_dir,
+            image_ids=id_list,
+            normalize=False,
+        )
+
+    train_dataset = make_ds(train_ids)
+    val_dataset   = make_ds(val_ids)
+    test_dataset  = make_ds(test_ids)
+
+    train_raw = train_dataset.raw_features_df.loc[
+        [s["image_id"] for s in train_dataset.samples]
+    ]
+    mean = train_raw.mean()
+    std = train_raw.std().replace(0, 1.0)
+    for ds in (train_dataset, val_dataset, test_dataset):
+        ds.set_normalization(mean, std)
+
+    os.makedirs(config.training.checkpoint_dir, exist_ok=True)
+    mean.to_csv(config.training.checkpoint_dir + "feature_mean.csv")
+    std.to_csv(config.training.checkpoint_dir + "feature_std.csv")
+
+    train_subset = train_dataset
+    val_subset = val_dataset
 
     train_loader = DataLoader(
         train_subset,

@@ -93,7 +93,8 @@ def Estimate_Number_of_Clusters_CIMLR(alldata, NUMC):
             
     Quality = Estimate_Number_of_Clusters_given_graph(W, NUMC)
     Quality_plus = Estimate_Number_of_Clusters_given_graph(W, NUMC + 1)
-    Quality_minus = Estimate_Number_of_Clusters_given_graph(W, NUMC - 1)
+    Quality_minus = Estimate_Number_of_Clusters_given_graph(W, np.maximum(NUMC - 1, 2))
+
     
     K1 = 2 * (1 + Quality) - (2 + Quality_plus + Quality_minus)
     K2 = K1 * (NUMC + 1) / NUMC

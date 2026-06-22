@@ -13,18 +13,27 @@ class MRIDataset(Dataset):
     def __init__(self, data_dir: str, feature_csv_path: str,
         transform: Optional[BaseTransformer] = None,
         cache_dir: Optional[str] = None, max_samples: Optional[int] = None,
+        image_ids: Optional[list] = None, normalize: bool = True,
     ):
         self.data_dir = data_dir
         self.transform = transform
         self.cache_dir = cache_dir
+        self.allowed_ids = set(str(i) for i in image_ids) if image_ids is not None else None
 
-        # Load features
         self.features_df, self.feature_names = self._load_features(feature_csv_path)
-        self.feature_mean = self._feature_mean
-        self.feature_std = self._feature_std
+        self.feature_mean = None
+        self.feature_std = None
+        if normalize:
+            self.set_normalization(self.raw_features_df.mean(),
+                                   self.raw_features_df.std().replace(0, 1.0))
         print(f"Loaded {len(self.feature_names)} features for {len(self.features_df)} images")
 
         self.samples = self._scan_files(max_samples)
+
+    def set_normalization(self, mean, std):
+        self.feature_mean = mean
+        self.feature_std = std
+        self.features_df = (self.raw_features_df - mean) / std
 
 
     def _load_features(self, feature_csv_path):
@@ -33,11 +42,7 @@ class MRIDataset(Dataset):
         df.index = df.index.astype(str)
         df = df.drop(columns=['subject_id'], errors='ignore')
         df = df.select_dtypes(include=[np.number])
-
-        self._feature_mean = df.mean()
-        self._feature_std = df.std().replace(0, 1.0)   
-        df = (df - self._feature_mean) / self._feature_std
-
+        self.raw_features_df = df
         return df, list(df.columns)
 
     def _scan_files(self, max_samples):
@@ -50,7 +55,8 @@ class MRIDataset(Dataset):
             for image_id in sorted(os.listdir(subject_path)):
                 if image_id == "fsaverage":
                     continue
-
+                if self.allowed_ids is not None and image_id not in self.allowed_ids:
+                    continue
                 mgz_path = os.path.join(subject_path, image_id, "mri", "brain.finalsurfs.mgz")
                 if os.path.exists(mgz_path) and image_id in self.features_df.index:
                     samples.append({
