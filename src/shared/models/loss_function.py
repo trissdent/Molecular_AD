@@ -151,7 +151,7 @@ class BetaTCVAELoss:
                 if best_c != self.n_clusters:
                     print(f"[ClusterCount] c: {self.n_clusters} → {best_c}")
                     self.n_clusters = best_c
-            _, S, _, _, _, _, _, LF = CIMLR([z_np], self.n_clusters, k=k)
+            S, LF, _, _ = CIMLR([z_np], self.n_clusters, k=k)
             LF = np.real(LF)
             self.last_S = np.real(S)   # save similarity for top-20 ranking reuse
 

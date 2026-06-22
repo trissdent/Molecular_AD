@@ -23,7 +23,7 @@ def rhoScores(r):
         r1 = r[rInd, :]
         x = betaScores(r1)
         k = np.sum(~np.isnan(x))
-        rho[rInd] = correctBetaPvalues(np.min(x), k)
+        rho[rInd] = correctBetaPvalues(np.nanmin(x), k)
     return rho
 
 def aggregateRanks(R):
@@ -47,7 +47,7 @@ def CIMLR_Feature_Ranking(A, X):
     glist = (yscore.T - np.min(yscore) + np.finfo(float).eps) / (np.max(yscore) - np.min(yscore) + np.finfo(float).eps)
     
     aggR, pval = aggregateRanks(glist)
-    aggR_idx = np.argsort(pval)
+    aggR_idx = np.argsort(pval, kind='stable')
     pval = pval[aggR_idx]
     
     return aggR_idx, pval

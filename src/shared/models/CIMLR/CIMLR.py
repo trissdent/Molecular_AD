@@ -3,8 +3,6 @@ import time
 from .utils import multipleK, Network_Diffusion, NE_dn, eig1, L2_distance_1, projsplx_c, umkl_bo, Kbeta, tsne_p_bo, litekmeans, dist2
 
 def CIMLR(alldata, c, k=10):
-    t0 = time.time()
-    no_dim = c
     NITER = 30
     num = alldata[0].shape[0]
     r = -1
@@ -18,7 +16,7 @@ def CIMLR(alldata, c, k=10):
     alphaK = np.ones(D_Kernels.shape[2]) / D_Kernels.shape[2]
     distX = np.mean(D_Kernels, axis=2)
     distX1 = np.sort(distX, axis=1)
-    idx = np.argsort(distX, axis=1)
+    idx = np.argsort(distX, axis=1, kind='stable')
     
     A = np.zeros((num, num))
     di = distX1[:, 1:k+2]
@@ -102,28 +100,7 @@ def CIMLR(alldata, c, k=10):
         
         S_old = np.copy(S)
         distX = Kbeta(D_Kernels, alphaK)
-        distX1 = np.sort(distX, axis=1)
-        idx = np.argsort(distX, axis=1)
+        idx = np.argsort(distX, axis=1, kind='stable')
         
     LF = F
-    D_mat = np.diag(np.sum(S, axis=1))
-    L = D_mat - S
-    D_eig, U = np.linalg.eig(L)
-    
-    if isinstance(no_dim, int):
-        F_out = tsne_p_bo(S, None, no_dim)
-    else:
-        F_out = []
-        for d in no_dim:
-            F_out.append(tsne_p_bo(S, None, d))
-            
-    timeOurs = time.time() - t0
-    
-    labels_LF, center_LF = litekmeans(LF, c)
-    center_idx = np.argmin(dist2(center_LF, LF), axis=1)
-    
-    F_to_cluster = F_out if isinstance(no_dim, int) else F_out[0]
-    y, center = litekmeans(F_to_cluster, c, start=F_to_cluster[center_idx, :])
-    ydata = tsne_p_bo(S)
-    
-    return y, S, F_out, ydata, alphaK, timeOurs, converge, LF
+    return S, LF, alphaK, converge

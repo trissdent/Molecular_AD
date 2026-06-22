@@ -15,7 +15,7 @@ def discretisation(EigenVectors):
     EigenVectors = EigenVectors / (vm[:, None] + np.finfo(float).eps)
     
     R = np.zeros((k, k))
-    R[:, 0] = EigenVectors[int(n/2), :]
+    R[:, 0] = EigenVectors[int(np.floor(n/2 + 0.5)), :]
     c = np.zeros(n)
     for j in range(1, k):
         c = c + np.abs(EigenVectors @ R[:, j-1])

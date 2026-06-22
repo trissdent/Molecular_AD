@@ -40,13 +40,6 @@ def multipleK(x):
                 W = norm.pdf(Diff, 0, sigma[j] * Sig)
                 Kernels.append((W + W.T) / 2.0)
                 
-    if len(Kernels) == 0:
-        # Fallback: batch is too small for any allk value (need N >= 12).
-        # Build a single trivial RBF kernel so CIMLR can still run.
-        Sig = np.mean(Diff) + np.finfo(float).eps
-        W = norm.pdf(Diff, 0, Sig)
-        W = (W + W.T) / 2.0
-        Kernels.append(W)
 
     Kernels = np.stack(Kernels, axis=-1)
     D_Kernels = np.zeros_like(Kernels)
@@ -61,8 +54,8 @@ def multipleK(x):
     return D_Kernels
 
 def dominateset(aff_matrix, NR_OF_KNN):
-    A = np.sort(aff_matrix, axis=1)[:, ::-1]
-    B = np.argsort(aff_matrix, axis=1)[:, ::-1]
+    B = np.argsort(-aff_matrix, axis=1, kind='stable')
+    A = np.take_along_axis(aff_matrix, B, axis=1)
     res = A[:, :NR_OF_KNN]
     loc = B[:, :NR_OF_KNN]
     PNN_matrix1 = np.zeros_like(aff_matrix)
@@ -107,8 +100,9 @@ def Network_Diffusion(A, K):
     d = (1 - alpha) * d / (1 - alpha * d**beta_param)
     D_mat = np.diag(np.real(d))
     W = U @ D_mat @ U.T
+    diagW = np.diag(W).copy()
     np.fill_diagonal(W, 0)
-    W = W / (1 - np.diag(W))[:, None]
+    W = W / (1 - diagW)[:, None]
     W = DD[:, None] * W
     W = (W + W.T) / 2.0
     return W
@@ -215,37 +209,48 @@ def tsne_p_bo(P, labels=None, no_dims=2):
     max_iter = 1000
     epsilon = 500
     min_gain = 0.01
-    
+
+
+    no_dims_arr = np.asarray(no_dims)
+    if no_dims_arr.ndim >= 2 and no_dims_arr.size > 1:
+        initial_solution = True
+        ydata = no_dims_arr.astype(float).copy()  
+        no_dims = ydata.shape[1]
+    else:
+        initial_solution = False
+        no_dims = int(no_dims)
+
+
     np.fill_diagonal(P, 0)
     P = 0.5 * (P + P.T)
     P = np.maximum(P / np.sum(P), np.finfo(float).tiny)
-    P = P * 4.0
-    
-    ydata = 0.0001 * np.random.randn(n, no_dims)
+    if not initial_solution:
+        P = P * 4.0
+        ydata = 0.0001 * np.random.randn(n, no_dims)
     y_incs = np.zeros_like(ydata)
     gains = np.ones_like(ydata)
-    
+
     for iter in range(max_iter):
         sum_ydata = np.sum(ydata**2, axis=1)
         num = 1.0 / (1.0 + sum_ydata[:, None] + sum_ydata[None, :] - 2 * (ydata @ ydata.T))
         np.fill_diagonal(num, 0)
         Q = np.maximum(num / np.sum(num), np.finfo(float).tiny)
-        
+
         L = (P - Q) * num
         y_grads = 4 * (np.diag(np.sum(L, axis=0)) - L) @ ydata
-        
+
         gains = (gains + 0.2) * (np.sign(y_grads) != np.sign(y_incs)) + (gains * 0.8) * (np.sign(y_grads) == np.sign(y_incs))
         gains = np.maximum(gains, min_gain)
         y_incs = momentum * y_incs - epsilon * (gains * y_grads)
         ydata = ydata + y_incs
         ydata = ydata - np.mean(ydata, axis=0)
         ydata = np.clip(ydata, -100, 100)
-        
-        if iter == mom_switch_iter:
+
+        if iter == mom_switch_iter-1:
             momentum = final_momentum
-        if iter == stop_lying_iter:
+        if iter == stop_lying_iter-1 and not initial_solution:
             P = P / 4.0
-            
+
     return ydata
 
 def litekmeans(X, c, start=None):
@@ -256,7 +261,6 @@ def litekmeans(X, c, start=None):
     return kmeans.labels_, kmeans.cluster_centers_
 
 def LaplacianScore(X, W):
-    nSmp, nFea = X.shape
     D = np.sum(W, axis=1)
     L = W
     tmp1 = D.T @ X
