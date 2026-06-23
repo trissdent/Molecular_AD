@@ -1,4 +1,4 @@
-import torch, os
+import torch, os, json
 from torch.utils.data import DataLoader
 from configs.config import ConfigReader
 from shared.models.loss_function import LossHandler
@@ -39,18 +39,27 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
         if iid in label_lookup:
             ids.append(iid)
             labels.append(label_lookup[iid])
-    print(f"Usable (has features + label): {len(ids)} of {len(all_ids)} feature rows")
 
-    train_ids, temp_ids, train_lab, temp_lab = train_test_split(
-        ids, labels, test_size=0.30, stratify=labels, random_state=42,
-    )
-    val_ids, test_ids = train_test_split(
-        temp_ids, test_size=0.50, stratify=temp_lab, random_state=42,
-    )
-    print(f"Split — train: {len(train_ids)}, val: {len(val_ids)}, test: {len(test_ids)}")
-    # train_ids = train_ids[:50]
-    # val_ids = val_ids[:15]
-    # test_ids = test_ids[:15]
+    split_path = config.training.checkpoint_dir + "split.json"
+    if os.path.exists(split_path):
+        with open(split_path) as f:
+            split = json.load(f)
+        train_ids, val_ids, test_ids = split["train"], split["val"], split["test"]
+        print(f"Loaded existing split: {split_path}")
+    else:
+        train_ids, temp_ids, train_lab, temp_lab = train_test_split(
+            ids, labels, test_size=0.30, stratify=labels, random_state=42,
+        )
+        val_ids, test_ids = train_test_split(
+            temp_ids, test_size=0.50, stratify=temp_lab, random_state=42,
+        )
+        split = {"train": train_ids, "val": val_ids, "test": test_ids}
+        os.makedirs(config.training.checkpoint_dir, exist_ok=True)
+        with open(split_path, "w") as f:
+            json.dump(split, f, indent=2)
+
+    print(f"Train: {len(train_ids)}, val: {len(val_ids)}, test: {len(test_ids)}")
+
     def make_ds(id_list):
         return MRIDataset(
             data_dir=config.data.data_dir,
@@ -86,6 +95,7 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
         shuffle=True,
         num_workers=config.data.num_workers,
         pin_memory=torch.cuda.is_available(),
+        drop_last=True,
     )
     val_loader = DataLoader(
         val_subset,
@@ -98,7 +108,6 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
     print(f"Train: {len(train_subset)}, Val: {len(val_subset)}")
     print(f"Features: {len(train_dataset.feature_names)}")
 
-    # Model
     model = BetaTCVAE(
         z_dim=config.model.z_dim,
         in_channels=config.model.in_channels,
@@ -108,7 +117,6 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
     model.summary()
     logger.log_model_info(model)
 
-    # Handlers
     loss_handler = LossHandler(
         loss_type=config.loss.type,
         alpha=config.loss.alpha,
@@ -118,6 +126,8 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
         prediction_weight=config.loss.prediction_weight,
         cluster_weight=config.loss.cluster_weight,
         n_clusters=config.loss.n_clusters,
+        dataset_size=len(train_subset),
+        exp_logger=logger,
     )
 
     metric_handler = MetricHandler(
@@ -136,7 +146,7 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
         experiment_dir=logger.get_experiment_dir(),
     )
 
-    lightning_model = trainer.train(
+    trainer.train(
         model=model,
         train_loader=train_loader,
         val_loader=val_loader,
@@ -144,6 +154,8 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
         metric_handler=metric_handler,
         optimizer_handler=optimizer_handler,
         dci_every_n_epochs=config.training.dci_every_n_epochs,
+        exp_logger=logger,
+        
     )
 
     model.save(config.training.checkpoint_dir + "model_weights.pt")

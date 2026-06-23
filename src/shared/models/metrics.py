@@ -35,6 +35,8 @@ class MetricHandler:
         intersection = (pred * target).sum()
         return (2. * intersection + self.smooth) / (pred.sum() + target.sum() + self.smooth)
 
+
+    # recon beta tc vae
     def compute_dci(self, z, features):
         if isinstance(z, torch.Tensor):
             z = z.detach().cpu().numpy()

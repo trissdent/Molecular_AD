@@ -213,4 +213,5 @@ __marimo__/
 /output/
 /prep_src/
 /log_pre/
+/checkpoints/
 *_gitig_*

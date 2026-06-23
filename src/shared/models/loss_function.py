@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
+import time
 from sklearn.mixture import GaussianMixture
 from shared.models.CIMLR import CIMLR, Estimate_Number_of_Clusters_CIMLR
 
@@ -21,17 +22,22 @@ class LossHandler:
         else:
             raise ValueError(f"Unknown loss type: {loss_type}")
 
-    def __call__(self, pred, target, extra=None):
+    def __call__(self, pred, target, extra=None, compute_cluster=True):
         if self.loss_type == "beta_tc_vae":
-            return self.loss_fn(pred, target, extra)
+            return self.loss_fn(pred, target, extra, compute_cluster=compute_cluster)
         return self.loss_fn(pred, target)  # ty:ignore[missing-argument]
 
 
 class BetaTCVAELoss:
 
     def __init__(self, alpha=1.0, beta=6.0, gamma=1.0,
-                 recon_weight=1.0, prediction_weight=1.0, cluster_weight=0.5,
-                 n_clusters=2):
+                recon_weight=1.0, prediction_weight=1.0, cluster_weight=0.5,
+                n_clusters=2, dataset_size=None, anneal_steps=200, exp_logger=None):
+
+        self.dataset_size = dataset_size
+        self.anneal_steps = anneal_steps
+        self.num_iter = 0
+        self.training = True
         self.alpha = alpha
         self.beta = beta
         self.gamma = gamma
@@ -39,55 +45,51 @@ class BetaTCVAELoss:
         self.prediction_weight = prediction_weight
         self.cluster_weight = cluster_weight
         self.n_clusters = n_clusters
-
-        # Cache: image_id (str/int) → prob tensor (n_clusters,)
-        # Populated once per epoch in on_train_epoch_end via update_cluster_cache().
-        # Empty on epoch 0 → cluster_loss returns 0 silently (correct lag behaviour).
+        self.exp_logger = exp_logger
         self.cluster_probs_cache: dict = {}
 
-    # ------------------------------------------------------------------
-    # Reconstruction
-    # ------------------------------------------------------------------
+    def _log(self, msg):
+        if self.exp_logger is not None:
+            self.exp_logger.log_message(msg)
+        else:
+            print(msg)
+
     def _recon_loss(self, recon, x):
-        return F.l1_loss(recon, x, reduction='mean')
+        return F.l1_loss(recon, x, reduction='sum') / x.size(0)
 
-    # ------------------------------------------------------------------
-    # Beta-TC decomposition
-    # ------------------------------------------------------------------
-    def _tc_decomposition(self, z, mu, logvar):
-        batch_size = z.size(0)
 
-        log_qz_given_x = self._log_gaussian(z, mu, logvar).sum(dim=1)
-        log_qz = self._log_qz_minibatch(z, mu, logvar, batch_size)
-        log_qz_product = self._log_qz_product_minibatch(z, mu, logvar, batch_size)
-        log_pz = self._log_gaussian(z, torch.zeros_like(z), torch.zeros_like(z)).sum(dim=1)
+    def _tc_decomposition(self, z, mu, logvar, dataset_size):
+        log_q_zx = self._log_gaussian(z, mu, logvar).sum(dim=1)
 
-        mi = (log_qz_given_x - log_qz).mean()
-        tc = (log_qz - log_qz_product).mean()
-        dim_kl = (log_qz_product - log_pz).mean()
+        zeros = torch.zeros_like(z)
+        log_p_z = self._log_gaussian(z, zeros, zeros).sum(dim=1)
 
-        return mi, tc, dim_kl
+        batch_size, latent_dim = z.shape
+        mat_log_q_z = self._log_gaussian(z.view(batch_size, 1, latent_dim),
+                                        mu.view(1, batch_size, latent_dim),
+                                        logvar.view(1, batch_size, latent_dim))
+
+        strat_weight = (dataset_size - batch_size + 1) / (dataset_size * (batch_size - 1))
+        importance_weights = torch.Tensor(batch_size, batch_size).fill_(1 / (batch_size - 1)).to(z.device)
+        importance_weights.view(-1)[::batch_size] = 1 / dataset_size
+        importance_weights.view(-1)[1::batch_size] = strat_weight
+        importance_weights[batch_size - 2, 0] = strat_weight
+        log_importance_weights = importance_weights.log()
+
+        mat_log_q_z += log_importance_weights.view(batch_size, batch_size, 1)
+
+        log_q_z = torch.logsumexp(mat_log_q_z.sum(2), dim=1, keepdim=False)
+        log_prod_q_z = torch.logsumexp(mat_log_q_z, dim=1, keepdim=False).sum(1)
+
+        mi_loss = (log_q_zx - log_q_z).mean()
+        tc_loss = (log_q_z - log_prod_q_z).mean()
+        kld_loss = (log_prod_q_z - log_p_z).mean()
+
+        return mi_loss, tc_loss, kld_loss
 
     def _log_gaussian(self, z, mu, logvar):
         return -0.5 * (np.log(2 * np.pi) + logvar + (z - mu).pow(2) / logvar.exp())
 
-    def _log_qz_minibatch(self, z, mu, logvar, batch_size):
-        z_expand = z.unsqueeze(1)
-        mu_expand = mu.unsqueeze(0)
-        logvar_expand = logvar.unsqueeze(0)
-        log_qz_ij = self._log_gaussian(z_expand, mu_expand, logvar_expand)
-        return torch.logsumexp(log_qz_ij.sum(dim=2), dim=1) - np.log(batch_size)
-
-    def _log_qz_product_minibatch(self, z, mu, logvar, batch_size):
-        z_expand = z.unsqueeze(1)
-        mu_expand = mu.unsqueeze(0)
-        logvar_expand = logvar.unsqueeze(0)
-        log_qz_ij = self._log_gaussian(z_expand, mu_expand, logvar_expand)
-        return (torch.logsumexp(log_qz_ij, dim=1) - np.log(batch_size)).sum(dim=1)
-
-    # ------------------------------------------------------------------
-    # Feature prediction
-    # ------------------------------------------------------------------
     def _prediction_loss(self, feature_pred, feature_target):
         idx = getattr(self, "active_feature_idx", None)
         if idx is not None:
@@ -95,37 +97,26 @@ class BetaTCVAELoss:
             feature_target = feature_target[:, idx]
         return F.mse_loss(feature_pred, feature_target, reduction='mean')
 
-    # ------------------------------------------------------------------
-    # Cluster loss — cache lookup (no CIMLR per batch)
-    # ------------------------------------------------------------------
+
     def _cluster_loss(self, cluster_pairwise, image_ids):
         """
         Look up per-sample cluster probs from the cache built at the end of
         the previous epoch, then compute a pairwise BCE loss.
-
-        Returns 0 on epoch 0 (cache is empty) — this is intentional lag.
         """
         if not self.cluster_probs_cache:
-            # Epoch 0: no cache yet, skip silently
             return torch.tensor(0.0, device=cluster_pairwise.device)
 
         probs_list = []
         for iid in image_ids:
             key = iid if isinstance(iid, str) else int(iid)
             if key not in self.cluster_probs_cache:
-                # Sample missing from cache (shouldn't happen after epoch 0)
                 return torch.tensor(0.0, device=cluster_pairwise.device)
             probs_list.append(self.cluster_probs_cache[key])
 
-        # probs: (B, n_clusters) — soft cluster assignments
         probs = torch.stack(probs_list).to(cluster_pairwise.device)
-        # pairwise target: (B, B) — how similar are two samples' cluster memberships
         target = torch.matmul(probs, probs.t())
         return F.binary_cross_entropy_with_logits(cluster_pairwise, target)
 
-    # ------------------------------------------------------------------
-    # Called once per epoch end from trainer.on_train_epoch_end()
-    # ------------------------------------------------------------------
     def update_cluster_cache(self, image_ids: list, z_np: np.ndarray, estimate_c: bool = False):
         """
         Run CIMLR + GMM on the full-epoch accumulated Z and store soft cluster
@@ -138,23 +129,32 @@ class BetaTCVAELoss:
         """
         N = z_np.shape[0]
         if N < max(self.n_clusters + 2, 4):
-            # Dataset too small to cluster — keep old cache
+            print(f"[ClusterCache] skipped — only {N} samples")
             return
 
         try:
+            t0 = time.time()
             k = min(10, N - 2)
             if estimate_c:
-                
+                # print(f"[ClusterCache] Estimating cluster number (N={N})...")
+                t = time.time()
                 candidates = np.array([2, 3, 4, 5, 6])
                 K1, K2 = Estimate_Number_of_Clusters_CIMLR([z_np], candidates)
                 best_c = int(candidates[np.argmin(K1)])
+                print(f"[ClusterCache] Estimate done in {time.time()-t:.1f}s → c={best_c}")
                 if best_c != self.n_clusters:
-                    print(f"[ClusterCount] c: {self.n_clusters} → {best_c}")
+                    self._log(f"[ClusterCount] c: {self.n_clusters} → {best_c}")
                     self.n_clusters = best_c
+
+            # print(f"[ClusterCache] running CIMLR (N={N}, c={self.n_clusters}, k={k})...", flush=True)
+            t = time.time()
             S, LF, _, _ = CIMLR([z_np], self.n_clusters, k=k)
             LF = np.real(LF)
-            self.last_S = np.real(S)   # save similarity for top-20 ranking reuse
+            self.last_S = np.real(S)
+            # print(f"[ClusterCache] CIMLR done in {time.time()-t:.1f}s")
 
+            # print(f"[ClusterCache] fitting GMM...")
+            t = time.time()
             gmm = GaussianMixture(
                 n_components=self.n_clusters,
                 covariance_type='diag',
@@ -163,24 +163,24 @@ class BetaTCVAELoss:
             )
             gmm.fit(LF)
             probs = gmm.predict_proba(LF)  # (N, n_clusters)
+            # print(f"[ClusterCache]   GMM done in {time.time()-t:.1f}s")
 
-            # Update cache
             self.cluster_probs_cache = {}
             for i, iid in enumerate(image_ids):
                 key = iid if isinstance(iid, str) else int(iid)
                 self.cluster_probs_cache[key] = torch.from_numpy(
                     probs[i].astype(np.float32)
                 )
-            print(f"[ClusterCache] Updated {N} samples → "
+            print(f"[ClusterCache] done — total {time.time()-t0:.1f}s, {N} samples, "
                   f"cluster sizes: {np.bincount(probs.argmax(1)).tolist()}")
+            self._log(f"[ClusterCache] Updated {N} samples → "
+                    f"cluster sizes: {np.bincount(probs.argmax(1)).tolist()}")
 
         except Exception as e:
-            print(f"[ClusterCache] CIMLR/GMM failed, keeping old cache: {e}")
+            self._log(f"[ClusterCache] CIMLR/GMM failed, keeping old cache: {e}")
 
-    # ------------------------------------------------------------------
-    # Main forward
-    # ------------------------------------------------------------------
-    def __call__(self, model_output, x, feature_target):
+
+    def __call__(self, model_output, x, feature_target, compute_cluster=True):
         recon = model_output["recon"]
         mu = model_output["mu"]
         logvar = model_output["logvar"]
@@ -189,11 +189,20 @@ class BetaTCVAELoss:
         cluster_pairwise = model_output["cluster_pairwise"]
         image_ids = model_output.get("image_ids", [])
 
+        if self.training:
+            self.num_iter += 1
+            anneal_rate = min(self.num_iter / self.anneal_steps, 1.0)
+        else:
+            anneal_rate = 1.0
+
         recon_loss = self._recon_loss(recon, x)
-        mi, tc, dim_kl = self._tc_decomposition(z, mu, logvar)
-        kl_loss = self.alpha * mi + self.beta * tc + self.gamma * dim_kl
+        mi, tc, dim_kl = self._tc_decomposition(z, mu, logvar, self.dataset_size)
+        kl_loss = self.alpha * mi + self.beta * tc + anneal_rate * self.gamma * dim_kl
         pred_loss = self._prediction_loss(feature_pred, feature_target)
-        cluster_loss = self._cluster_loss(cluster_pairwise, image_ids)
+        if compute_cluster:
+            cluster_loss = self._cluster_loss(cluster_pairwise, image_ids)
+        else:
+            cluster_loss = torch.tensor(0.0, device=recon.device)
 
         total_loss = (self.recon_weight * recon_loss
                       + kl_loss

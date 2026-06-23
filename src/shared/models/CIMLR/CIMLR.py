@@ -1,5 +1,6 @@
 import numpy as np
 import time
+from tqdm import tqdm
 from .utils import multipleK, Network_Diffusion, NE_dn, eig1, L2_distance_1, projsplx_c, umkl_bo, Kbeta, tsne_p_bo, litekmeans, dist2
 
 def CIMLR(alldata, c, k=10):
@@ -7,12 +8,15 @@ def CIMLR(alldata, c, k=10):
     num = alldata[0].shape[0]
     r = -1
     beta = 0.8
-    
+
+    print("[CIMLR] building kernels...", flush=True)
+    t = time.time()
     D_Kernels = []
     for i in range(len(alldata)):
         D_Kernels.append(multipleK(alldata[i]))
     D_Kernels = np.concatenate(D_Kernels, axis=2)
-    
+    print(f"[CIMLR]   kernels done in {time.time()-t:.1f}s", flush=True)
+
     alphaK = np.ones(D_Kernels.shape[2]) / D_Kernels.shape[2]
     distX = np.mean(D_Kernels, axis=2)
     distX1 = np.sort(distX, axis=1)
@@ -32,6 +36,9 @@ def CIMLR(alldata, c, k=10):
     lambda_val = max(np.mean(rr), 0)
     A[np.isnan(A)] = 0
     
+
+    print("[CIMLR] initial diffusion + eig...", flush=True)
+    t = time.time()
     S0 = np.max(distX) - distX
     S0 = Network_Diffusion(S0, k)
     S0 = NE_dn(S0, 'ave')
@@ -42,13 +49,15 @@ def CIMLR(alldata, c, k=10):
     L0 = D0 - S
     F, temp_val, evs_init = eig1(L0, c, 0)
     F = NE_dn(F, 'ave')
-    
+    print(f"[CIMLR] init done in {time.time()-t:.1f}s", flush=True)
+
     evs = np.zeros((c, NITER + 1))
     evs[:, 0] = evs_init[:c]
     converge = np.zeros(NITER)
     S_old = np.copy(S)
     
-    for iter in range(NITER):
+    pbar = tqdm(range(NITER), desc="CIMLR", leave=False)
+    for iter in pbar:
         distf = L2_distance_1(F.T, F.T)
         A = np.zeros((num, num))
         b = idx[:, 1:]
