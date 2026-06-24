@@ -9,7 +9,7 @@ from shared.models.CIMLR import CIMLR_Feature_Ranking
 class LightningModel(pl.LightningModule):
 
     def __init__(self, model, loss_handler, metric_handler, optimizer_handler, 
-                dci_every_n_epochs=5, exp_logger=None):
+                dci_every_n_epochs=5, exp_logger=None, feature_names=None, top_k=20):
         super().__init__()
         self.model = model
         self.loss_handler = loss_handler
@@ -17,7 +17,8 @@ class LightningModel(pl.LightningModule):
         self.optimizer_handler = optimizer_handler
         self.dci_every_n_epochs = dci_every_n_epochs
         self.exp_logger = exp_logger
-
+        self.feature_names = feature_names
+        self.top_k = top_k
         self.train_z = []
         self.train_features = []
         self.train_image_ids = []
@@ -36,9 +37,9 @@ class LightningModel(pl.LightningModule):
         self.log("train_recon", loss_dict["recon_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.log("train_kl", loss_dict["kl_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.log("train_tc", loss_dict["tc"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
+        self.log("train_mi", loss_dict["mi"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.log("train_pred", loss_dict["pred_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.log("train_cluster", loss_dict["cluster_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
-
         self.train_z.append(model_output["z"].detach().cpu())
         self.train_features.append(features.detach().cpu())
         ids = image_id if isinstance(image_id, (list, tuple)) else list(image_id)
@@ -58,6 +59,7 @@ class LightningModel(pl.LightningModule):
         self.log("val_recon", loss_dict["recon_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.log("val_kl", loss_dict["kl_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.log("val_tc", loss_dict["tc"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
+        self.log("val_mi", loss_dict["mi"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.log("val_pred", loss_dict["pred_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
 
         self.val_z.append(model_output["z"].detach().cpu())
@@ -77,7 +79,6 @@ class LightningModel(pl.LightningModule):
             except (TypeError, ValueError):
                 continue
         if parts:
-            self.exp_logger.log_message("=== METRICS ===")
             self.exp_logger.log_message(f"[epoch {self.current_epoch}] " + " | ".join(parts))
 
     def on_validation_epoch_end(self):
@@ -116,7 +117,6 @@ class LightningModel(pl.LightningModule):
             self.prev_stable_dims = cur
 
             if self.exp_logger:
-                self.exp_logger.log_message("=== DCI ===")
                 self.exp_logger.log_message(
                     f"[epoch {self.current_epoch}] "
                     f"train D={train_dci['disentanglement']:.4f} I={train_dci['informativeness']:.4f} | "
@@ -137,16 +137,20 @@ class LightningModel(pl.LightningModule):
         if (self.current_epoch + 1) > WARMUP and S is not None and len(self.train_features) > 0:
             X = torch.cat(self.train_features, dim=0).cpu().numpy()
             top_idx, _ = CIMLR_Feature_Ranking(S, X)
-            top20 = top_idx[:20].tolist()
-            prev = getattr(self, "prev_top20", None)
-            overlap = len(set(top20) & set(prev)) if prev else 0
-            self.prev_top20 = top20
-            self.loss_handler.loss_fn.active_feature_idx = top20
+            topk = top_idx[:self.top_k].tolist()
+            prev = getattr(self, "prev_topk", None)
+            overlap = len(set(topk) & set(prev)) if prev else 0
+            self.prev_topk = topk
+            self.loss_handler.loss_fn.active_feature_idx = topk
             if self.exp_logger:
-                self.exp_logger.log_message("=== TOP20 ===")
                 self.exp_logger.log_message(
-                    f"[epoch {self.current_epoch}] top20 overlap={overlap}/20 | {sorted(top20)}"
+                    f"[epoch {self.current_epoch}] top{self.top_k} "
+                    f"overlap={overlap}/{self.top_k} | {sorted(topk)}"
                 )
+                if self.feature_names is not None:
+                    names = [self.feature_names[i] for i in sorted(topk)]
+                    for j in range(0, len(names), 5):
+                        self.exp_logger.log_message("  " + ", ".join(names[j:j+5]))
 
         self.train_z = []
         self.train_features = []
@@ -171,7 +175,7 @@ class Trainer:
         self.experiment_dir = experiment_dir
 
     def train(self, model, train_loader, val_loader, loss_handler, metric_handler, optimizer_handler, 
-                dci_every_n_epochs=5, exp_logger=None):
+                dci_every_n_epochs=5, exp_logger=None, feature_names=None, top_k=20):
         lightning_model = LightningModel(
             model=model,
             loss_handler=loss_handler,
@@ -179,6 +183,8 @@ class Trainer:
             optimizer_handler=optimizer_handler,
             dci_every_n_epochs=dci_every_n_epochs,
             exp_logger=exp_logger,
+            feature_names=feature_names,
+            top_k=top_k,
         )
 
         checkpoint_callback = ModelCheckpoint(

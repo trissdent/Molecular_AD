@@ -19,6 +19,9 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
     logger = ExperimentLogger(log_dir=config.training.log_dir)
     logger.log_config(config_path)
     logger.log_message("Training started")
+    run_name = logger.get_run_name()
+    run_ckpt_dir = config.training.checkpoint_dir + run_name + "/"
+    os.makedirs(run_ckpt_dir, exist_ok=True)
 
     transform = MRITransformer(
         target_shape=tuple(config.transform.target_shape),
@@ -48,7 +51,7 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
         print(f"Loaded existing split: {split_path}")
     else:
         train_ids, temp_ids, train_lab, temp_lab = train_test_split(
-            ids, labels, test_size=0.30, stratify=labels, random_state=42,
+            ids, labels, train_size=768, stratify=labels, random_state=42,
         )
         val_ids, test_ids = train_test_split(
             temp_ids, test_size=0.50, stratify=temp_lab, random_state=42,
@@ -94,8 +97,7 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
         batch_size=config.data.batch_size,
         shuffle=True,
         num_workers=config.data.num_workers,
-        pin_memory=torch.cuda.is_available(),
-        drop_last=True,
+        pin_memory=torch.cuda.is_available()
     )
     val_loader = DataLoader(
         val_subset,
@@ -113,6 +115,7 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
         in_channels=config.model.in_channels,
         num_features=len(train_dataset.feature_names),
         cluster_projection_dim=config.model.cluster_projection_dim,
+        input_size=config.transform.target_shape[0],
     )
     model.summary()
     logger.log_model_info(model)
@@ -142,7 +145,7 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
     # Train
     trainer = Trainer(
         max_epochs=config.training.max_epochs,
-        checkpoint_dir=config.training.checkpoint_dir,
+        checkpoint_dir=run_ckpt_dir,
         experiment_dir=logger.get_experiment_dir(),
     )
 
@@ -155,10 +158,12 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
         optimizer_handler=optimizer_handler,
         dci_every_n_epochs=config.training.dci_every_n_epochs,
         exp_logger=logger,
+        feature_names=train_dataset.feature_names,
+        top_k=config.training.top_k,
         
     )
 
-    model.save(config.training.checkpoint_dir + "model_weights.pt")
+    model.save(run_ckpt_dir + "model_weights.pt")
     logger.log_message("Training completed")
 
     plot_training_curves(

@@ -1,12 +1,12 @@
 # Override defaults for specific experiment.
 # Modify for your task.
 
-data:
-  batch_size: 8
+# data:
+#   batch_size: 8
 
-training:
-  max_epochs: 200
-  lr: 0.00005
+# training:
+#   max_epochs: 200
+#   lr: 0.00005
 
-transform:
-  target_size: [512, 512]
+# transform:
+#   target_size: [512, 512]

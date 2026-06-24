@@ -128,6 +128,8 @@ class BetaTCVAELoss:
             z_np:      (N, z_dim) float64 numpy array of all train Z this epoch.
         """
         N = z_np.shape[0]
+        print("shape 0 iof z np", z_np.shape[0])
+        print("shape 1 iof z np", z_np.shape[1])
         if N < max(self.n_clusters + 2, 4):
             print(f"[ClusterCache] skipped — only {N} samples")
             return
@@ -141,12 +143,12 @@ class BetaTCVAELoss:
                 candidates = np.array([2, 3, 4, 5, 6])
                 K1, K2 = Estimate_Number_of_Clusters_CIMLR([z_np], candidates)
                 best_c = int(candidates[np.argmin(K1)])
-                print(f"[ClusterCache] Estimate done in {time.time()-t:.1f}s → c={best_c}")
+                # print(f"[ClusterCache] Estimate done in {time.time()-t:.1f}s → c={best_c}")
                 if best_c != self.n_clusters:
                     self._log(f"[ClusterCount] c: {self.n_clusters} → {best_c}")
                     self.n_clusters = best_c
 
-            # print(f"[ClusterCache] running CIMLR (N={N}, c={self.n_clusters}, k={k})...", flush=True)
+            print(f"[ClusterCache] running CIMLR (N={N}, c={self.n_clusters}, k={k})...")
             t = time.time()
             S, LF, _, _ = CIMLR([z_np], self.n_clusters, k=k)
             LF = np.real(LF)
@@ -173,7 +175,7 @@ class BetaTCVAELoss:
                 )
             print(f"[ClusterCache] done — total {time.time()-t0:.1f}s, {N} samples, "
                   f"cluster sizes: {np.bincount(probs.argmax(1)).tolist()}")
-            self._log(f"[ClusterCache] Updated {N} samples → "
+            self._log(f"Updated {N} samples → "
                     f"cluster sizes: {np.bincount(probs.argmax(1)).tolist()}")
 
         except Exception as e:

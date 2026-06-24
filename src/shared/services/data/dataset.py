@@ -72,7 +72,7 @@ class MRIDataset(Dataset):
     def __len__(self):
         return len(self.samples)
 
-    def __getitem__(self, idx):
+    def __getitem__(self, idx):  # ty:ignore[invalid-method-override]
         sample = self.samples[idx]
         image_id = sample["image_id"]
 

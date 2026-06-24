@@ -23,7 +23,10 @@ class ExperimentLogger:
     def get_experiment_dir(self):
         """Return experiment directory path (for Lightning logger)."""
         return str(self.experiment_dir)
-    
+
+    def get_run_name(self):
+        return self.experiment_dir.name
+        
     def log_config(self, config_path):
         """Copy config file to experiment folder."""
         shutil.copy(config_path, self.experiment_dir / "config.yml")

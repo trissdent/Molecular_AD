@@ -7,7 +7,7 @@ from .. import utils
 
 class Encoder3D(nn.Module):
 
-    def __init__(self, z_dim=256, in_channels=1):
+    def __init__(self, z_dim=256, in_channels=1, input_size=96):
         super().__init__()
         self.conv1 = nn.Conv3d(in_channels, 32, kernel_size=4, stride=2, padding=1)
         self.bn1 = nn.BatchNorm3d(32)
@@ -20,24 +20,37 @@ class Encoder3D(nn.Module):
         self.conv5 = nn.Conv3d(256, 512, kernel_size=4, stride=2, padding=1)
         self.bn5 = nn.BatchNorm3d(512)
 
-        self.fc_mu = nn.Linear(512 * 4 * 4 * 4, z_dim)
-        self.fc_logvar = nn.Linear(512 * 4 * 4 * 4, z_dim)
+        self.feat_dim = self._infer_flatten(in_channels, input_size)
+        self.fc_mu = nn.Linear(self.feat_dim, z_dim)
+        self.fc_logvar = nn.Linear(self.feat_dim, z_dim)
 
-    def forward(self, x):
+    def _conv_forward(self, x):
         x = F.leaky_relu(self.bn1(self.conv1(x)), 0.2)
         x = F.leaky_relu(self.bn2(self.conv2(x)), 0.2)
         x = F.leaky_relu(self.bn3(self.conv3(x)), 0.2)
         x = F.leaky_relu(self.bn4(self.conv4(x)), 0.2)
         x = F.leaky_relu(self.bn5(self.conv5(x)), 0.2)
+        return x
+
+    def _infer_flatten(self, in_channels, input_size):
+        with torch.no_grad():
+            dummy = torch.zeros(1, in_channels, input_size, input_size, input_size)
+            out = self._conv_forward(dummy)
+            self.spatial = out.shape[2:]            # e.g. (3, 3, 3)
+            return int(out.numel())
+
+    def forward(self, x):
+        x = self._conv_forward(x)
         x = x.view(x.size(0), -1)
         return self.fc_mu(x), self.fc_logvar(x)
 
 
 class Decoder3D(nn.Module):
 
-    def __init__(self, z_dim=256, out_channels=1):
+    def __init__(self, z_dim=256, out_channels=1, spatial=(3, 3, 3)):
         super().__init__()
-        self.fc = nn.Linear(z_dim, 512 * 4 * 4 * 4)
+        self.spatial = spatial
+        self.fc = nn.Linear(z_dim, 512 * spatial[0] * spatial[1] * spatial[2])
 
         self.deconv1 = nn.ConvTranspose3d(512, 256, kernel_size=4, stride=2, padding=1)
         self.bn1 = nn.BatchNorm3d(256)
@@ -51,7 +64,7 @@ class Decoder3D(nn.Module):
 
     def forward(self, z):
         x = self.fc(z)
-        x = x.view(-1, 512, 4, 4, 4)
+        x = x.view(-1, 512, *self.spatial)
         x = F.leaky_relu(self.bn1(self.deconv1(x)), 0.2)
         x = F.leaky_relu(self.bn2(self.deconv2(x)), 0.2)
         x = F.leaky_relu(self.bn3(self.deconv3(x)), 0.2)
@@ -92,11 +105,13 @@ class ClusterProjectionHead(nn.Module):
 
 class BetaTCVAE(nn.Module, ModelManager):
 
-    def __init__(self, z_dim=256, in_channels=1, num_features=1, cluster_projection_dim=128):
+    def __init__(self, z_dim=256, in_channels=1, num_features=1,
+                 cluster_projection_dim=128, input_size=96):
         super().__init__()
         self.z_dim = z_dim
-        self.encoder = Encoder3D(z_dim=z_dim, in_channels=in_channels)
-        self.decoder = Decoder3D(z_dim=z_dim, out_channels=in_channels)
+        self.encoder = Encoder3D(z_dim=z_dim, in_channels=in_channels, input_size=input_size)
+        self.decoder = Decoder3D(z_dim=z_dim, out_channels=in_channels,
+                                 spatial=self.encoder.spatial)
         self.prediction_head = PredictionHead(z_dim=z_dim, num_features=num_features)
         self.cluster_projection_head = ClusterProjectionHead(z_dim=z_dim, projection_dim=cluster_projection_dim)
 
