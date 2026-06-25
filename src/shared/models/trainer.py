@@ -8,8 +8,11 @@ from shared.models.CIMLR import CIMLR_Feature_Ranking
 
 class LightningModel(pl.LightningModule):
 
-    def __init__(self, model, loss_handler, metric_handler, optimizer_handler, 
-                dci_every_n_epochs=5, exp_logger=None, feature_names=None, top_k=20):
+    def __init__(
+        self, model, loss_handler, metric_handler, optimizer_handler,
+        dci_every_n_epochs=5, exp_logger=None, feature_names=None, top_k=20,
+        estimate_c_every=1, estimate_c_warmup=5,
+    ):
         super().__init__()
         self.model = model
         self.loss_handler = loss_handler
@@ -24,6 +27,8 @@ class LightningModel(pl.LightningModule):
         self.train_image_ids = []
         self.val_z = []
         self.val_features = []
+        self.estimate_c_every = estimate_c_every
+        self.estimate_c_warmup = estimate_c_warmup
 
     def training_step(self, batch, batch_idx):
         volume, features, image_id = batch
@@ -36,8 +41,7 @@ class LightningModel(pl.LightningModule):
         self.log("train_loss", loss_dict["total_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.log("train_recon", loss_dict["recon_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.log("train_kl", loss_dict["kl_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
-        self.log("train_tc", loss_dict["tc"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
-        self.log("train_mi", loss_dict["mi"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
+        self.log("train_dim_kl", loss_dict["dim_kl"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.log("train_pred", loss_dict["pred_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.log("train_cluster", loss_dict["cluster_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.train_z.append(model_output["z"].detach().cpu())
@@ -58,8 +62,7 @@ class LightningModel(pl.LightningModule):
         self.log("val_loss", loss_dict["total_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.log("val_recon", loss_dict["recon_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.log("val_kl", loss_dict["kl_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
-        self.log("val_tc", loss_dict["tc"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
-        self.log("val_mi", loss_dict["mi"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
+        self.log("val_dim_kl", loss_dict["dim_kl"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.log("val_pred", loss_dict["pred_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
 
         self.val_z.append(model_output["z"].detach().cpu())
@@ -127,7 +130,14 @@ class LightningModel(pl.LightningModule):
         if len(self.train_z) > 0 and hasattr(self.loss_handler, 'loss_fn') and \
                 hasattr(self.loss_handler.loss_fn, 'update_cluster_cache'):
             z_all = torch.cat(self.train_z, dim=0).cpu().numpy().astype('float64')
-            estimate_c = (self.current_epoch + 1) % 5 == 0
+            epoch_num = self.current_epoch + 1
+
+            estimate_c = (
+                epoch_num > self.estimate_c_warmup
+                and self.estimate_c_every > 0
+                and epoch_num % self.estimate_c_every == 0
+            )
+
             self.loss_handler.loss_fn.update_cluster_cache(
                 self.train_image_ids, z_all, estimate_c=estimate_c
             )
@@ -174,8 +184,11 @@ class Trainer:
         self.checkpoint_dir = checkpoint_dir
         self.experiment_dir = experiment_dir
 
-    def train(self, model, train_loader, val_loader, loss_handler, metric_handler, optimizer_handler, 
-                dci_every_n_epochs=5, exp_logger=None, feature_names=None, top_k=20):
+    def train(
+        self, model, train_loader, val_loader, loss_handler, metric_handler,
+        optimizer_handler, dci_every_n_epochs=5, exp_logger=None,
+        feature_names=None, top_k=20, estimate_c_every=1, estimate_c_warmup=5,
+    ):
         lightning_model = LightningModel(
             model=model,
             loss_handler=loss_handler,
@@ -185,6 +198,8 @@ class Trainer:
             exp_logger=exp_logger,
             feature_names=feature_names,
             top_k=top_k,
+            estimate_c_every=estimate_c_every,
+            estimate_c_warmup=estimate_c_warmup,
         )
 
         checkpoint_callback = ModelCheckpoint(

@@ -43,7 +43,7 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
             ids.append(iid)
             labels.append(label_lookup[iid])
 
-    split_path = config.training.checkpoint_dir + "split.json"
+    split_path = run_ckpt_dir + "split.json"
     if os.path.exists(split_path):
         with open(split_path) as f:
             split = json.load(f)
@@ -86,8 +86,8 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
         ds.set_normalization(mean, std)
 
     os.makedirs(config.training.checkpoint_dir, exist_ok=True)
-    mean.to_csv(config.training.checkpoint_dir + "feature_mean.csv")
-    std.to_csv(config.training.checkpoint_dir + "feature_std.csv")
+    mean.to_csv(run_ckpt_dir + "feature_mean.csv")
+    std.to_csv(run_ckpt_dir + "feature_std.csv")
 
     train_subset = train_dataset
     val_subset = val_dataset
@@ -122,10 +122,8 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
 
     loss_handler = LossHandler(
         loss_type=config.loss.type,
-        alpha=config.loss.alpha,
-        beta=config.loss.beta,
-        gamma=config.loss.gamma,
         recon_weight=config.loss.recon_weight,
+        kl_weight=config.loss.kl_weight,
         prediction_weight=config.loss.prediction_weight,
         cluster_weight=config.loss.cluster_weight,
         n_clusters=config.loss.n_clusters,
@@ -160,6 +158,8 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
         exp_logger=logger,
         feature_names=train_dataset.feature_names,
         top_k=config.training.top_k,
+        estimate_c_every=config.training.estimate_c_every,
+        estimate_c_warmup=config.training.estimate_c_warmup,
         
     )
 

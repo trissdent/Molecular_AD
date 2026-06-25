@@ -26,7 +26,7 @@ class ConfigReader:
             return cls(yaml.safe_load(f))
     
     @classmethod
-    def merge(cls, default_path: str, experiment_path: str = None):
+    def merge(cls, default_path: str, experiment_path: str = None):  # ty:ignore[invalid-parameter-default]
         with open(default_path, 'r') as f:
             default = yaml.safe_load(f)
         

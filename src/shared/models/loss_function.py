@@ -30,23 +30,21 @@ class LossHandler:
 
 class BetaTCVAELoss:
 
-    def __init__(self, alpha=1.0, beta=6.0, gamma=1.0,
-                recon_weight=1.0, prediction_weight=1.0, cluster_weight=0.5,
-                n_clusters=2, dataset_size=None, anneal_steps=200, exp_logger=None):
-
+    def __init__(self, recon_weight=1.0, kl_weight=1e-6,
+                prediction_weight=1.0, cluster_weight=0.5,
+                n_clusters=2, dataset_size=None, exp_logger=None):
         self.dataset_size = dataset_size
-        self.anneal_steps = anneal_steps
-        self.num_iter = 0
         self.training = True
-        self.alpha = alpha
-        self.beta = beta
-        self.gamma = gamma
+
         self.recon_weight = recon_weight
+        self.kl_weight = kl_weight
         self.prediction_weight = prediction_weight
         self.cluster_weight = cluster_weight
         self.n_clusters = n_clusters
+
         self.exp_logger = exp_logger
         self.cluster_probs_cache: dict = {}
+
 
     def _log(self, msg):
         if self.exp_logger is not None:
@@ -55,40 +53,12 @@ class BetaTCVAELoss:
             print(msg)
 
     def _recon_loss(self, recon, x):
-        return F.l1_loss(recon, x, reduction='sum') / x.size(0)
+        return F.l1_loss(recon, x, reduction='mean')
 
-
-    def _tc_decomposition(self, z, mu, logvar, dataset_size):
-        log_q_zx = self._log_gaussian(z, mu, logvar).sum(dim=1)
-
-        zeros = torch.zeros_like(z)
-        log_p_z = self._log_gaussian(z, zeros, zeros).sum(dim=1)
-
-        batch_size, latent_dim = z.shape
-        mat_log_q_z = self._log_gaussian(z.view(batch_size, 1, latent_dim),
-                                        mu.view(1, batch_size, latent_dim),
-                                        logvar.view(1, batch_size, latent_dim))
-
-        strat_weight = (dataset_size - batch_size + 1) / (dataset_size * (batch_size - 1))
-        importance_weights = torch.Tensor(batch_size, batch_size).fill_(1 / (batch_size - 1)).to(z.device)
-        importance_weights.view(-1)[::batch_size] = 1 / dataset_size
-        importance_weights.view(-1)[1::batch_size] = strat_weight
-        importance_weights[batch_size - 2, 0] = strat_weight
-        log_importance_weights = importance_weights.log()
-
-        mat_log_q_z += log_importance_weights.view(batch_size, batch_size, 1)
-
-        log_q_z = torch.logsumexp(mat_log_q_z.sum(2), dim=1, keepdim=False)
-        log_prod_q_z = torch.logsumexp(mat_log_q_z, dim=1, keepdim=False).sum(1)
-
-        mi_loss = (log_q_zx - log_q_z).mean()
-        tc_loss = (log_q_z - log_prod_q_z).mean()
-        kld_loss = (log_prod_q_z - log_p_z).mean()
-
-        return mi_loss, tc_loss, kld_loss
-
-    def _log_gaussian(self, z, mu, logvar):
-        return -0.5 * (np.log(2 * np.pi) + logvar + (z - mu).pow(2) / logvar.exp())
+    def _standard_kl_loss(self, mu, logvar):
+        # Positive KL(q(z|x) || N(0, I)), averaged per subject
+        kl = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp(), dim=1)
+        return kl.mean()
 
     def _prediction_loss(self, feature_pred, feature_target):
         idx = getattr(self, "active_feature_idx", None)
@@ -139,8 +109,8 @@ class BetaTCVAELoss:
             k = min(10, N - 2)
             if estimate_c:
                 # print(f"[ClusterCache] Estimating cluster number (N={N})...")
-                t = time.time()
-                candidates = np.array([2, 3, 4, 5, 6])
+                # t = time.time()
+                candidates = np.array([2, 3, 4])
                 K1, K2 = Estimate_Number_of_Clusters_CIMLR([z_np], candidates)
                 best_c = int(candidates[np.argmin(K1)])
                 # print(f"[ClusterCache] Estimate done in {time.time()-t:.1f}s → c={best_c}")
@@ -149,14 +119,14 @@ class BetaTCVAELoss:
                     self.n_clusters = best_c
 
             print(f"[ClusterCache] running CIMLR (N={N}, c={self.n_clusters}, k={k})...")
-            t = time.time()
+            # t = time.time()
             S, LF, _, _ = CIMLR([z_np], self.n_clusters, k=k)
             LF = np.real(LF)
             self.last_S = np.real(S)
             # print(f"[ClusterCache] CIMLR done in {time.time()-t:.1f}s")
 
             # print(f"[ClusterCache] fitting GMM...")
-            t = time.time()
+            # t = time.time()
             gmm = GaussianMixture(
                 n_components=self.n_clusters,
                 covariance_type='diag',
@@ -186,20 +156,15 @@ class BetaTCVAELoss:
         recon = model_output["recon"]
         mu = model_output["mu"]
         logvar = model_output["logvar"]
-        z = model_output["z"]
         feature_pred = model_output["feature_pred"]
         cluster_pairwise = model_output["cluster_pairwise"]
         image_ids = model_output.get("image_ids", [])
 
-        if self.training:
-            self.num_iter += 1
-            anneal_rate = min(self.num_iter / self.anneal_steps, 1.0)
-        else:
-            anneal_rate = 1.0
-
         recon_loss = self._recon_loss(recon, x)
-        mi, tc, dim_kl = self._tc_decomposition(z, mu, logvar, self.dataset_size)
-        kl_loss = self.alpha * mi + self.beta * tc + anneal_rate * self.gamma * dim_kl
+
+        dim_kl = self._standard_kl_loss(mu, logvar)
+        kl_loss = self.kl_weight * dim_kl
+
         pred_loss = self._prediction_loss(feature_pred, feature_target)
         if compute_cluster:
             cluster_loss = self._cluster_loss(cluster_pairwise, image_ids)
@@ -214,8 +179,6 @@ class BetaTCVAELoss:
         loss_dict = {
             "total_loss": total_loss,
             "recon_loss": recon_loss,
-            "mi": mi,
-            "tc": tc,
             "dim_kl": dim_kl,
             "kl_loss": kl_loss,
             "pred_loss": pred_loss,
