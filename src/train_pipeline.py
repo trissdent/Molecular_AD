@@ -160,6 +160,7 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
         top_k=config.training.top_k,
         estimate_c_every=config.training.estimate_c_every,
         estimate_c_warmup=config.training.estimate_c_warmup,
+        estimate_c_until=config.training.estimate_c_until,
         
     )
 

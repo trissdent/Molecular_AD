@@ -11,7 +11,7 @@ class LightningModel(pl.LightningModule):
     def __init__(
         self, model, loss_handler, metric_handler, optimizer_handler,
         dci_every_n_epochs=5, exp_logger=None, feature_names=None, top_k=20,
-        estimate_c_every=1, estimate_c_warmup=5,
+        estimate_c_every=5, estimate_c_warmup=5, estimate_c_until=40,
     ):
         super().__init__()
         self.model = model
@@ -29,6 +29,7 @@ class LightningModel(pl.LightningModule):
         self.val_features = []
         self.estimate_c_every = estimate_c_every
         self.estimate_c_warmup = estimate_c_warmup
+        self.estimate_c_until = estimate_c_until
 
     def training_step(self, batch, batch_idx):
         volume, features, image_id = batch
@@ -133,7 +134,8 @@ class LightningModel(pl.LightningModule):
             epoch_num = self.current_epoch + 1
 
             estimate_c = (
-                epoch_num > self.estimate_c_warmup
+                epoch_num >= self.estimate_c_warmup
+                and epoch_num <= self.estimate_c_until
                 and self.estimate_c_every > 0
                 and epoch_num % self.estimate_c_every == 0
             )
@@ -187,7 +189,8 @@ class Trainer:
     def train(
         self, model, train_loader, val_loader, loss_handler, metric_handler,
         optimizer_handler, dci_every_n_epochs=5, exp_logger=None,
-        feature_names=None, top_k=20, estimate_c_every=1, estimate_c_warmup=5,
+        feature_names=None, top_k=20,
+        estimate_c_every=5, estimate_c_warmup=5, estimate_c_until=40,
     ):
         lightning_model = LightningModel(
             model=model,
@@ -200,6 +203,7 @@ class Trainer:
             top_k=top_k,
             estimate_c_every=estimate_c_every,
             estimate_c_warmup=estimate_c_warmup,
+            estimate_c_until=estimate_c_until,
         )
 
         checkpoint_callback = ModelCheckpoint(

@@ -41,7 +41,7 @@ class BetaTCVAELoss:
         self.prediction_weight = prediction_weight
         self.cluster_weight = cluster_weight
         self.n_clusters = n_clusters
-
+        print("num cluster", self.n_clusters)
         self.exp_logger = exp_logger
         self.cluster_probs_cache: dict = {}
 
@@ -107,26 +107,20 @@ class BetaTCVAELoss:
         try:
             t0 = time.time()
             k = min(10, N - 2)
+            print("num cluster", self.n_clusters)
             if estimate_c:
-                # print(f"[ClusterCache] Estimating cluster number (N={N})...")
-                # t = time.time()
                 candidates = np.array([2, 3, 4])
                 K1, K2 = Estimate_Number_of_Clusters_CIMLR([z_np], candidates)
                 best_c = int(candidates[np.argmin(K1)])
-                # print(f"[ClusterCache] Estimate done in {time.time()-t:.1f}s → c={best_c}")
                 if best_c != self.n_clusters:
                     self._log(f"[ClusterCount] c: {self.n_clusters} → {best_c}")
                     self.n_clusters = best_c
 
             print(f"[ClusterCache] running CIMLR (N={N}, c={self.n_clusters}, k={k})...")
-            # t = time.time()
             S, LF, _, _ = CIMLR([z_np], self.n_clusters, k=k)
             LF = np.real(LF)
             self.last_S = np.real(S)
-            # print(f"[ClusterCache] CIMLR done in {time.time()-t:.1f}s")
 
-            # print(f"[ClusterCache] fitting GMM...")
-            # t = time.time()
             gmm = GaussianMixture(
                 n_components=self.n_clusters,
                 covariance_type='diag',
@@ -135,7 +129,6 @@ class BetaTCVAELoss:
             )
             gmm.fit(LF)
             probs = gmm.predict_proba(LF)  # (N, n_clusters)
-            # print(f"[ClusterCache]   GMM done in {time.time()-t:.1f}s")
 
             self.cluster_probs_cache = {}
             for i, iid in enumerate(image_ids):
