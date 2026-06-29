@@ -72,7 +72,8 @@ class MetricHandler:
             "r2_scores": r2_scores,
         }
 
-    def get_stable_dims(self, train_importance, val_importance, threshold=0.1):
+    def get_stable_dims(self, train_importance, val_importance,
+                        threshold=0.1, top_n=3, min_overlap=1):
         stable_dims = []
         for i in range(train_importance.shape[0]):
             train_row = train_importance[i]
@@ -81,12 +82,14 @@ class MetricHandler:
             if train_row.sum() < 1e-6 or val_row.sum() < 1e-6:
                 continue
 
-            train_top = np.argmax(train_row)
-            val_top = np.argmax(val_row)
+            train_top = np.argsort(train_row)[-top_n:]
+            val_top = np.argsort(val_row)[-top_n:]
 
-            if train_top == val_top:
-                if train_row[train_top] > threshold and val_row[val_top] > threshold:
-                    stable_dims.append(i)
+            shared = [j for j in set(train_top) & set(val_top)
+                      if train_row[j] > threshold and val_row[j] > threshold]
+
+            if len(shared) >= min_overlap:
+                stable_dims.append(i)
 
         return stable_dims
 

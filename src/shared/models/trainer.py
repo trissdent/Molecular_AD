@@ -45,7 +45,7 @@ class LightningModel(pl.LightningModule):
         self.log("train_dim_kl", loss_dict["dim_kl"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.log("train_pred", loss_dict["pred_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.log("train_cluster", loss_dict["cluster_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
-        self.train_z.append(model_output["z"].detach().cpu())
+        self.train_z.append(model_output["mu"].detach().cpu())
         self.train_features.append(features.detach().cpu())
         ids = image_id if isinstance(image_id, (list, tuple)) else list(image_id)
         self.train_image_ids.extend(ids)
@@ -66,7 +66,7 @@ class LightningModel(pl.LightningModule):
         self.log("val_dim_kl", loss_dict["dim_kl"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.log("val_pred", loss_dict["pred_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
 
-        self.val_z.append(model_output["z"].detach().cpu())
+        self.val_z.append(model_output["mu"].detach().cpu())
         self.val_features.append(features.detach().cpu())
 
         return total_loss
@@ -92,11 +92,6 @@ class LightningModel(pl.LightningModule):
             train_features = torch.cat(self.train_features, dim=0)
             val_z = torch.cat(self.val_z, dim=0)
             val_features = torch.cat(self.val_features, dim=0)
-
-            idx = getattr(self.loss_handler.loss_fn, "active_feature_idx", None)
-            if idx is not None:
-                train_features = train_features[:, idx]
-                val_features = val_features[:, idx]
 
             train_dci = self.metric_handler.compute_dci(train_z, train_features)
             val_dci = self.metric_handler.compute_dci(val_z, val_features)
@@ -215,6 +210,15 @@ class Trainer:
             save_last=False,
         )
 
+        stable_dims_callback = ModelCheckpoint(
+            dirpath=self.checkpoint_dir,
+            filename="best_stable_dims",
+            monitor="stable_dims",
+            mode="max",
+            save_top_k=1,
+            save_last=False,
+        )
+
         if self.experiment_dir:
             logger = CSVLogger(save_dir=self.experiment_dir, name="", version="")
         else:
@@ -224,9 +228,10 @@ class Trainer:
             max_epochs=self.max_epochs,
             accelerator="auto",
             devices=1,
-            callbacks=[checkpoint_callback],
+            callbacks=[checkpoint_callback, stable_dims_callback],
             logger=logger,
             log_every_n_steps=5,
+            gradient_clip_val=1.0,
         )
 
         trainer.fit(lightning_model, train_loader, val_loader)
