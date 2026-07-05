@@ -215,3 +215,4 @@ __marimo__/
 /log_pre/
 /checkpoints/
 *_gitig_*
+/src/analyze_dci/

@@ -18,7 +18,7 @@ class BaseTransformer(ABC):
         pass
 
 
-class MRITransformer(BaseTransformer):
+class IMGTransformer(BaseTransformer):
 
     def __init__(self, target_shape: Tuple[int, int, int] = (128, 128, 128), margin: int = 5):
         self.target_shape = target_shape

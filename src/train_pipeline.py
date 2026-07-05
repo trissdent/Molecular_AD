@@ -7,8 +7,8 @@ from shared.models.optimization import OptimizerHandler
 from shared.models.trainer import Trainer
 from shared.models.logger import ExperimentLogger
 from shared.models.visualization import plot_training_curves
-from shared.services.data.dataset import MRIDataset
-from shared.services.data.transforms import MRITransformer
+from shared.services.data.dataset import IMGDataset
+from shared.services.data.transforms import IMGTransformer
 from shared.services.models_hub.beta_tc_vae.model import BetaTCVAE
 import pandas as pd
 from sklearn.model_selection import train_test_split
