@@ -8,7 +8,6 @@ from shared.models.trainer import Trainer
 from shared.models.logger import ExperimentLogger
 from shared.models.visualization import plot_training_curves
 from shared.services.data.dataset import IMGDataset
-from shared.services.data.transforms import IMGTransformer
 from shared.services.models_hub.beta_tc_vae.model import BetaTCVAE
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -28,10 +27,10 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
         margin=config.transform.margin,
     )
 
-    demo = pd.read_csv("/home/minhtri/data/all_demographics.csv")
-    demo["image_id"] = demo["image_id"].astype(str)
-    demo = demo.dropna(subset=["label"])
-    label_lookup = dict(zip(demo["image_id"], demo["label"].str.lower()))
+    all_info = pd.read_csv("/home/minhtri/data/all_image_data.csv")
+    all_info["image_id"] = all_info["image_id"].astype(str)
+    all_info = all_info.dropna(subset=["label"])
+    label_lookup = dict(zip(all_info["image_id"], all_info["label"].str.lower()))
 
     feat_df = pd.read_csv(config.data.feature_csv_path)
     feat_df["image_id"] = feat_df["image_id"].astype(str)
@@ -67,7 +66,7 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
         return IMGDataset(
             data_dir=config.data.data_dir,
             feature_csv_path=config.data.feature_csv_path,
-            transform=transform,
+            transform=None,
             cache_dir=config.data.cache_dir,
             image_ids=id_list,
             normalize=False,
