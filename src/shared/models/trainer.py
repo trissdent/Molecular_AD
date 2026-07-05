@@ -96,6 +96,17 @@ class LightningModel(pl.LightningModule):
             train_dci = self.metric_handler.compute_dci(train_z, train_features)
             val_dci = self.metric_handler.compute_dci(val_z, val_features)
 
+            idx = getattr(self.loss_handler.loss_fn, "active_feature_idx", None)
+            if idx is not None:
+                train_dci_topk = self.metric_handler.compute_dci(
+                    train_z, train_features[:, idx])
+                val_dci_topk = self.metric_handler.compute_dci(
+                    val_z, val_features[:, idx])
+                self.log("train_I_topk", train_dci_topk["informativeness"], prog_bar=False)
+                self.log("val_I_topk", val_dci_topk["informativeness"], prog_bar=False)
+                self.log("train_D_topk", train_dci_topk["disentanglement"], prog_bar=False)
+                self.log("val_D_topk", val_dci_topk["disentanglement"], prog_bar=False)
+
             stable_dims = self.metric_handler.get_stable_dims(
                 train_dci["importance_matrix"],
                 val_dci["importance_matrix"],
