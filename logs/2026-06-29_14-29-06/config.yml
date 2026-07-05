@@ -3,9 +3,9 @@
 # Data
 data:
   data_dir: "/mnt/data_lab513/adni/sMRI/processed/data/"
-  feature_csv_path: "/home/minhtri/Molecular_AD/data/mri_features.csv"
+  feature_csv_path: "/home/minhtri/Molecular_AD/data/mri_features_morpho.csv"
   cache_dir: "/home/minhtri/Molecular_AD/output/cache"
-  batch_size: 16
+  batch_size: 32
   num_workers: 8
 
 # Model
@@ -24,7 +24,7 @@ training:
   checkpoint_dir: "../checkpoints/"
   log_dir: "../logs/"
   dci_every_n_epochs: 1
-  top_k: 20
+  top_k: 30
   estimate_c_every: 5
   estimate_c_warmup: 5
   estimate_c_until: 40

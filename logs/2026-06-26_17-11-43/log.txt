@@ -1,0 +1,971 @@
+[2026-06-26 17:11:43] Training started
+[2026-06-26 17:12:01] [epoch 0] train D=0.5985 I=0.0456 | val D=0.3840 I=0.3051 | stable_dims=0 overlap=0/0 | []
+[2026-06-26 17:14:51] Updated 768 samples → cluster sizes: [752, 16]
+[2026-06-26 17:14:51] [epoch 0] stable_dims=0.0000 | train_C=0.8405 | train_D=0.5985 | train_I=0.0456 | train_cluster=0.0000 | train_dim_kl=1223.4227 | train_kl=0.0012 | train_loss=2.9962 | train_pred=0.9632 | train_recon=0.4064 | val_C=0.5524 | val_D=0.3840 | val_I=0.3051 | val_dim_kl=928.2983 | val_kl=0.0009 | val_loss=2.7163 | val_pred=0.9503 | val_recon=0.3530
+[2026-06-26 17:15:07] [epoch 1] train D=0.4754 I=0.0432 | val D=0.4879 I=0.1529 | stable_dims=0 overlap=0/0 | []
+[2026-06-26 17:17:43] Updated 768 samples → cluster sizes: [112, 656]
+[2026-06-26 17:17:43] [epoch 1] stable_dims=0.0000 | train_C=0.9113 | train_D=0.4754 | train_I=0.0432 | train_cluster=0.4633 | train_dim_kl=1472.1650 | train_kl=0.0015 | train_loss=2.7923 | train_pred=0.9776 | train_recon=0.3163 | val_C=0.8040 | val_D=0.4879 | val_I=0.1529 | val_dim_kl=3912.3049 | val_kl=0.0039 | val_loss=2.3756 | val_pred=0.9582 | val_recon=0.2827
+[2026-06-26 17:18:00] [epoch 2] train D=0.3850 I=0.1044 | val D=0.4897 I=0.1483 | stable_dims=0 overlap=0/0 | []
+[2026-06-26 17:25:09] Updated 768 samples → cluster sizes: [394, 374]
+[2026-06-26 17:25:09] [epoch 2] stable_dims=0.0000 | train_C=0.7799 | train_D=0.3850 | train_I=0.1044 | train_cluster=0.6060 | train_dim_kl=2758.1260 | train_kl=0.0028 | train_loss=2.4940 | train_pred=0.9608 | train_recon=0.2455 | val_C=0.8044 | val_D=0.4897 | val_I=0.1483 | val_dim_kl=3205.2776 | val_kl=0.0032 | val_loss=2.0507 | val_pred=0.9507 | val_recon=0.2194
+[2026-06-26 17:25:26] [epoch 3] train D=0.4172 I=0.1158 | val D=0.4792 I=0.1488 | stable_dims=1 overlap=0/1 | [7]
+[2026-06-26 17:28:03] Updated 768 samples → cluster sizes: [388, 380]
+[2026-06-26 17:28:03] [epoch 3] stable_dims=1.0000 | train_C=0.8016 | train_D=0.4172 | train_I=0.1158 | train_cluster=0.6955 | train_dim_kl=2973.6838 | train_kl=0.0030 | train_loss=2.2221 | train_pred=0.9603 | train_recon=0.1822 | val_C=0.8038 | val_D=0.4792 | val_I=0.1488 | val_dim_kl=2937.6045 | val_kl=0.0029 | val_loss=1.7165 | val_pred=0.9500 | val_recon=0.1527
+[2026-06-26 17:28:20] [epoch 4] train D=0.4515 I=0.1164 | val D=0.4760 I=0.1490 | stable_dims=2 overlap=0/1 | [71, 77]
+[2026-06-26 17:28:23] [ClusterCount] c: 2 → 4
+[2026-06-26 17:30:45] Updated 768 samples → cluster sizes: [231, 258, 147, 132]
+[2026-06-26 17:30:45] [epoch 4] stable_dims=2.0000 | train_C=0.7901 | train_D=0.4515 | train_I=0.1164 | train_cluster=0.6940 | train_dim_kl=2905.7625 | train_kl=0.0029 | train_loss=1.9509 | train_pred=0.9602 | train_recon=0.1282 | val_C=0.8039 | val_D=0.4760 | val_I=0.1490 | val_dim_kl=2766.9741 | val_kl=0.0028 | val_loss=1.4993 | val_pred=0.9499 | val_recon=0.1093
+[2026-06-26 17:31:03] [epoch 5] train D=0.4718 I=0.1169 | val D=0.4776 I=0.1476 | stable_dims=4 overlap=2/2 | [52, 71, 77, 249]
+[2026-06-26 17:33:25] Updated 768 samples → cluster sizes: [113, 270, 141, 244]
+[2026-06-26 17:33:26] [epoch 5] top30 overlap=0/30 | [74, 94, 100, 101, 106, 236, 257, 285, 286, 293, 303, 304, 325, 326, 327, 328, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 369, 370, 372, 377]
+[2026-06-26 17:33:26]   lh_caudalmiddlefrontal_thickness, lh_precentral_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness
+[2026-06-26 17:33:26]   rh_precentral_thickness, rh_inferiortemporal_meancurv, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume
+[2026-06-26 17:33:26]   aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_CC_Posterior_volume, aseg_CC_Mid_Posterior_volume, aseg_CC_Central_volume
+[2026-06-26 17:33:26]   aseg_CC_Mid_Anterior_volume, aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity
+[2026-06-26 17:33:26]   aseg_Left-Cerebellum-White-Matter_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity
+[2026-06-26 17:33:26]   aseg_Left-Amygdala_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 17:33:26] [epoch 5] stable_dims=4.0000 | train_C=0.7960 | train_D=0.4718 | train_I=0.1169 | train_cluster=0.7534 | train_dim_kl=2765.2332 | train_kl=0.0028 | train_loss=1.8026 | train_pred=0.9600 | train_recon=0.0926 | val_C=0.8070 | val_D=0.4776 | val_I=0.1476 | val_dim_kl=2639.6057 | val_kl=0.0026 | val_loss=1.3679 | val_pred=0.9498 | val_recon=0.0831
+[2026-06-26 17:33:42] [epoch 6] train D=0.4383 I=0.3313 | val D=0.5693 I=0.3380 | stable_dims=1 overlap=0/4 | [54]
+[2026-06-26 17:36:32] Updated 768 samples → cluster sizes: [152, 242, 233, 141]
+[2026-06-26 17:36:33] [epoch 6] top30 overlap=28/30 | [94, 100, 101, 106, 115, 257, 285, 286, 293, 303, 304, 325, 326, 327, 328, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 17:36:33]   lh_precentral_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness, lh_inferiortemporal_meancurv
+[2026-06-26 17:36:33]   rh_inferiortemporal_meancurv, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume
+[2026-06-26 17:36:33]   aseg_Right-Inf-Lat-Vent_volume, aseg_CC_Posterior_volume, aseg_CC_Mid_Posterior_volume, aseg_CC_Central_volume, aseg_CC_Mid_Anterior_volume
+[2026-06-26 17:36:33]   aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity
+[2026-06-26 17:36:33]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 17:36:33]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 17:36:33] [epoch 6] stable_dims=1.0000 | train_C=0.7594 | train_D=0.4383 | train_I=0.3313 | train_cluster=0.7402 | train_dim_kl=2626.7939 | train_kl=0.0026 | train_loss=1.7285 | train_pred=1.0005 | train_recon=0.0710 | val_C=0.7867 | val_D=0.5693 | val_I=0.3380 | val_dim_kl=2489.0903 | val_kl=0.0025 | val_loss=1.2453 | val_pred=0.9378 | val_recon=0.0610
+[2026-06-26 17:36:48] [epoch 7] train D=0.4783 I=0.3284 | val D=0.6094 I=0.3420 | stable_dims=1 overlap=0/1 | [247]
+[2026-06-26 17:39:32] Updated 768 samples → cluster sizes: [279, 238, 144, 107]
+[2026-06-26 17:39:33] [epoch 7] top30 overlap=27/30 | [94, 100, 101, 106, 242, 285, 286, 293, 298, 303, 304, 325, 326, 327, 328, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 369, 370, 372, 377, 378]
+[2026-06-26 17:39:33]   lh_precentral_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_superiortemporal_thickness
+[2026-06-26 17:39:33]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_CSF_volume, aseg_Right-Lateral-Ventricle_volume
+[2026-06-26 17:39:33]   aseg_Right-Inf-Lat-Vent_volume, aseg_CC_Posterior_volume, aseg_CC_Mid_Posterior_volume, aseg_CC_Central_volume, aseg_CC_Mid_Anterior_volume
+[2026-06-26 17:39:33]   aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity
+[2026-06-26 17:39:33]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 17:39:33]   aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, aseg_Right-Amygdala_meanintensity
+[2026-06-26 17:39:33] [epoch 7] stable_dims=1.0000 | train_C=0.7239 | train_D=0.4783 | train_I=0.3284 | train_cluster=0.7361 | train_dim_kl=2483.9556 | train_kl=0.0025 | train_loss=1.6518 | train_pred=0.9989 | train_recon=0.0565 | val_C=0.7922 | val_D=0.6094 | val_I=0.3420 | val_dim_kl=2394.3450 | val_kl=0.0024 | val_loss=1.1778 | val_pred=0.9182 | val_recon=0.0514
+[2026-06-26 17:39:48] [epoch 8] train D=0.4970 I=0.3246 | val D=0.6319 I=0.3525 | stable_dims=6 overlap=1/1 | [52, 61, 120, 134, 208, 247]
+[2026-06-26 17:42:24] Updated 768 samples → cluster sizes: [290, 199, 165, 114]
+[2026-06-26 17:42:25] [epoch 8] top30 overlap=24/30 | [74, 94, 98, 100, 101, 106, 236, 243, 285, 286, 293, 298, 303, 304, 325, 327, 328, 343, 344, 347, 351, 352, 354, 359, 360, 362, 364, 369, 370, 377]
+[2026-06-26 17:42:25]   lh_caudalmiddlefrontal_thickness, lh_precentral_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness
+[2026-06-26 17:42:25]   lh_MeanThickness_thickness, rh_precentral_thickness, rh_supramarginal_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume
+[2026-06-26 17:42:25]   aseg_3rd-Ventricle_volume, aseg_CSF_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_CC_Posterior_volume
+[2026-06-26 17:42:25]   aseg_CC_Central_volume, aseg_CC_Mid_Anterior_volume, aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_SurfaceHoles
+[2026-06-26 17:42:25]   aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity
+[2026-06-26 17:42:25]   aseg_Left-Hippocampus_meanintensity, aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 17:42:25] [epoch 8] stable_dims=6.0000 | train_C=0.7498 | train_D=0.4970 | train_I=0.3246 | train_cluster=0.7254 | train_dim_kl=2324.6113 | train_kl=0.0023 | train_loss=1.5982 | train_pred=0.9936 | train_recon=0.0479 | val_C=0.7911 | val_D=0.6319 | val_I=0.3525 | val_dim_kl=2156.8130 | val_kl=0.0022 | val_loss=1.1399 | val_pred=0.9083 | val_recon=0.0459
+[2026-06-26 17:42:41] [epoch 9] train D=0.4549 I=0.3348 | val D=0.5903 I=0.4045 | stable_dims=1 overlap=0/6 | [58]
+[2026-06-26 17:42:44] [ClusterCount] c: 4 → 3
+[2026-06-26 17:45:06] Updated 768 samples → cluster sizes: [256, 372, 140]
+[2026-06-26 17:45:07] [epoch 9] top30 overlap=25/30 | [74, 94, 98, 101, 106, 236, 243, 248, 285, 286, 293, 303, 304, 313, 328, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 17:45:07]   lh_caudalmiddlefrontal_thickness, lh_precentral_thickness, lh_superiorfrontal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness
+[2026-06-26 17:45:07]   rh_precentral_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume
+[2026-06-26 17:45:07]   aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Accumbens-area_volume, aseg_CC_Mid_Anterior_volume
+[2026-06-26 17:45:07]   aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity
+[2026-06-26 17:45:07]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 17:45:07]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 17:45:07] [epoch 9] stable_dims=1.0000 | train_C=0.7842 | train_D=0.4549 | train_I=0.3348 | train_cluster=0.7196 | train_dim_kl=2115.6331 | train_kl=0.0021 | train_loss=1.5300 | train_pred=0.9536 | train_recon=0.0429 | val_C=0.7465 | val_D=0.5903 | val_I=0.4045 | val_dim_kl=682.8978 | val_kl=0.0007 | val_loss=1.2024 | val_pred=0.9713 | val_recon=0.0461
+[2026-06-26 17:45:22] [epoch 10] train D=0.5278 I=0.3499 | val D=0.6604 I=0.4168 | stable_dims=1 overlap=0/1 | [219]
+[2026-06-26 17:47:43] Updated 768 samples → cluster sizes: [356, 170, 242]
+[2026-06-26 17:47:44] [epoch 10] top30 overlap=27/30 | [74, 94, 98, 101, 106, 220, 227, 236, 240, 243, 248, 285, 286, 293, 303, 304, 343, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 17:47:44]   lh_caudalmiddlefrontal_thickness, lh_precentral_thickness, lh_superiorfrontal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness
+[2026-06-26 17:47:44]   rh_inferiorparietal_thickness, rh_middletemporal_thickness, rh_precentral_thickness, rh_superiorfrontal_thickness, rh_supramarginal_thickness
+[2026-06-26 17:47:44]   rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume
+[2026-06-26 17:47:44]   aseg_Right-Inf-Lat-Vent_volume, aseg_BrainSegVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity
+[2026-06-26 17:47:44]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 17:47:44]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 17:47:44] [epoch 10] stable_dims=1.0000 | train_C=0.7181 | train_D=0.5278 | train_I=0.3499 | train_cluster=0.6911 | train_dim_kl=2258.8511 | train_kl=0.0023 | train_loss=1.3817 | train_pred=0.8350 | train_recon=0.0398 | val_C=0.7803 | val_D=0.6604 | val_I=0.4168 | val_dim_kl=2616.6619 | val_kl=0.0026 | val_loss=1.1775 | val_pred=0.9770 | val_recon=0.0396
+[2026-06-26 17:47:59] [epoch 11] train D=0.6310 I=0.3864 | val D=0.6237 I=0.4190 | stable_dims=0 overlap=0/1 | []
+[2026-06-26 17:50:50] Updated 768 samples → cluster sizes: [352, 239, 177]
+[2026-06-26 17:50:51] [epoch 11] top30 overlap=28/30 | [74, 94, 98, 100, 101, 106, 220, 236, 240, 243, 248, 285, 286, 293, 303, 304, 343, 344, 351, 352, 353, 354, 359, 360, 362, 364, 369, 370, 372, 377]
+[2026-06-26 17:50:51]   lh_caudalmiddlefrontal_thickness, lh_precentral_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness
+[2026-06-26 17:50:51]   lh_MeanThickness_thickness, rh_inferiorparietal_thickness, rh_precentral_thickness, rh_superiorfrontal_thickness, rh_supramarginal_thickness
+[2026-06-26 17:50:51]   rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume
+[2026-06-26 17:50:51]   aseg_Right-Inf-Lat-Vent_volume, aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity
+[2026-06-26 17:50:51]   aseg_Left-Cerebellum-White-Matter_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity
+[2026-06-26 17:50:51]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 17:50:51] [epoch 11] stable_dims=0.0000 | train_C=0.7338 | train_D=0.6310 | train_I=0.3864 | train_cluster=0.6980 | train_dim_kl=3322.6748 | train_kl=0.0033 | train_loss=1.2444 | train_pred=0.7089 | train_recon=0.0366 | val_C=0.7547 | val_D=0.6237 | val_I=0.4190 | val_dim_kl=2554.0569 | val_kl=0.0026 | val_loss=1.7143 | val_pred=1.5288 | val_recon=0.0366
+[2026-06-26 17:51:06] [epoch 12] train D=0.6276 I=0.4052 | val D=0.6395 I=0.4369 | stable_dims=5 overlap=0/5 | [0, 23, 113, 175, 197]
+[2026-06-26 17:53:42] Updated 768 samples → cluster sizes: [354, 186, 228]
+[2026-06-26 17:53:43] [epoch 12] top30 overlap=28/30 | [74, 94, 98, 100, 101, 106, 227, 240, 243, 248, 285, 286, 293, 303, 304, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 17:53:43]   lh_caudalmiddlefrontal_thickness, lh_precentral_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness
+[2026-06-26 17:53:43]   lh_MeanThickness_thickness, rh_middletemporal_thickness, rh_superiorfrontal_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness
+[2026-06-26 17:53:43]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 17:53:43]   aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity
+[2026-06-26 17:53:43]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 17:53:43]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 17:53:43] [epoch 12] stable_dims=5.0000 | train_C=0.7282 | train_D=0.6276 | train_I=0.4052 | train_cluster=0.6502 | train_dim_kl=3196.9192 | train_kl=0.0032 | train_loss=1.1585 | train_pred=0.6551 | train_recon=0.0350 | val_C=0.7801 | val_D=0.6395 | val_I=0.4369 | val_dim_kl=3711.5449 | val_kl=0.0037 | val_loss=0.8930 | val_pred=0.7047 | val_recon=0.0369
+[2026-06-26 17:53:59] [epoch 13] train D=0.6101 I=0.3966 | val D=0.6630 I=0.4554 | stable_dims=0 overlap=0/5 | []
+[2026-06-26 17:56:35] Updated 768 samples → cluster sizes: [366, 246, 156]
+[2026-06-26 17:56:36] [epoch 13] top30 overlap=29/30 | [74, 94, 98, 100, 101, 106, 220, 227, 240, 243, 248, 285, 286, 293, 303, 304, 343, 344, 351, 352, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 17:56:36]   lh_caudalmiddlefrontal_thickness, lh_precentral_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness
+[2026-06-26 17:56:36]   lh_MeanThickness_thickness, rh_inferiorparietal_thickness, rh_middletemporal_thickness, rh_superiorfrontal_thickness, rh_supramarginal_thickness
+[2026-06-26 17:56:36]   rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume
+[2026-06-26 17:56:36]   aseg_Right-Inf-Lat-Vent_volume, aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity
+[2026-06-26 17:56:36]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 17:56:36]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 17:56:36] [epoch 13] stable_dims=0.0000 | train_C=0.7343 | train_D=0.6101 | train_I=0.3966 | train_cluster=0.6308 | train_dim_kl=3117.4199 | train_kl=0.0031 | train_loss=1.1335 | train_pred=0.6489 | train_recon=0.0332 | val_C=0.7568 | val_D=0.6630 | val_I=0.4554 | val_dim_kl=3223.2788 | val_kl=0.0032 | val_loss=0.8180 | val_pred=0.6496 | val_recon=0.0330
+[2026-06-26 17:56:51] [epoch 14] train D=0.5024 I=0.3084 | val D=0.6481 I=0.3973 | stable_dims=0 overlap=0/0 | []
+[2026-06-26 17:56:54] [ClusterCount] c: 3 → 2
+[2026-06-26 17:59:46] Updated 768 samples → cluster sizes: [350, 418]
+[2026-06-26 17:59:46] [epoch 14] top30 overlap=28/30 | [94, 98, 100, 101, 106, 220, 227, 242, 243, 248, 285, 286, 293, 303, 304, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 17:59:46]   lh_precentral_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness
+[2026-06-26 17:59:46]   rh_inferiorparietal_thickness, rh_middletemporal_thickness, rh_superiortemporal_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness
+[2026-06-26 17:59:46]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 17:59:46]   aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity
+[2026-06-26 17:59:46]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 17:59:46]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 17:59:47] [epoch 14] stable_dims=0.0000 | train_C=0.7005 | train_D=0.5024 | train_I=0.3084 | train_cluster=0.6570 | train_dim_kl=3074.4592 | train_kl=0.0031 | train_loss=1.2682 | train_pred=0.7762 | train_recon=0.0321 | val_C=0.7733 | val_D=0.6481 | val_I=0.3973 | val_dim_kl=4985.8813 | val_kl=0.0050 | val_loss=1.1620 | val_pred=0.9959 | val_recon=0.0322
+[2026-06-26 18:00:01] [epoch 15] train D=0.5829 I=0.3682 | val D=0.6236 I=0.4223 | stable_dims=0 overlap=0/0 | []
+[2026-06-26 18:02:35] Updated 768 samples → cluster sizes: [383, 385]
+[2026-06-26 18:02:36] [epoch 15] top30 overlap=25/30 | [74, 94, 100, 101, 106, 236, 243, 285, 286, 293, 303, 304, 325, 327, 328, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 18:02:36]   lh_caudalmiddlefrontal_thickness, lh_precentral_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness
+[2026-06-26 18:02:36]   rh_precentral_thickness, rh_supramarginal_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume
+[2026-06-26 18:02:36]   aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_CC_Posterior_volume, aseg_CC_Central_volume, aseg_CC_Mid_Anterior_volume
+[2026-06-26 18:02:36]   aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity
+[2026-06-26 18:02:36]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 18:02:36]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 18:02:36] [epoch 15] stable_dims=0.0000 | train_C=0.7375 | train_D=0.5829 | train_I=0.3682 | train_cluster=0.6928 | train_dim_kl=4332.8394 | train_kl=0.0043 | train_loss=1.1837 | train_pred=0.6791 | train_recon=0.0308 | val_C=0.7839 | val_D=0.6236 | val_I=0.4223 | val_dim_kl=4094.6355 | val_kl=0.0041 | val_loss=0.8110 | val_pred=0.6535 | val_recon=0.0307
+[2026-06-26 18:02:52] [epoch 16] train D=0.6025 I=0.3742 | val D=0.6687 I=0.4077 | stable_dims=1 overlap=0/1 | [185]
+[2026-06-26 18:05:39] Updated 768 samples → cluster sizes: [753, 15]
+[2026-06-26 18:05:40] [epoch 16] top30 overlap=26/30 | [74, 94, 98, 100, 101, 106, 227, 243, 248, 285, 286, 293, 298, 303, 304, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 18:05:40]   lh_caudalmiddlefrontal_thickness, lh_precentral_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness
+[2026-06-26 18:05:40]   lh_MeanThickness_thickness, rh_middletemporal_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume
+[2026-06-26 18:05:40]   aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_CSF_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 18:05:40]   aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity
+[2026-06-26 18:05:40]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 18:05:40]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 18:05:40] [epoch 16] stable_dims=1.0000 | train_C=0.7277 | train_D=0.6025 | train_I=0.3742 | train_cluster=0.6329 | train_dim_kl=4580.5439 | train_kl=0.0046 | train_loss=1.1169 | train_pred=0.6460 | train_recon=0.0300 | val_C=0.7746 | val_D=0.6687 | val_I=0.4077 | val_dim_kl=4107.3193 | val_kl=0.0041 | val_loss=0.8358 | val_pred=0.6829 | val_recon=0.0298
+[2026-06-26 18:05:55] [epoch 17] train D=0.5083 I=0.3818 | val D=0.6270 I=0.4193 | stable_dims=0 overlap=0/1 | []
+[2026-06-26 18:08:30] Updated 768 samples → cluster sizes: [387, 381]
+[2026-06-26 18:08:30] [epoch 17] top30 overlap=28/30 | [74, 85, 94, 98, 100, 101, 106, 240, 243, 248, 285, 286, 293, 303, 304, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 18:08:30]   lh_caudalmiddlefrontal_thickness, lh_middletemporal_thickness, lh_precentral_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness
+[2026-06-26 18:08:30]   lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_superiorfrontal_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness
+[2026-06-26 18:08:30]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 18:08:30]   aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity
+[2026-06-26 18:08:30]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 18:08:30]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 18:08:31] [epoch 17] stable_dims=0.0000 | train_C=0.7514 | train_D=0.5083 | train_I=0.3818 | train_cluster=0.4568 | train_dim_kl=5714.2832 | train_kl=0.0057 | train_loss=1.0161 | train_pred=0.6369 | train_recon=0.0290 | val_C=0.7774 | val_D=0.6270 | val_I=0.4193 | val_dim_kl=2485.3191 | val_kl=0.0025 | val_loss=2.4141 | val_pred=2.2585 | val_recon=0.0306
+[2026-06-26 18:08:45] [epoch 18] train D=0.5237 I=0.3716 | val D=0.6798 I=0.4252 | stable_dims=1 overlap=0/1 | [112]
+[2026-06-26 18:15:51] Updated 768 samples → cluster sizes: [359, 409]
+[2026-06-26 18:15:52] [epoch 18] top30 overlap=29/30 | [74, 85, 94, 98, 100, 101, 106, 240, 243, 248, 285, 286, 293, 303, 304, 328, 343, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 18:15:52]   lh_caudalmiddlefrontal_thickness, lh_middletemporal_thickness, lh_precentral_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness
+[2026-06-26 18:15:52]   lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_superiorfrontal_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness
+[2026-06-26 18:15:52]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 18:15:52]   aseg_CC_Mid_Anterior_volume, aseg_BrainSegVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity
+[2026-06-26 18:15:52]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 18:15:52]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 18:15:52] [epoch 18] stable_dims=1.0000 | train_C=0.7680 | train_D=0.5237 | train_I=0.3716 | train_cluster=1.0909 | train_dim_kl=9984.9541 | train_kl=0.0100 | train_loss=1.3950 | train_pred=0.6917 | train_recon=0.0296 | val_C=0.7853 | val_D=0.6798 | val_I=0.4252 | val_dim_kl=9676.1562 | val_kl=0.0097 | val_loss=0.8728 | val_pred=0.7178 | val_recon=0.0291
+[2026-06-26 18:16:07] [epoch 19] train D=0.6759 I=0.4025 | val D=0.5728 I=0.4326 | stable_dims=3 overlap=0/1 | [80, 169, 252]
+[2026-06-26 18:16:10] [ClusterCount] c: 2 → 3
+[2026-06-26 18:18:44] Updated 768 samples → cluster sizes: [265, 270, 233]
+[2026-06-26 18:18:45] [epoch 19] top30 overlap=28/30 | [74, 85, 94, 98, 100, 101, 106, 240, 243, 248, 285, 286, 293, 298, 303, 304, 343, 344, 351, 352, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 18:18:45]   lh_caudalmiddlefrontal_thickness, lh_middletemporal_thickness, lh_precentral_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness
+[2026-06-26 18:18:45]   lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_superiorfrontal_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness
+[2026-06-26 18:18:45]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_CSF_volume, aseg_Right-Lateral-Ventricle_volume
+[2026-06-26 18:18:45]   aseg_Right-Inf-Lat-Vent_volume, aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity
+[2026-06-26 18:18:45]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 18:18:45]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 18:18:45] [epoch 19] stable_dims=3.0000 | train_C=0.7598 | train_D=0.6759 | train_I=0.4025 | train_cluster=0.6220 | train_dim_kl=11486.0635 | train_kl=0.0115 | train_loss=1.0977 | train_pred=0.6337 | train_recon=0.0283 | val_C=0.7735 | val_D=0.5728 | val_I=0.4326 | val_dim_kl=4365.9009 | val_kl=0.0044 | val_loss=2.2373 | val_pred=2.0861 | val_recon=0.0294
+[2026-06-26 18:18:59] [epoch 20] train D=0.6156 I=0.4209 | val D=0.6646 I=0.4457 | stable_dims=4 overlap=1/3 | [7, 145, 164, 169]
+[2026-06-26 18:21:21] Updated 768 samples → cluster sizes: [362, 273, 133]
+[2026-06-26 18:21:22] [epoch 20] top30 overlap=28/30 | [74, 85, 94, 98, 100, 101, 106, 243, 248, 260, 285, 286, 293, 303, 304, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 18:21:22]   lh_caudalmiddlefrontal_thickness, lh_middletemporal_thickness, lh_precentral_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness
+[2026-06-26 18:21:22]   lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness, rh_lateralorbitofrontal_meancurv
+[2026-06-26 18:21:22]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 18:21:22]   aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity
+[2026-06-26 18:21:22]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 18:21:22]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 18:21:22] [epoch 20] stable_dims=4.0000 | train_C=0.7436 | train_D=0.6156 | train_I=0.4209 | train_cluster=0.6376 | train_dim_kl=11472.2266 | train_kl=0.0115 | train_loss=1.0765 | train_pred=0.6085 | train_recon=0.0275 | val_C=0.8058 | val_D=0.6646 | val_I=0.4457 | val_dim_kl=11598.3174 | val_kl=0.0116 | val_loss=0.7753 | val_pred=0.6263 | val_recon=0.0275
+[2026-06-26 18:21:37] [epoch 21] train D=0.6384 I=0.4171 | val D=0.6832 I=0.4423 | stable_dims=10 overlap=2/4 | [5, 28, 40, 45, 145, 149, 161, 169, 204, 252]
+[2026-06-26 18:24:00] Updated 768 samples → cluster sizes: [318, 255, 195]
+[2026-06-26 18:24:01] [epoch 21] top30 overlap=28/30 | [74, 94, 98, 100, 101, 106, 220, 240, 243, 248, 285, 286, 293, 303, 304, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 18:24:01]   lh_caudalmiddlefrontal_thickness, lh_precentral_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness
+[2026-06-26 18:24:01]   lh_MeanThickness_thickness, rh_inferiorparietal_thickness, rh_superiorfrontal_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness
+[2026-06-26 18:24:01]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 18:24:01]   aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity
+[2026-06-26 18:24:01]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 18:24:01]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 18:24:01] [epoch 21] stable_dims=10.0000 | train_C=0.7438 | train_D=0.6384 | train_I=0.4171 | train_cluster=0.6442 | train_dim_kl=11057.2920 | train_kl=0.0111 | train_loss=1.0812 | train_pred=0.6114 | train_recon=0.0273 | val_C=0.7875 | val_D=0.6832 | val_I=0.4423 | val_dim_kl=8245.5283 | val_kl=0.0082 | val_loss=0.7940 | val_pred=0.6487 | val_recon=0.0274
+[2026-06-26 18:24:16] [epoch 22] train D=0.6271 I=0.4259 | val D=0.6635 I=0.4567 | stable_dims=3 overlap=1/10 | [7, 164, 204]
+[2026-06-26 18:26:52] Updated 768 samples → cluster sizes: [383, 251, 134]
+[2026-06-26 18:26:53] [epoch 22] top30 overlap=30/30 | [74, 94, 98, 100, 101, 106, 220, 240, 243, 248, 285, 286, 293, 303, 304, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 18:26:53]   lh_caudalmiddlefrontal_thickness, lh_precentral_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness
+[2026-06-26 18:26:53]   lh_MeanThickness_thickness, rh_inferiorparietal_thickness, rh_superiorfrontal_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness
+[2026-06-26 18:26:53]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 18:26:53]   aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity
+[2026-06-26 18:26:53]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 18:26:53]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 18:26:53] [epoch 22] stable_dims=3.0000 | train_C=0.7584 | train_D=0.6271 | train_I=0.4259 | train_cluster=0.5990 | train_dim_kl=10297.6611 | train_kl=0.0103 | train_loss=1.0343 | train_pred=0.5902 | train_recon=0.0269 | val_C=0.7985 | val_D=0.6635 | val_I=0.4567 | val_dim_kl=6881.3188 | val_kl=0.0069 | val_loss=0.8394 | val_pred=0.6974 | val_recon=0.0270
+[2026-06-26 18:27:08] [epoch 23] train D=0.6164 I=0.4369 | val D=0.6262 I=0.4570 | stable_dims=7 overlap=1/3 | [7, 40, 64, 72, 169, 225, 252]
+[2026-06-26 18:30:01] Updated 768 samples → cluster sizes: [257, 417, 94]
+[2026-06-26 18:30:02] [epoch 23] top30 overlap=29/30 | [74, 94, 98, 100, 101, 106, 220, 240, 243, 248, 285, 286, 293, 303, 304, 325, 343, 344, 351, 352, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 18:30:02]   lh_caudalmiddlefrontal_thickness, lh_precentral_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness
+[2026-06-26 18:30:02]   lh_MeanThickness_thickness, rh_inferiorparietal_thickness, rh_superiorfrontal_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness
+[2026-06-26 18:30:02]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 18:30:02]   aseg_CC_Posterior_volume, aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity
+[2026-06-26 18:30:02]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 18:30:02]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 18:30:02] [epoch 23] stable_dims=7.0000 | train_C=0.7379 | train_D=0.6164 | train_I=0.4369 | train_cluster=0.6370 | train_dim_kl=10108.2969 | train_kl=0.0101 | train_loss=1.0394 | train_pred=0.5778 | train_recon=0.0266 | val_C=0.7926 | val_D=0.6262 | val_I=0.4570 | val_dim_kl=10782.4746 | val_kl=0.0108 | val_loss=0.7890 | val_pred=0.6459 | val_recon=0.0265
+[2026-06-26 18:30:16] [epoch 24] train D=0.6206 I=0.4426 | val D=0.6050 I=0.4711 | stable_dims=3 overlap=1/7 | [45, 164, 252]
+[2026-06-26 18:33:25] Updated 768 samples → cluster sizes: [497, 230, 41]
+[2026-06-26 18:33:26] [epoch 24] top30 overlap=28/30 | [74, 85, 94, 98, 100, 101, 106, 240, 243, 248, 285, 286, 293, 298, 303, 304, 343, 344, 351, 352, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 18:33:26]   lh_caudalmiddlefrontal_thickness, lh_middletemporal_thickness, lh_precentral_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness
+[2026-06-26 18:33:26]   lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_superiorfrontal_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness
+[2026-06-26 18:33:26]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_CSF_volume, aseg_Right-Lateral-Ventricle_volume
+[2026-06-26 18:33:26]   aseg_Right-Inf-Lat-Vent_volume, aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity
+[2026-06-26 18:33:26]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 18:33:26]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 18:33:26] [epoch 24] stable_dims=3.0000 | train_C=0.7323 | train_D=0.6206 | train_I=0.4426 | train_cluster=0.6272 | train_dim_kl=9489.6045 | train_kl=0.0095 | train_loss=1.0218 | train_pred=0.5676 | train_recon=0.0262 | val_C=0.7816 | val_D=0.6050 | val_I=0.4711 | val_dim_kl=6461.5649 | val_kl=0.0065 | val_loss=0.7640 | val_pred=0.6237 | val_recon=0.0268
+[2026-06-26 18:33:41] [epoch 25] train D=0.6165 I=0.4438 | val D=0.6634 I=0.4791 | stable_dims=4 overlap=1/3 | [45, 66, 169, 228]
+[2026-06-26 18:36:59] Updated 768 samples → cluster sizes: [203, 396, 169]
+[2026-06-26 18:37:00] [epoch 25] top30 overlap=28/30 | [74, 85, 94, 98, 100, 101, 106, 220, 243, 248, 285, 286, 293, 303, 304, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 18:37:00]   lh_caudalmiddlefrontal_thickness, lh_middletemporal_thickness, lh_precentral_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness
+[2026-06-26 18:37:00]   lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_inferiorparietal_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness
+[2026-06-26 18:37:00]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 18:37:00]   aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity
+[2026-06-26 18:37:00]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 18:37:00]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 18:37:00] [epoch 25] stable_dims=4.0000 | train_C=0.7344 | train_D=0.6165 | train_I=0.4438 | train_cluster=0.5863 | train_dim_kl=9415.8916 | train_kl=0.0094 | train_loss=1.0013 | train_pred=0.5692 | train_recon=0.0259 | val_C=0.7852 | val_D=0.6634 | val_I=0.4791 | val_dim_kl=3948.0920 | val_kl=0.0039 | val_loss=0.9532 | val_pred=0.8161 | val_recon=0.0266
+[2026-06-26 18:37:15] [epoch 26] train D=0.6371 I=0.4581 | val D=0.6998 I=0.4814 | stable_dims=9 overlap=2/4 | [45, 104, 105, 157, 196, 228, 232, 252, 254]
+[2026-06-26 18:40:23] Updated 768 samples → cluster sizes: [239, 370, 159]
+[2026-06-26 18:40:24] [epoch 26] top30 overlap=29/30 | [74, 94, 98, 100, 101, 106, 220, 240, 243, 248, 285, 286, 293, 303, 304, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 18:40:24]   lh_caudalmiddlefrontal_thickness, lh_precentral_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness
+[2026-06-26 18:40:24]   lh_MeanThickness_thickness, rh_inferiorparietal_thickness, rh_superiorfrontal_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness
+[2026-06-26 18:40:24]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 18:40:24]   aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity
+[2026-06-26 18:40:24]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 18:40:24]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 18:40:24] [epoch 26] stable_dims=9.0000 | train_C=0.7270 | train_D=0.6371 | train_I=0.4581 | train_cluster=0.6025 | train_dim_kl=9331.4307 | train_kl=0.0093 | train_loss=0.9870 | train_pred=0.5477 | train_recon=0.0257 | val_C=0.7460 | val_D=0.6998 | val_I=0.4814 | val_dim_kl=9537.4062 | val_kl=0.0095 | val_loss=0.7094 | val_pred=0.5719 | val_recon=0.0256
+[2026-06-26 18:40:40] [epoch 27] train D=0.6109 I=0.4596 | val D=0.6621 I=0.4921 | stable_dims=6 overlap=3/9 | [40, 45, 104, 105, 108, 174]
+[2026-06-26 18:43:33] Updated 768 samples → cluster sizes: [318, 176, 274]
+[2026-06-26 18:43:35] [epoch 27] top30 overlap=30/30 | [74, 94, 98, 100, 101, 106, 220, 240, 243, 248, 285, 286, 293, 303, 304, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 18:43:35]   lh_caudalmiddlefrontal_thickness, lh_precentral_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness
+[2026-06-26 18:43:35]   lh_MeanThickness_thickness, rh_inferiorparietal_thickness, rh_superiorfrontal_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness
+[2026-06-26 18:43:35]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 18:43:35]   aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity
+[2026-06-26 18:43:35]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 18:43:35]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 18:43:35] [epoch 27] stable_dims=6.0000 | train_C=0.7411 | train_D=0.6109 | train_I=0.4596 | train_cluster=0.5983 | train_dim_kl=8925.5908 | train_kl=0.0089 | train_loss=0.9770 | train_pred=0.5413 | train_recon=0.0255 | val_C=0.7514 | val_D=0.6621 | val_I=0.4921 | val_dim_kl=5512.4014 | val_kl=0.0055 | val_loss=0.7630 | val_pred=0.6296 | val_recon=0.0256
+[2026-06-26 18:43:49] [epoch 28] train D=0.6703 I=0.4678 | val D=0.7017 I=0.4976 | stable_dims=7 overlap=3/6 | [39, 40, 65, 104, 105, 189, 205]
+[2026-06-26 18:46:56] Updated 768 samples → cluster sizes: [344, 170, 254]
+[2026-06-26 18:46:57] [epoch 28] top30 overlap=30/30 | [74, 94, 98, 100, 101, 106, 220, 240, 243, 248, 285, 286, 293, 303, 304, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 18:46:57]   lh_caudalmiddlefrontal_thickness, lh_precentral_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness
+[2026-06-26 18:46:57]   lh_MeanThickness_thickness, rh_inferiorparietal_thickness, rh_superiorfrontal_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness
+[2026-06-26 18:46:57]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 18:46:57]   aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity
+[2026-06-26 18:46:57]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 18:46:57]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 18:46:57] [epoch 28] stable_dims=7.0000 | train_C=0.7262 | train_D=0.6703 | train_I=0.4678 | train_cluster=0.6130 | train_dim_kl=8620.3594 | train_kl=0.0086 | train_loss=0.9796 | train_pred=0.5382 | train_recon=0.0252 | val_C=0.7606 | val_D=0.7017 | val_I=0.4976 | val_dim_kl=4729.8848 | val_kl=0.0047 | val_loss=0.9112 | val_pred=0.7774 | val_recon=0.0258
+[2026-06-26 18:47:11] [epoch 29] train D=0.6582 I=0.4708 | val D=0.7060 I=0.5036 | stable_dims=12 overlap=4/7 | [5, 20, 39, 40, 45, 64, 103, 105, 157, 205, 222, 252]
+[2026-06-26 18:49:40] Updated 768 samples → cluster sizes: [301, 212, 255]
+[2026-06-26 18:49:41] [epoch 29] top30 overlap=30/30 | [74, 94, 98, 100, 101, 106, 220, 240, 243, 248, 285, 286, 293, 303, 304, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 18:49:41]   lh_caudalmiddlefrontal_thickness, lh_precentral_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness
+[2026-06-26 18:49:41]   lh_MeanThickness_thickness, rh_inferiorparietal_thickness, rh_superiorfrontal_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness
+[2026-06-26 18:49:41]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 18:49:41]   aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity
+[2026-06-26 18:49:41]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 18:49:41]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 18:49:41] [epoch 29] stable_dims=12.0000 | train_C=0.7225 | train_D=0.6582 | train_I=0.4708 | train_cluster=0.6099 | train_dim_kl=8229.3779 | train_kl=0.0082 | train_loss=0.9700 | train_pred=0.5317 | train_recon=0.0250 | val_C=0.7543 | val_D=0.7060 | val_I=0.5036 | val_dim_kl=8409.9258 | val_kl=0.0084 | val_loss=0.7065 | val_pred=0.5705 | val_recon=0.0255
+[2026-06-26 18:49:56] [epoch 30] train D=0.6803 I=0.4779 | val D=0.7207 I=0.5159 | stable_dims=18 overlap=7/12 | [16, 39, 45, 64, 78, 88, 105, 116, 119, 136, 142, 147, 156, 157, 205, 208, 215, 222]
+[2026-06-26 18:52:18] Updated 768 samples → cluster sizes: [229, 200, 339]
+[2026-06-26 18:52:19] [epoch 30] top30 overlap=29/30 | [74, 94, 98, 100, 101, 106, 240, 243, 248, 285, 286, 293, 303, 304, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 371, 372, 377]
+[2026-06-26 18:52:19]   lh_caudalmiddlefrontal_thickness, lh_precentral_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness
+[2026-06-26 18:52:19]   lh_MeanThickness_thickness, rh_superiorfrontal_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume
+[2026-06-26 18:52:19]   aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_BrainSegVol-to-eTIV
+[2026-06-26 18:52:19]   aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity
+[2026-06-26 18:52:19]   aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity, aseg_CSF_meanintensity
+[2026-06-26 18:52:19]   aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-White-Matter_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 18:52:19] [epoch 30] stable_dims=18.0000 | train_C=0.7108 | train_D=0.6803 | train_I=0.4779 | train_cluster=0.5739 | train_dim_kl=7607.0742 | train_kl=0.0076 | train_loss=0.9389 | train_pred=0.5200 | train_recon=0.0249 | val_C=0.7536 | val_D=0.7207 | val_I=0.5159 | val_dim_kl=6247.3340 | val_kl=0.0062 | val_loss=0.6721 | val_pred=0.5406 | val_recon=0.0251
+[2026-06-26 18:52:34] [epoch 31] train D=0.6741 I=0.4812 | val D=0.7066 I=0.5038 | stable_dims=11 overlap=8/18 | [39, 45, 64, 119, 142, 145, 157, 205, 208, 232, 252]
+[2026-06-26 18:55:12] Updated 768 samples → cluster sizes: [196, 373, 199]
+[2026-06-26 18:55:13] [epoch 31] top30 overlap=27/30 | [74, 85, 94, 100, 101, 106, 220, 243, 248, 285, 286, 293, 303, 304, 325, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 18:55:13]   lh_caudalmiddlefrontal_thickness, lh_middletemporal_thickness, lh_precentral_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness
+[2026-06-26 18:55:13]   lh_MeanThickness_thickness, rh_inferiorparietal_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume
+[2026-06-26 18:55:13]   aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_CC_Posterior_volume
+[2026-06-26 18:55:13]   aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity
+[2026-06-26 18:55:13]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 18:55:13]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 18:55:13] [epoch 31] stable_dims=11.0000 | train_C=0.7118 | train_D=0.6741 | train_I=0.4812 | train_cluster=0.6003 | train_dim_kl=7309.2007 | train_kl=0.0073 | train_loss=0.9486 | train_pred=0.5178 | train_recon=0.0247 | val_C=0.7384 | val_D=0.7066 | val_I=0.5038 | val_dim_kl=10938.8887 | val_kl=0.0109 | val_loss=0.9225 | val_pred=0.7877 | val_recon=0.0248
+[2026-06-26 18:55:28] [epoch 32] train D=0.6649 I=0.4918 | val D=0.6930 I=0.5165 | stable_dims=10 overlap=7/11 | [39, 45, 119, 142, 156, 157, 205, 207, 215, 252]
+[2026-06-26 18:58:33] Updated 768 samples → cluster sizes: [211, 288, 269]
+[2026-06-26 18:58:34] [epoch 32] top30 overlap=27/30 | [74, 94, 98, 100, 101, 106, 220, 240, 242, 243, 248, 285, 286, 293, 303, 304, 343, 344, 351, 352, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 18:58:34]   lh_caudalmiddlefrontal_thickness, lh_precentral_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness
+[2026-06-26 18:58:34]   lh_MeanThickness_thickness, rh_inferiorparietal_thickness, rh_superiorfrontal_thickness, rh_superiortemporal_thickness, rh_supramarginal_thickness
+[2026-06-26 18:58:34]   rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume
+[2026-06-26 18:58:34]   aseg_Right-Inf-Lat-Vent_volume, aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity
+[2026-06-26 18:58:34]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 18:58:34]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 18:58:34] [epoch 32] stable_dims=10.0000 | train_C=0.7262 | train_D=0.6649 | train_I=0.4918 | train_cluster=0.5947 | train_dim_kl=6919.5938 | train_kl=0.0069 | train_loss=0.9329 | train_pred=0.5070 | train_recon=0.0243 | val_C=0.7417 | val_D=0.6930 | val_I=0.5165 | val_dim_kl=7037.6392 | val_kl=0.0070 | val_loss=0.7168 | val_pred=0.5864 | val_recon=0.0247
+[2026-06-26 18:58:49] [epoch 33] train D=0.6307 I=0.4895 | val D=0.6915 I=0.5314 | stable_dims=7 overlap=2/10 | [6, 39, 40, 65, 78, 205, 218]
+[2026-06-26 19:01:10] Updated 768 samples → cluster sizes: [286, 286, 196]
+[2026-06-26 19:01:10] [epoch 33] top30 overlap=26/30 | [74, 98, 100, 101, 106, 227, 242, 248, 285, 286, 293, 303, 304, 325, 328, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 19:01:10]   lh_caudalmiddlefrontal_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness
+[2026-06-26 19:01:10]   rh_middletemporal_thickness, rh_superiortemporal_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume
+[2026-06-26 19:01:10]   aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_CC_Posterior_volume, aseg_CC_Mid_Anterior_volume
+[2026-06-26 19:01:10]   aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity
+[2026-06-26 19:01:10]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 19:01:10]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 19:01:10] [epoch 33] stable_dims=7.0000 | train_C=0.6980 | train_D=0.6307 | train_I=0.4895 | train_cluster=0.5863 | train_dim_kl=6561.6426 | train_kl=0.0066 | train_loss=0.9318 | train_pred=0.5115 | train_recon=0.0241 | val_C=0.7270 | val_D=0.6915 | val_I=0.5314 | val_dim_kl=2338.9832 | val_kl=0.0023 | val_loss=1.5754 | val_pred=1.4442 | val_recon=0.0258
+[2026-06-26 19:01:25] [epoch 34] train D=0.6565 I=0.5048 | val D=0.6753 I=0.5444 | stable_dims=17 overlap=4/7 | [5, 16, 23, 39, 40, 64, 65, 86, 110, 112, 145, 156, 157, 194, 205, 232, 252]
+[2026-06-26 19:04:44] Updated 768 samples → cluster sizes: [208, 297, 263]
+[2026-06-26 19:04:45] [epoch 34] top30 overlap=27/30 | [74, 94, 98, 100, 101, 106, 220, 243, 248, 285, 286, 293, 303, 304, 328, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 19:04:45]   lh_caudalmiddlefrontal_thickness, lh_precentral_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness
+[2026-06-26 19:04:45]   lh_MeanThickness_thickness, rh_inferiorparietal_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume
+[2026-06-26 19:04:45]   aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_CC_Mid_Anterior_volume
+[2026-06-26 19:04:45]   aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity
+[2026-06-26 19:04:45]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 19:04:45]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 19:04:45] [epoch 34] stable_dims=17.0000 | train_C=0.7042 | train_D=0.6565 | train_I=0.5048 | train_cluster=0.5707 | train_dim_kl=6318.8979 | train_kl=0.0063 | train_loss=0.9113 | train_pred=0.4990 | train_recon=0.0241 | val_C=0.7170 | val_D=0.6753 | val_I=0.5444 | val_dim_kl=5039.6489 | val_kl=0.0050 | val_loss=0.6448 | val_pred=0.5176 | val_recon=0.0244
+[2026-06-26 19:05:01] [epoch 35] train D=0.6502 I=0.5291 | val D=0.6770 I=0.5429 | stable_dims=10 overlap=8/17 | [23, 39, 64, 65, 86, 156, 157, 222, 226, 232]
+[2026-06-26 19:07:20] Updated 768 samples → cluster sizes: [347, 210, 211]
+[2026-06-26 19:07:21] [epoch 35] top30 overlap=26/30 | [74, 98, 100, 101, 106, 240, 248, 285, 286, 293, 303, 304, 325, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377, 378, 496]
+[2026-06-26 19:07:21]   lh_caudalmiddlefrontal_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness
+[2026-06-26 19:07:21]   rh_superiorfrontal_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume
+[2026-06-26 19:07:21]   aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_CC_Posterior_volume, aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV
+[2026-06-26 19:07:21]   aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity
+[2026-06-26 19:07:21]   aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity, aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity
+[2026-06-26 19:07:21]   aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, aseg_Right-Amygdala_meanintensity, rh_hippo_subiculum-body_volume
+[2026-06-26 19:07:21] [epoch 35] stable_dims=10.0000 | train_C=0.6963 | train_D=0.6502 | train_I=0.5291 | train_cluster=0.5576 | train_dim_kl=6170.0181 | train_kl=0.0062 | train_loss=0.8724 | train_pred=0.4679 | train_recon=0.0239 | val_C=0.7321 | val_D=0.6770 | val_I=0.5429 | val_dim_kl=10344.2471 | val_kl=0.0103 | val_loss=0.8186 | val_pred=0.6844 | val_recon=0.0248
+[2026-06-26 19:07:36] [epoch 36] train D=0.6479 I=0.5131 | val D=0.6843 I=0.5643 | stable_dims=15 overlap=5/10 | [2, 12, 16, 36, 39, 49, 64, 65, 154, 156, 157, 194, 208, 221, 252]
+[2026-06-26 19:10:02] Updated 768 samples → cluster sizes: [378, 240, 150]
+[2026-06-26 19:10:03] [epoch 36] top30 overlap=26/30 | [98, 100, 101, 106, 220, 243, 248, 285, 286, 293, 298, 303, 304, 325, 328, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 19:10:03]   lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_inferiorparietal_thickness
+[2026-06-26 19:10:03]   rh_supramarginal_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume
+[2026-06-26 19:10:03]   aseg_CSF_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_CC_Posterior_volume, aseg_CC_Mid_Anterior_volume
+[2026-06-26 19:10:03]   aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity
+[2026-06-26 19:10:03]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 19:10:03]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 19:10:03] [epoch 36] stable_dims=15.0000 | train_C=0.7024 | train_D=0.6479 | train_I=0.5131 | train_cluster=0.5736 | train_dim_kl=6040.4038 | train_kl=0.0060 | train_loss=0.9071 | train_pred=0.4950 | train_recon=0.0239 | val_C=0.7162 | val_D=0.6843 | val_I=0.5643 | val_dim_kl=4581.1567 | val_kl=0.0046 | val_loss=0.6880 | val_pred=0.5622 | val_recon=0.0242
+[2026-06-26 19:10:18] [epoch 37] train D=0.6394 I=0.5261 | val D=0.6823 I=0.5591 | stable_dims=10 overlap=7/15 | [36, 39, 64, 65, 145, 156, 157, 177, 194, 222]
+[2026-06-26 19:13:35] Updated 768 samples → cluster sizes: [362, 219, 187]
+[2026-06-26 19:13:36] [epoch 37] top30 overlap=27/30 | [74, 94, 98, 100, 101, 106, 220, 240, 243, 248, 285, 286, 293, 303, 304, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 19:13:36]   lh_caudalmiddlefrontal_thickness, lh_precentral_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness
+[2026-06-26 19:13:36]   lh_MeanThickness_thickness, rh_inferiorparietal_thickness, rh_superiorfrontal_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness
+[2026-06-26 19:13:36]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 19:13:36]   aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity
+[2026-06-26 19:13:36]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 19:13:36]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 19:13:36] [epoch 37] stable_dims=10.0000 | train_C=0.7103 | train_D=0.6394 | train_I=0.5261 | train_cluster=0.5547 | train_dim_kl=5693.1060 | train_kl=0.0057 | train_loss=0.8720 | train_pred=0.4715 | train_recon=0.0235 | val_C=0.7327 | val_D=0.6823 | val_I=0.5591 | val_dim_kl=5685.9355 | val_kl=0.0057 | val_loss=0.7862 | val_pred=0.6558 | val_recon=0.0250
+[2026-06-26 19:13:50] [epoch 38] train D=0.6288 I=0.5340 | val D=0.6706 I=0.5560 | stable_dims=13 overlap=7/10 | [2, 14, 39, 64, 65, 67, 145, 157, 169, 194, 204, 213, 222]
+[2026-06-26 19:16:12] Updated 768 samples → cluster sizes: [214, 313, 241]
+[2026-06-26 19:16:13] [epoch 38] top30 overlap=27/30 | [98, 100, 101, 106, 220, 243, 248, 285, 286, 293, 296, 303, 304, 325, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377, 496]
+[2026-06-26 19:16:13]   lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_inferiorparietal_thickness
+[2026-06-26 19:16:13]   rh_supramarginal_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume
+[2026-06-26 19:16:13]   aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_CC_Posterior_volume, aseg_BrainSegVol-to-eTIV
+[2026-06-26 19:16:13]   aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity
+[2026-06-26 19:16:13]   aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity, aseg_CSF_meanintensity
+[2026-06-26 19:16:13]   aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, rh_hippo_subiculum-body_volume
+[2026-06-26 19:16:13] [epoch 38] stable_dims=13.0000 | train_C=0.6927 | train_D=0.6288 | train_I=0.5340 | train_cluster=0.5755 | train_dim_kl=5554.8755 | train_kl=0.0056 | train_loss=0.8653 | train_pred=0.4550 | train_recon=0.0234 | val_C=0.7510 | val_D=0.6706 | val_I=0.5560 | val_dim_kl=6643.3413 | val_kl=0.0066 | val_loss=1.1417 | val_pred=1.0097 | val_recon=0.0251
+[2026-06-26 19:16:28] [epoch 39] train D=0.6539 I=0.5398 | val D=0.6866 I=0.5524 | stable_dims=13 overlap=4/13 | [23, 36, 39, 65, 142, 154, 156, 157, 160, 168, 177, 222, 232]
+[2026-06-26 19:19:07] Updated 768 samples → cluster sizes: [259, 303, 206]
+[2026-06-26 19:19:09] [epoch 39] top30 overlap=4/30 | [99, 289, 354, 355, 356, 364, 365, 372, 374, 378, 379, 473, 479, 482, 488, 491, 496, 502, 505, 511, 514, 519, 520, 521, 522, 525, 527, 532, 533, 538]
+[2026-06-26 19:19:09]   lh_superiorparietal_thickness, aseg_Left-Thalamus_volume, aseg_Left-Cerebellum-Cortex_meanintensity, aseg_Left-Thalamus_meanintensity, aseg_Left-Caudate_meanintensity
+[2026-06-26 19:19:09]   aseg_CSF_meanintensity, aseg_Left-Accumbens-area_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Caudate_meanintensity, aseg_Right-Amygdala_meanintensity
+[2026-06-26 19:19:09]   aseg_Right-Accumbens-area_meanintensity, lh_hippo_subiculum-body_volume, lh_hippo_presubiculum-body_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_fimbria_volume
+[2026-06-26 19:19:09]   lh_hippo_Whole_hippocampal_body_volume, rh_hippo_subiculum-body_volume, rh_hippo_presubiculum-body_volume, rh_hippo_molecular_layer_HP-body_volume, rh_hippo_fimbria_volume
+[2026-06-26 19:19:09]   rh_hippo_Whole_hippocampal_body_volume, lh_amyg_Basal-nucleus_volume, lh_amyg_Accessory-Basal-nucleus_volume, lh_amyg_Anterior-amygdaloid-area-AAA_volume, lh_amyg_Central-nucleus_volume
+[2026-06-26 19:19:09]   lh_amyg_Corticoamygdaloid-transitio_volume, lh_amyg_Whole_amygdala_volume, rh_amyg_Anterior-amygdaloid-area-AAA_volume, rh_amyg_Central-nucleus_volume, rh_amyg_Whole_amygdala_volume
+[2026-06-26 19:19:09] [epoch 39] stable_dims=13.0000 | train_C=0.7102 | train_D=0.6539 | train_I=0.5398 | train_cluster=0.5671 | train_dim_kl=5212.5269 | train_kl=0.0052 | train_loss=0.8783 | train_pred=0.4737 | train_recon=0.0232 | val_C=0.7367 | val_D=0.6866 | val_I=0.5524 | val_dim_kl=8909.9365 | val_kl=0.0089 | val_loss=0.7057 | val_pred=0.5773 | val_recon=0.0239
+[2026-06-26 19:19:23] [epoch 40] train D=0.3875 I=0.2724 | val D=0.4415 I=0.3605 | stable_dims=1 overlap=1/13 | [222]
+[2026-06-26 19:21:43] Updated 768 samples → cluster sizes: [231, 313, 224]
+[2026-06-26 19:21:44] [epoch 40] top30 overlap=3/30 | [74, 94, 98, 100, 101, 106, 220, 242, 243, 248, 285, 286, 293, 303, 304, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377]
+[2026-06-26 19:21:44]   lh_caudalmiddlefrontal_thickness, lh_precentral_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness
+[2026-06-26 19:21:44]   lh_MeanThickness_thickness, rh_inferiorparietal_thickness, rh_superiortemporal_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness
+[2026-06-26 19:21:44]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 19:21:44]   aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity
+[2026-06-26 19:21:44]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 19:21:44]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 19:21:44] [epoch 40] stable_dims=1.0000 | train_C=0.7028 | train_D=0.3875 | train_I=0.2724 | train_cluster=0.5597 | train_dim_kl=4528.6787 | train_kl=0.0045 | train_loss=1.3779 | train_pred=0.9771 | train_recon=0.0233 | val_C=0.7352 | val_D=0.4415 | val_I=0.3605 | val_dim_kl=4242.2471 | val_kl=0.0042 | val_loss=1.0080 | val_pred=0.8850 | val_recon=0.0238
+[2026-06-26 19:21:59] [epoch 41] train D=0.6113 I=0.5221 | val D=0.6907 I=0.5560 | stable_dims=13 overlap=1/1 | [6, 65, 101, 105, 154, 156, 168, 176, 194, 198, 210, 222, 232]
+[2026-06-26 19:24:21] Updated 768 samples → cluster sizes: [346, 290, 132]
+[2026-06-26 19:24:22] [epoch 41] top30 overlap=27/30 | [74, 98, 100, 101, 106, 243, 248, 285, 286, 293, 303, 304, 325, 328, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377, 378]
+[2026-06-26 19:24:22]   lh_caudalmiddlefrontal_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness
+[2026-06-26 19:24:22]   rh_supramarginal_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume
+[2026-06-26 19:24:22]   aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_CC_Posterior_volume, aseg_CC_Mid_Anterior_volume, aseg_BrainSegVol-to-eTIV
+[2026-06-26 19:24:22]   aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity
+[2026-06-26 19:24:22]   aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity, aseg_CSF_meanintensity
+[2026-06-26 19:24:22]   aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, aseg_Right-Amygdala_meanintensity
+[2026-06-26 19:24:22] [epoch 41] stable_dims=13.0000 | train_C=0.6903 | train_D=0.6113 | train_I=0.5221 | train_cluster=0.5673 | train_dim_kl=4984.6841 | train_kl=0.0050 | train_loss=0.9449 | train_pred=0.5404 | train_recon=0.0232 | val_C=0.7214 | val_D=0.6907 | val_I=0.5560 | val_dim_kl=7877.5132 | val_kl=0.0079 | val_loss=0.7426 | val_pred=0.6112 | val_recon=0.0247
+[2026-06-26 19:24:36] [epoch 42] train D=0.6736 I=0.5412 | val D=0.7049 I=0.5778 | stable_dims=21 overlap=9/13 | [0, 49, 58, 61, 65, 67, 104, 105, 145, 154, 156, 157, 168, 169, 176, 198, 200, 202, 217, 222, 232]
+[2026-06-26 19:27:25] Updated 768 samples → cluster sizes: [287, 229, 252]
+[2026-06-26 19:27:26] [epoch 42] top30 overlap=28/30 | [74, 98, 100, 101, 106, 220, 243, 248, 285, 286, 293, 303, 304, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377, 378, 496]
+[2026-06-26 19:27:26]   lh_caudalmiddlefrontal_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness
+[2026-06-26 19:27:26]   rh_inferiorparietal_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume
+[2026-06-26 19:27:26]   aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV
+[2026-06-26 19:27:26]   aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity
+[2026-06-26 19:27:26]   aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity, aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity
+[2026-06-26 19:27:26]   aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, aseg_Right-Amygdala_meanintensity, rh_hippo_subiculum-body_volume
+[2026-06-26 19:27:26] [epoch 42] stable_dims=21.0000 | train_C=0.7012 | train_D=0.6736 | train_I=0.5412 | train_cluster=0.5367 | train_dim_kl=4876.2544 | train_kl=0.0049 | train_loss=0.8546 | train_pred=0.4670 | train_recon=0.0229 | val_C=0.7173 | val_D=0.7049 | val_I=0.5778 | val_dim_kl=3589.7112 | val_kl=0.0036 | val_loss=0.6486 | val_pred=0.5286 | val_recon=0.0233
+[2026-06-26 19:27:40] [epoch 43] train D=0.6279 I=0.5452 | val D=0.6802 I=0.5748 | stable_dims=17 overlap=12/21 | [39, 58, 65, 67, 101, 105, 126, 145, 154, 156, 157, 168, 198, 204, 210, 222, 232]
+[2026-06-26 19:30:29] Updated 768 samples → cluster sizes: [328, 219, 221]
+[2026-06-26 19:30:30] [epoch 43] top30 overlap=29/30 | [74, 98, 100, 101, 106, 220, 242, 248, 285, 286, 293, 303, 304, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377, 378, 496]
+[2026-06-26 19:30:30]   lh_caudalmiddlefrontal_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness
+[2026-06-26 19:30:30]   rh_inferiorparietal_thickness, rh_superiortemporal_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume
+[2026-06-26 19:30:30]   aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV
+[2026-06-26 19:30:30]   aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity
+[2026-06-26 19:30:30]   aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity, aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity
+[2026-06-26 19:30:30]   aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, aseg_Right-Amygdala_meanintensity, rh_hippo_subiculum-body_volume
+[2026-06-26 19:30:30] [epoch 43] stable_dims=17.0000 | train_C=0.6970 | train_D=0.6279 | train_I=0.5452 | train_cluster=0.5657 | train_dim_kl=4588.9429 | train_kl=0.0046 | train_loss=0.8527 | train_pred=0.4513 | train_recon=0.0228 | val_C=0.7452 | val_D=0.6802 | val_I=0.5748 | val_dim_kl=6942.8115 | val_kl=0.0069 | val_loss=0.6445 | val_pred=0.5201 | val_recon=0.0235
+[2026-06-26 19:30:45] [epoch 44] train D=0.6623 I=0.5650 | val D=0.6657 I=0.5861 | stable_dims=17 overlap=13/17 | [2, 39, 58, 61, 65, 67, 104, 126, 149, 154, 156, 157, 168, 198, 204, 222, 232]
+[2026-06-26 19:33:06] Updated 768 samples → cluster sizes: [206, 217, 345]
+[2026-06-26 19:33:07] [epoch 44] top30 overlap=28/30 | [74, 98, 100, 101, 106, 220, 248, 285, 286, 293, 296, 303, 304, 311, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377, 496]
+[2026-06-26 19:33:07]   lh_caudalmiddlefrontal_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness
+[2026-06-26 19:33:07]   rh_inferiorparietal_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume
+[2026-06-26 19:33:07]   aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_BrainSegVol-to-eTIV
+[2026-06-26 19:33:07]   aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity
+[2026-06-26 19:33:07]   aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity, aseg_CSF_meanintensity
+[2026-06-26 19:33:07]   aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, rh_hippo_subiculum-body_volume
+[2026-06-26 19:33:07] [epoch 44] stable_dims=17.0000 | train_C=0.6875 | train_D=0.6623 | train_I=0.5650 | train_cluster=0.5496 | train_dim_kl=4377.1714 | train_kl=0.0044 | train_loss=0.8307 | train_pred=0.4364 | train_recon=0.0230 | val_C=0.7155 | val_D=0.6657 | val_I=0.5861 | val_dim_kl=5216.8169 | val_kl=0.0052 | val_loss=0.6715 | val_pred=0.5414 | val_recon=0.0250
+[2026-06-26 19:33:22] [epoch 45] train D=0.6771 I=0.5752 | val D=0.6881 I=0.5983 | stable_dims=12 overlap=8/17 | [2, 58, 65, 145, 154, 169, 185, 198, 204, 218, 222, 232]
+[2026-06-26 19:35:42] Updated 768 samples → cluster sizes: [201, 405, 162]
+[2026-06-26 19:35:43] [epoch 45] top30 overlap=28/30 | [74, 100, 101, 106, 220, 243, 248, 285, 286, 293, 296, 303, 304, 311, 343, 344, 351, 352, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377, 378, 496]
+[2026-06-26 19:35:43]   lh_caudalmiddlefrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_inferiorparietal_thickness
+[2026-06-26 19:35:43]   rh_supramarginal_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume
+[2026-06-26 19:35:43]   aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_BrainSegVol-to-eTIV
+[2026-06-26 19:35:43]   aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity
+[2026-06-26 19:35:43]   aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity, aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity
+[2026-06-26 19:35:43]   aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, aseg_Right-Amygdala_meanintensity, rh_hippo_subiculum-body_volume
+[2026-06-26 19:35:43] [epoch 45] stable_dims=12.0000 | train_C=0.6866 | train_D=0.6771 | train_I=0.5752 | train_cluster=0.5297 | train_dim_kl=4236.2881 | train_kl=0.0042 | train_loss=0.8372 | train_pred=0.4540 | train_recon=0.0228 | val_C=0.7006 | val_D=0.6881 | val_I=0.5983 | val_dim_kl=2806.8784 | val_kl=0.0028 | val_loss=0.7984 | val_pred=0.6805 | val_recon=0.0230
+[2026-06-26 19:35:58] [epoch 46] train D=0.6852 I=0.5824 | val D=0.7086 I=0.5932 | stable_dims=18 overlap=7/12 | [2, 39, 64, 65, 67, 104, 134, 154, 168, 176, 177, 185, 198, 200, 204, 206, 207, 222]
+[2026-06-26 19:38:35] Updated 768 samples → cluster sizes: [569, 84, 115]
+[2026-06-26 19:38:36] [epoch 46] top30 overlap=28/30 | [74, 98, 100, 101, 106, 220, 248, 285, 286, 293, 296, 303, 304, 311, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377, 496]
+[2026-06-26 19:38:36]   lh_caudalmiddlefrontal_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness
+[2026-06-26 19:38:36]   rh_inferiorparietal_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume
+[2026-06-26 19:38:36]   aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_BrainSegVol-to-eTIV
+[2026-06-26 19:38:36]   aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity
+[2026-06-26 19:38:36]   aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity, aseg_CSF_meanintensity
+[2026-06-26 19:38:36]   aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, rh_hippo_subiculum-body_volume
+[2026-06-26 19:38:36] [epoch 46] stable_dims=18.0000 | train_C=0.6787 | train_D=0.6852 | train_I=0.5824 | train_cluster=0.5628 | train_dim_kl=4180.4106 | train_kl=0.0042 | train_loss=0.8197 | train_pred=0.4204 | train_recon=0.0228 | val_C=0.7257 | val_D=0.7086 | val_I=0.5932 | val_dim_kl=4449.1187 | val_kl=0.0044 | val_loss=0.9214 | val_pred=0.8003 | val_recon=0.0233
+[2026-06-26 19:38:50] [epoch 47] train D=0.6513 I=0.5511 | val D=0.6547 I=0.5787 | stable_dims=4 overlap=2/18 | [120, 157, 168, 204]
+[2026-06-26 19:41:25] Updated 768 samples → cluster sizes: [92, 407, 269]
+[2026-06-26 19:41:26] [epoch 47] top30 overlap=28/30 | [85, 100, 101, 106, 220, 242, 248, 285, 286, 293, 296, 303, 304, 311, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377, 496]
+[2026-06-26 19:41:26]   lh_middletemporal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_inferiorparietal_thickness
+[2026-06-26 19:41:26]   rh_superiortemporal_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume
+[2026-06-26 19:41:26]   aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_BrainSegVol-to-eTIV
+[2026-06-26 19:41:26]   aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity
+[2026-06-26 19:41:26]   aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity, aseg_CSF_meanintensity
+[2026-06-26 19:41:26]   aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, rh_hippo_subiculum-body_volume
+[2026-06-26 19:41:26] [epoch 47] stable_dims=4.0000 | train_C=0.6720 | train_D=0.6513 | train_I=0.5511 | train_cluster=0.5471 | train_dim_kl=4227.5791 | train_kl=0.0042 | train_loss=0.8207 | train_pred=0.4280 | train_recon=0.0230 | val_C=0.7006 | val_D=0.6547 | val_I=0.5787 | val_dim_kl=4829.0547 | val_kl=0.0048 | val_loss=0.6318 | val_pred=0.5079 | val_recon=0.0238
+[2026-06-26 19:41:41] [epoch 48] train D=0.6173 I=0.5581 | val D=0.7111 I=0.5946 | stable_dims=14 overlap=2/4 | [11, 16, 38, 58, 65, 66, 72, 105, 120, 126, 137, 168, 181, 220]
+[2026-06-26 19:44:17] Updated 768 samples → cluster sizes: [300, 287, 181]
+[2026-06-26 19:44:18] [epoch 48] top30 overlap=25/30 | [74, 98, 100, 101, 106, 220, 240, 243, 248, 285, 286, 293, 303, 304, 343, 344, 351, 352, 353, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377, 378]
+[2026-06-26 19:44:18]   lh_caudalmiddlefrontal_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness
+[2026-06-26 19:44:18]   rh_inferiorparietal_thickness, rh_superiorfrontal_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume
+[2026-06-26 19:44:18]   aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_BrainSegVol-to-eTIV
+[2026-06-26 19:44:18]   aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-White-Matter_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity
+[2026-06-26 19:44:18]   aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity, aseg_CSF_meanintensity
+[2026-06-26 19:44:18]   aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, aseg_Right-Amygdala_meanintensity
+[2026-06-26 19:44:18] [epoch 48] stable_dims=14.0000 | train_C=0.6842 | train_D=0.6173 | train_I=0.5581 | train_cluster=0.6847 | train_dim_kl=5685.0913 | train_kl=0.0057 | train_loss=0.8983 | train_pred=0.4352 | train_recon=0.0230 | val_C=0.7005 | val_D=0.7111 | val_I=0.5946 | val_dim_kl=4088.4565 | val_kl=0.0041 | val_loss=0.5610 | val_pred=0.4418 | val_recon=0.0230
+[2026-06-26 19:44:34] [epoch 49] train D=0.6439 I=0.5692 | val D=0.6936 I=0.5946 | stable_dims=16 overlap=7/14 | [6, 38, 58, 65, 67, 104, 110, 120, 129, 137, 147, 157, 168, 220, 246, 253]
+[2026-06-26 19:46:55] Updated 768 samples → cluster sizes: [347, 283, 138]
+[2026-06-26 19:46:56] [epoch 49] top30 overlap=25/30 | [100, 101, 106, 220, 242, 248, 285, 286, 293, 296, 303, 304, 311, 343, 344, 351, 352, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377, 378, 496, 522]
+[2026-06-26 19:46:56]   lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_inferiorparietal_thickness, rh_superiortemporal_thickness
+[2026-06-26 19:46:56]   rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume
+[2026-06-26 19:46:56]   aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV
+[2026-06-26 19:46:56]   aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity
+[2026-06-26 19:46:56]   aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity, aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity
+[2026-06-26 19:46:56]   aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, aseg_Right-Amygdala_meanintensity, rh_hippo_subiculum-body_volume, lh_amyg_Central-nucleus_volume
+[2026-06-26 19:46:56] [epoch 49] stable_dims=16.0000 | train_C=0.6861 | train_D=0.6439 | train_I=0.5692 | train_cluster=0.6190 | train_dim_kl=5380.9272 | train_kl=0.0054 | train_loss=0.8319 | train_pred=0.4050 | train_recon=0.0224 | val_C=0.6913 | val_D=0.6936 | val_I=0.5946 | val_dim_kl=4822.0625 | val_kl=0.0048 | val_loss=0.6111 | val_pred=0.4922 | val_recon=0.0228
+[2026-06-26 19:47:11] [epoch 50] train D=0.6119 I=0.5887 | val D=0.6865 I=0.6076 | stable_dims=11 overlap=7/16 | [38, 58, 65, 67, 72, 104, 120, 164, 165, 168, 251]
+[2026-06-26 19:49:38] Updated 768 samples → cluster sizes: [186, 284, 298]
+[2026-06-26 19:49:39] [epoch 50] top30 overlap=28/30 | [85, 98, 100, 101, 106, 220, 242, 248, 285, 286, 293, 296, 303, 304, 311, 343, 344, 351, 352, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377, 496]
+[2026-06-26 19:49:39]   lh_middletemporal_thickness, lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness
+[2026-06-26 19:49:39]   rh_inferiorparietal_thickness, rh_superiortemporal_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume
+[2026-06-26 19:49:39]   aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume
+[2026-06-26 19:49:39]   aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity
+[2026-06-26 19:49:39]   aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity, aseg_CSF_meanintensity
+[2026-06-26 19:49:39]   aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, rh_hippo_subiculum-body_volume
+[2026-06-26 19:49:39] [epoch 50] stable_dims=11.0000 | train_C=0.6789 | train_D=0.6119 | train_I=0.5887 | train_cluster=0.5452 | train_dim_kl=5005.4702 | train_kl=0.0050 | train_loss=0.8077 | train_pred=0.4182 | train_recon=0.0224 | val_C=0.7034 | val_D=0.6865 | val_I=0.6076 | val_dim_kl=5143.9331 | val_kl=0.0051 | val_loss=0.5387 | val_pred=0.4201 | val_recon=0.0227
+[2026-06-26 19:49:54] [epoch 51] train D=0.6293 I=0.6007 | val D=0.6975 I=0.6114 | stable_dims=16 overlap=5/11 | [16, 38, 43, 54, 67, 105, 120, 126, 145, 147, 157, 165, 168, 177, 214, 252]
+[2026-06-26 19:52:15] Updated 768 samples → cluster sizes: [305, 350, 113]
+[2026-06-26 19:52:16] [epoch 51] top30 overlap=28/30 | [100, 101, 106, 220, 242, 248, 285, 286, 293, 296, 303, 304, 311, 343, 344, 351, 352, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377, 473, 496, 533]
+[2026-06-26 19:52:16]   lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_inferiorparietal_thickness, rh_superiortemporal_thickness
+[2026-06-26 19:52:16]   rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume
+[2026-06-26 19:52:16]   aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV
+[2026-06-26 19:52:16]   aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity
+[2026-06-26 19:52:16]   aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity, aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity
+[2026-06-26 19:52:16]   aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, lh_hippo_subiculum-body_volume, rh_hippo_subiculum-body_volume, rh_amyg_Central-nucleus_volume
+[2026-06-26 19:52:16] [epoch 51] stable_dims=16.0000 | train_C=0.6780 | train_D=0.6293 | train_I=0.6007 | train_cluster=0.5404 | train_dim_kl=4700.4199 | train_kl=0.0047 | train_loss=0.7599 | train_pred=0.3740 | train_recon=0.0222 | val_C=0.6792 | val_D=0.6975 | val_I=0.6114 | val_dim_kl=3043.1780 | val_kl=0.0030 | val_loss=0.6201 | val_pred=0.5024 | val_recon=0.0229
+[2026-06-26 19:52:30] [epoch 52] train D=0.6213 I=0.6000 | val D=0.6748 I=0.6135 | stable_dims=11 overlap=4/16 | [38, 67, 76, 104, 105, 110, 145, 176, 183, 185, 219]
+[2026-06-26 19:54:53] Updated 768 samples → cluster sizes: [379, 203, 186]
+[2026-06-26 19:54:54] [epoch 52] top30 overlap=28/30 | [100, 101, 106, 220, 242, 243, 248, 285, 286, 293, 296, 303, 304, 311, 343, 344, 351, 352, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377, 378, 496]
+[2026-06-26 19:54:54]   lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_inferiorparietal_thickness, rh_superiortemporal_thickness
+[2026-06-26 19:54:54]   rh_supramarginal_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume
+[2026-06-26 19:54:54]   aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_BrainSegVol-to-eTIV
+[2026-06-26 19:54:54]   aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity
+[2026-06-26 19:54:54]   aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity, aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity
+[2026-06-26 19:54:54]   aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, aseg_Right-Amygdala_meanintensity, rh_hippo_subiculum-body_volume
+[2026-06-26 19:54:54] [epoch 52] stable_dims=11.0000 | train_C=0.6649 | train_D=0.6213 | train_I=0.6000 | train_cluster=0.5184 | train_dim_kl=4481.9575 | train_kl=0.0045 | train_loss=0.7571 | train_pred=0.3828 | train_recon=0.0221 | val_C=0.6855 | val_D=0.6748 | val_I=0.6135 | val_dim_kl=5135.7578 | val_kl=0.0051 | val_loss=0.5445 | val_pred=0.4273 | val_recon=0.0224
+[2026-06-26 19:55:09] [epoch 53] train D=0.6683 I=0.6173 | val D=0.6773 I=0.6155 | stable_dims=14 overlap=8/11 | [3, 38, 54, 67, 104, 105, 145, 168, 175, 183, 185, 204, 219, 251]
+[2026-06-26 19:58:12] Updated 768 samples → cluster sizes: [120, 377, 271]
+[2026-06-26 19:58:13] [epoch 53] top30 overlap=29/30 | [100, 101, 106, 220, 242, 248, 285, 286, 293, 296, 303, 304, 311, 343, 344, 351, 352, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377, 378, 496, 533]
+[2026-06-26 19:58:13]   lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_inferiorparietal_thickness, rh_superiortemporal_thickness
+[2026-06-26 19:58:13]   rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume
+[2026-06-26 19:58:13]   aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV
+[2026-06-26 19:58:13]   aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity
+[2026-06-26 19:58:13]   aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity, aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity
+[2026-06-26 19:58:13]   aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, aseg_Right-Amygdala_meanintensity, rh_hippo_subiculum-body_volume, rh_amyg_Central-nucleus_volume
+[2026-06-26 19:58:13] [epoch 53] stable_dims=14.0000 | train_C=0.6703 | train_D=0.6683 | train_I=0.6173 | train_cluster=0.5797 | train_dim_kl=4448.8120 | train_kl=0.0044 | train_loss=0.7542 | train_pred=0.3507 | train_recon=0.0218 | val_C=0.6937 | val_D=0.6773 | val_I=0.6155 | val_dim_kl=5339.3354 | val_kl=0.0053 | val_loss=0.6188 | val_pred=0.5003 | val_recon=0.0226
+[2026-06-26 19:58:27] [epoch 54] train D=0.6716 I=0.6350 | val D=0.6716 I=0.6152 | stable_dims=13 overlap=6/14 | [3, 42, 54, 65, 67, 72, 110, 120, 137, 165, 168, 175, 251]
+[2026-06-26 20:01:04] Updated 768 samples → cluster sizes: [151, 207, 410]
+[2026-06-26 20:01:05] [epoch 54] top30 overlap=23/30 | [100, 106, 285, 286, 293, 296, 303, 304, 311, 343, 344, 351, 352, 354, 359, 360, 363, 364, 369, 370, 372, 473, 482, 491, 493, 496, 514, 516, 522, 533]
+[2026-06-26 20:01:05]   lh_superiortemporal_thickness, lh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume
+[2026-06-26 20:01:05]   aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_BrainSegVol-to-eTIV
+[2026-06-26 20:01:05]   aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity
+[2026-06-26 20:01:05]   aseg_4th-Ventricle_meanintensity, aseg_Left-Amygdala_meanintensity, aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity
+[2026-06-26 20:01:05]   aseg_Right-Cerebellum-Cortex_meanintensity, lh_hippo_subiculum-body_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume, lh_hippo_Whole_hippocampus_volume
+[2026-06-26 20:01:05]   rh_hippo_subiculum-body_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampus_volume, lh_amyg_Central-nucleus_volume, rh_amyg_Central-nucleus_volume
+[2026-06-26 20:01:05] [epoch 54] stable_dims=13.0000 | train_C=0.6718 | train_D=0.6716 | train_I=0.6350 | train_cluster=0.5105 | train_dim_kl=4275.2715 | train_kl=0.0043 | train_loss=0.6975 | train_pred=0.3291 | train_recon=0.0218 | val_C=0.6846 | val_D=0.6716 | val_I=0.6152 | val_dim_kl=7743.8125 | val_kl=0.0077 | val_loss=0.7486 | val_pred=0.6269 | val_recon=0.0228
+[2026-06-26 20:01:20] [epoch 55] train D=0.5962 I=0.6118 | val D=0.6325 I=0.6241 | stable_dims=11 overlap=3/13 | [54, 72, 76, 86, 104, 105, 120, 145, 162, 185, 246]
+[2026-06-26 20:04:10] Updated 768 samples → cluster sizes: [306, 232, 230]
+[2026-06-26 20:04:11] [epoch 55] top30 overlap=24/30 | [100, 101, 106, 220, 242, 248, 285, 286, 293, 296, 303, 304, 311, 343, 344, 351, 352, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377, 496, 514, 533]
+[2026-06-26 20:04:11]   lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_inferiorparietal_thickness, rh_superiortemporal_thickness
+[2026-06-26 20:04:11]   rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume
+[2026-06-26 20:04:11]   aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV
+[2026-06-26 20:04:11]   aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity
+[2026-06-26 20:04:11]   aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity, aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity
+[2026-06-26 20:04:11]   aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, rh_hippo_subiculum-body_volume, rh_hippo_Whole_hippocampal_body_volume, rh_amyg_Central-nucleus_volume
+[2026-06-26 20:04:11] [epoch 55] stable_dims=11.0000 | train_C=0.6583 | train_D=0.5962 | train_I=0.6118 | train_cluster=0.5238 | train_dim_kl=4122.4268 | train_kl=0.0041 | train_loss=0.8106 | train_pred=0.4356 | train_recon=0.0218 | val_C=0.6754 | val_D=0.6325 | val_I=0.6241 | val_dim_kl=3440.0320 | val_kl=0.0034 | val_loss=0.5601 | val_pred=0.4458 | val_recon=0.0222
+[2026-06-26 20:04:25] [epoch 56] train D=0.6601 I=0.6365 | val D=0.6979 I=0.6327 | stable_dims=12 overlap=9/11 | [54, 72, 76, 104, 105, 120, 145, 162, 175, 185, 198, 219]
+[2026-06-26 20:06:46] Updated 768 samples → cluster sizes: [234, 393, 141]
+[2026-06-26 20:06:47] [epoch 56] top30 overlap=27/30 | [100, 101, 106, 248, 285, 286, 293, 296, 303, 304, 311, 343, 344, 351, 352, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377, 473, 482, 491, 496, 533]
+[2026-06-26 20:06:47]   lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume
+[2026-06-26 20:06:47]   aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 20:06:47]   aseg_Right-Hippocampus_volume, aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity
+[2026-06-26 20:06:47]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 20:06:47]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 20:06:47]   lh_hippo_subiculum-body_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume, rh_hippo_subiculum-body_volume, rh_amyg_Central-nucleus_volume
+[2026-06-26 20:06:47] [epoch 56] stable_dims=12.0000 | train_C=0.6607 | train_D=0.6601 | train_I=0.6365 | train_cluster=0.5382 | train_dim_kl=3909.2722 | train_kl=0.0039 | train_loss=0.7176 | train_pred=0.3361 | train_recon=0.0217 | val_C=0.6732 | val_D=0.6979 | val_I=0.6327 | val_dim_kl=3147.4709 | val_kl=0.0031 | val_loss=0.5096 | val_pred=0.3955 | val_recon=0.0222
+[2026-06-26 20:07:02] [epoch 57] train D=0.6115 I=0.6135 | val D=0.6761 I=0.6331 | stable_dims=10 overlap=4/12 | [6, 17, 54, 86, 113, 120, 181, 185, 198, 246]
+[2026-06-26 20:09:50] Updated 768 samples → cluster sizes: [186, 513, 69]
+[2026-06-26 20:09:51] [epoch 57] top30 overlap=26/30 | [98, 100, 101, 106, 220, 242, 243, 248, 285, 286, 293, 296, 303, 304, 311, 343, 351, 352, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377, 473, 496]
+[2026-06-26 20:09:51]   lh_superiorfrontal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_inferiorparietal_thickness
+[2026-06-26 20:09:51]   rh_superiortemporal_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume
+[2026-06-26 20:09:51]   aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume
+[2026-06-26 20:09:51]   aseg_BrainSegVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity
+[2026-06-26 20:09:51]   aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity, aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity
+[2026-06-26 20:09:51]   aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, lh_hippo_subiculum-body_volume, rh_hippo_subiculum-body_volume
+[2026-06-26 20:09:51] [epoch 57] stable_dims=10.0000 | train_C=0.6737 | train_D=0.6115 | train_I=0.6135 | train_cluster=0.5499 | train_dim_kl=3903.9446 | train_kl=0.0039 | train_loss=0.7329 | train_pred=0.3450 | train_recon=0.0218 | val_C=0.6622 | val_D=0.6761 | val_I=0.6331 | val_dim_kl=4210.0464 | val_kl=0.0042 | val_loss=0.5187 | val_pred=0.4033 | val_recon=0.0222
+[2026-06-26 20:10:06] [epoch 58] train D=0.6537 I=0.6310 | val D=0.6965 I=0.6346 | stable_dims=15 overlap=3/10 | [9, 17, 42, 48, 54, 80, 104, 108, 111, 145, 154, 185, 220, 239, 252]
+[2026-06-26 20:12:27] Updated 768 samples → cluster sizes: [216, 391, 161]
+[2026-06-26 20:12:28] [epoch 58] top30 overlap=28/30 | [100, 101, 106, 220, 242, 248, 285, 286, 293, 296, 303, 304, 311, 343, 351, 352, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377, 473, 482, 491, 496]
+[2026-06-26 20:12:28]   lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_inferiorparietal_thickness, rh_superiortemporal_thickness
+[2026-06-26 20:12:28]   rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume
+[2026-06-26 20:12:28]   aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_BrainSegVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity
+[2026-06-26 20:12:28]   aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity
+[2026-06-26 20:12:28]   aseg_Left-Amygdala_meanintensity, aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity
+[2026-06-26 20:12:28]   aseg_Right-Hippocampus_meanintensity, lh_hippo_subiculum-body_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume, rh_hippo_subiculum-body_volume
+[2026-06-26 20:12:28] [epoch 58] stable_dims=15.0000 | train_C=0.6735 | train_D=0.6537 | train_I=0.6310 | train_cluster=0.7000 | train_dim_kl=4338.9395 | train_kl=0.0043 | train_loss=0.7973 | train_pred=0.3348 | train_recon=0.0216 | val_C=0.6609 | val_D=0.6965 | val_I=0.6346 | val_dim_kl=2940.9785 | val_kl=0.0029 | val_loss=0.5492 | val_pred=0.4355 | val_recon=0.0222
+[2026-06-26 20:12:43] [epoch 59] train D=0.6484 I=0.6442 | val D=0.6645 I=0.6361 | stable_dims=15 overlap=5/15 | [9, 36, 54, 76, 89, 104, 145, 164, 185, 196, 200, 204, 206, 221, 246]
+[2026-06-26 20:15:33] Updated 768 samples → cluster sizes: [271, 166, 331]
+[2026-06-26 20:15:34] [epoch 59] top30 overlap=28/30 | [100, 101, 106, 242, 248, 285, 286, 293, 296, 303, 304, 311, 343, 344, 351, 352, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377, 473, 491, 496, 533]
+[2026-06-26 20:15:34]   lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_superiortemporal_thickness, rh_MeanThickness_thickness
+[2026-06-26 20:15:34]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume
+[2026-06-26 20:15:34]   aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity
+[2026-06-26 20:15:34]   aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity
+[2026-06-26 20:15:34]   aseg_Left-Amygdala_meanintensity, aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity
+[2026-06-26 20:15:34]   aseg_Right-Hippocampus_meanintensity, lh_hippo_subiculum-body_volume, lh_hippo_Whole_hippocampal_body_volume, rh_hippo_subiculum-body_volume, rh_amyg_Central-nucleus_volume
+[2026-06-26 20:15:34] [epoch 59] stable_dims=15.0000 | train_C=0.6702 | train_D=0.6484 | train_I=0.6442 | train_cluster=0.5870 | train_dim_kl=4668.1929 | train_kl=0.0047 | train_loss=0.7241 | train_pred=0.3186 | train_recon=0.0215 | val_C=0.6562 | val_D=0.6645 | val_I=0.6361 | val_dim_kl=3748.8652 | val_kl=0.0037 | val_loss=0.6005 | val_pred=0.4872 | val_recon=0.0219
+[2026-06-26 20:15:49] [epoch 60] train D=0.6724 I=0.6581 | val D=0.6874 I=0.6525 | stable_dims=15 overlap=10/15 | [36, 54, 76, 89, 92, 104, 112, 120, 145, 164, 204, 218, 220, 221, 246]
+[2026-06-26 20:18:23] Updated 768 samples → cluster sizes: [345, 257, 166]
+[2026-06-26 20:18:24] [epoch 60] top30 overlap=29/30 | [100, 101, 106, 242, 248, 285, 286, 293, 296, 303, 304, 311, 343, 344, 351, 352, 354, 359, 360, 362, 364, 369, 370, 372, 377, 473, 482, 491, 496, 533]
+[2026-06-26 20:18:24]   lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_superiortemporal_thickness, rh_MeanThickness_thickness
+[2026-06-26 20:18:24]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume
+[2026-06-26 20:18:24]   aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity
+[2026-06-26 20:18:24]   aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity
+[2026-06-26 20:18:24]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 20:18:24]   lh_hippo_subiculum-body_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume, rh_hippo_subiculum-body_volume, rh_amyg_Central-nucleus_volume
+[2026-06-26 20:18:24] [epoch 60] stable_dims=15.0000 | train_C=0.6678 | train_D=0.6724 | train_I=0.6581 | train_cluster=0.5747 | train_dim_kl=4392.0601 | train_kl=0.0044 | train_loss=0.6964 | train_pred=0.2983 | train_recon=0.0213 | val_C=0.6623 | val_D=0.6874 | val_I=0.6525 | val_dim_kl=3519.7461 | val_kl=0.0035 | val_loss=0.4803 | val_pred=0.3683 | val_recon=0.0217
+[2026-06-26 20:18:39] [epoch 61] train D=0.6517 I=0.6485 | val D=0.6722 I=0.6498 | stable_dims=13 overlap=10/15 | [9, 36, 48, 54, 89, 104, 120, 145, 164, 204, 218, 232, 246]
+[2026-06-26 20:21:43] Updated 768 samples → cluster sizes: [315, 245, 208]
+[2026-06-26 20:21:44] [epoch 61] top30 overlap=28/30 | [100, 101, 106, 242, 248, 285, 286, 293, 296, 303, 304, 311, 343, 344, 351, 352, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377, 473, 491, 496, 516]
+[2026-06-26 20:21:44]   lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_superiortemporal_thickness, rh_MeanThickness_thickness
+[2026-06-26 20:21:44]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume
+[2026-06-26 20:21:44]   aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity
+[2026-06-26 20:21:44]   aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity
+[2026-06-26 20:21:44]   aseg_Left-Amygdala_meanintensity, aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity
+[2026-06-26 20:21:44]   aseg_Right-Hippocampus_meanintensity, lh_hippo_subiculum-body_volume, lh_hippo_Whole_hippocampal_body_volume, rh_hippo_subiculum-body_volume, rh_hippo_Whole_hippocampus_volume
+[2026-06-26 20:21:44] [epoch 61] stable_dims=13.0000 | train_C=0.6593 | train_D=0.6517 | train_I=0.6485 | train_cluster=0.5034 | train_dim_kl=4138.1846 | train_kl=0.0041 | train_loss=0.6755 | train_pred=0.3136 | train_recon=0.0212 | val_C=0.6547 | val_D=0.6722 | val_I=0.6498 | val_dim_kl=3442.9712 | val_kl=0.0034 | val_loss=0.4848 | val_pred=0.3727 | val_recon=0.0217
+[2026-06-26 20:21:59] [epoch 62] train D=0.6608 I=0.6617 | val D=0.6642 I=0.6557 | stable_dims=15 overlap=9/13 | [6, 9, 36, 54, 67, 76, 89, 104, 105, 112, 120, 145, 204, 218, 220]
+[2026-06-26 20:24:48] Updated 768 samples → cluster sizes: [419, 180, 169]
+[2026-06-26 20:24:49] [epoch 62] top30 overlap=28/30 | [100, 106, 242, 248, 285, 286, 293, 296, 303, 304, 311, 343, 351, 352, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377, 473, 482, 491, 496, 516, 533]
+[2026-06-26 20:24:49]   lh_superiortemporal_thickness, lh_MeanThickness_thickness, rh_superiortemporal_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume
+[2026-06-26 20:24:49]   aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 20:24:49]   aseg_Right-Hippocampus_volume, aseg_BrainSegVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity
+[2026-06-26 20:24:49]   aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity, aseg_CSF_meanintensity
+[2026-06-26 20:24:49]   aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, lh_hippo_subiculum-body_volume
+[2026-06-26 20:24:49]   lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume, rh_hippo_subiculum-body_volume, rh_hippo_Whole_hippocampus_volume, rh_amyg_Central-nucleus_volume
+[2026-06-26 20:24:49] [epoch 62] stable_dims=15.0000 | train_C=0.6613 | train_D=0.6608 | train_I=0.6617 | train_cluster=0.5294 | train_dim_kl=4030.4138 | train_kl=0.0040 | train_loss=0.6693 | train_pred=0.2945 | train_recon=0.0212 | val_C=0.6491 | val_D=0.6642 | val_I=0.6557 | val_dim_kl=2977.7710 | val_kl=0.0030 | val_loss=0.5105 | val_pred=0.3977 | val_recon=0.0220
+[2026-06-26 20:25:04] [epoch 63] train D=0.6431 I=0.6718 | val D=0.6369 I=0.6557 | stable_dims=12 overlap=8/15 | [36, 54, 65, 76, 89, 120, 145, 149, 157, 180, 204, 220]
+[2026-06-26 20:27:38] Updated 768 samples → cluster sizes: [252, 352, 164]
+[2026-06-26 20:27:39] [epoch 63] top30 overlap=27/30 | [100, 101, 106, 242, 248, 285, 286, 293, 296, 303, 304, 311, 343, 351, 352, 354, 359, 360, 362, 364, 369, 370, 372, 377, 473, 482, 491, 493, 496, 514]
+[2026-06-26 20:27:39]   lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_superiortemporal_thickness, rh_MeanThickness_thickness
+[2026-06-26 20:27:39]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume
+[2026-06-26 20:27:39]   aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_BrainSegVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity
+[2026-06-26 20:27:39]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_CSF_meanintensity
+[2026-06-26 20:27:39]   aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, lh_hippo_subiculum-body_volume
+[2026-06-26 20:27:39]   lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_Whole_hippocampal_body_volume
+[2026-06-26 20:27:39] [epoch 63] stable_dims=12.0000 | train_C=0.6533 | train_D=0.6431 | train_I=0.6718 | train_cluster=0.5103 | train_dim_kl=4013.5667 | train_kl=0.0040 | train_loss=0.6467 | train_pred=0.2822 | train_recon=0.0211 | val_C=0.6469 | val_D=0.6369 | val_I=0.6557 | val_dim_kl=3294.7190 | val_kl=0.0033 | val_loss=0.4683 | val_pred=0.3576 | val_recon=0.0215
+[2026-06-26 20:27:54] [epoch 64] train D=0.6403 I=0.6698 | val D=0.6524 I=0.6586 | stable_dims=15 overlap=7/12 | [8, 9, 36, 54, 89, 104, 111, 112, 120, 145, 157, 164, 181, 204, 221]
+[2026-06-26 20:30:16] Updated 768 samples → cluster sizes: [502, 228, 38]
+[2026-06-26 20:30:17] [epoch 64] top30 overlap=28/30 | [100, 101, 106, 248, 285, 286, 293, 296, 303, 304, 311, 343, 344, 351, 352, 354, 359, 360, 362, 364, 369, 370, 372, 377, 473, 482, 491, 493, 496, 516]
+[2026-06-26 20:30:17]   lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume
+[2026-06-26 20:30:17]   aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 20:30:17]   aseg_Right-Hippocampus_volume, aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity
+[2026-06-26 20:30:17]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_CSF_meanintensity
+[2026-06-26 20:30:17]   aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, lh_hippo_subiculum-body_volume
+[2026-06-26 20:30:17]   lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_Whole_hippocampus_volume
+[2026-06-26 20:30:17] [epoch 64] stable_dims=15.0000 | train_C=0.6426 | train_D=0.6403 | train_I=0.6698 | train_cluster=0.5422 | train_dim_kl=3844.1472 | train_kl=0.0038 | train_loss=0.6804 | train_pred=0.3004 | train_recon=0.0210 | val_C=0.6480 | val_D=0.6524 | val_I=0.6586 | val_dim_kl=2814.0073 | val_kl=0.0028 | val_loss=0.4989 | val_pred=0.3883 | val_recon=0.0216
+[2026-06-26 20:30:31] [epoch 65] train D=0.6317 I=0.6742 | val D=0.6685 I=0.6530 | stable_dims=13 overlap=9/15 | [65, 89, 111, 112, 120, 145, 157, 181, 183, 204, 218, 221, 232]
+[2026-06-26 20:32:52] Updated 768 samples → cluster sizes: [326, 260, 182]
+[2026-06-26 20:32:53] [epoch 65] top30 overlap=25/30 | [77, 85, 100, 101, 106, 242, 243, 248, 285, 286, 293, 296, 303, 304, 311, 343, 344, 351, 352, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377, 496]
+[2026-06-26 20:32:53]   lh_fusiform_thickness, lh_middletemporal_thickness, lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness
+[2026-06-26 20:32:53]   rh_superiortemporal_thickness, rh_supramarginal_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume
+[2026-06-26 20:32:53]   aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume
+[2026-06-26 20:32:53]   aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity
+[2026-06-26 20:32:53]   aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity, aseg_CSF_meanintensity
+[2026-06-26 20:32:53]   aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, rh_hippo_subiculum-body_volume
+[2026-06-26 20:32:53] [epoch 65] stable_dims=13.0000 | train_C=0.6387 | train_D=0.6317 | train_I=0.6742 | train_cluster=0.4770 | train_dim_kl=3777.1804 | train_kl=0.0038 | train_loss=0.6287 | train_pred=0.2816 | train_recon=0.0210 | val_C=0.6542 | val_D=0.6685 | val_I=0.6530 | val_dim_kl=4780.4482 | val_kl=0.0048 | val_loss=0.5021 | val_pred=0.3862 | val_recon=0.0222
+[2026-06-26 20:33:08] [epoch 66] train D=0.6676 I=0.6647 | val D=0.6743 I=0.6348 | stable_dims=14 overlap=5/13 | [23, 35, 48, 54, 72, 80, 86, 104, 112, 120, 145, 181, 191, 204]
+[2026-06-26 20:35:42] Updated 768 samples → cluster sizes: [381, 306, 81]
+[2026-06-26 20:35:43] [epoch 66] top30 overlap=26/30 | [100, 101, 106, 242, 248, 285, 286, 293, 296, 303, 304, 311, 343, 351, 352, 354, 359, 360, 362, 363, 364, 369, 370, 372, 377, 473, 482, 491, 493, 496]
+[2026-06-26 20:35:43]   lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_superiortemporal_thickness, rh_MeanThickness_thickness
+[2026-06-26 20:35:43]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume
+[2026-06-26 20:35:43]   aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_BrainSegVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity
+[2026-06-26 20:35:43]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Left-Amygdala_meanintensity
+[2026-06-26 20:35:43]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity
+[2026-06-26 20:35:43]   lh_hippo_subiculum-body_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume
+[2026-06-26 20:35:43] [epoch 66] stable_dims=14.0000 | train_C=0.6622 | train_D=0.6676 | train_I=0.6647 | train_cluster=0.5242 | train_dim_kl=4018.6162 | train_kl=0.0040 | train_loss=0.6823 | train_pred=0.3117 | train_recon=0.0209 | val_C=0.6464 | val_D=0.6743 | val_I=0.6348 | val_dim_kl=6780.0293 | val_kl=0.0068 | val_loss=0.6228 | val_pred=0.5075 | val_recon=0.0217
+[2026-06-26 20:35:58] [epoch 67] train D=0.6453 I=0.6900 | val D=0.6532 I=0.6601 | stable_dims=13 overlap=6/14 | [34, 54, 75, 104, 105, 108, 111, 120, 145, 181, 204, 205, 246]
+[2026-06-26 20:38:20] Updated 768 samples → cluster sizes: [159, 324, 285]
+[2026-06-26 20:38:21] [epoch 67] top30 overlap=27/30 | [100, 101, 106, 248, 285, 286, 293, 296, 303, 304, 311, 343, 351, 352, 354, 359, 360, 364, 369, 370, 372, 377, 473, 482, 491, 493, 496, 514, 516, 533]
+[2026-06-26 20:38:21]   lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume
+[2026-06-26 20:38:21]   aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 20:38:21]   aseg_Right-Hippocampus_volume, aseg_BrainSegVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity
+[2026-06-26 20:38:21]   aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity
+[2026-06-26 20:38:21]   aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, lh_hippo_subiculum-body_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume
+[2026-06-26 20:38:21]   lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampus_volume, rh_amyg_Central-nucleus_volume
+[2026-06-26 20:38:21] [epoch 67] stable_dims=13.0000 | train_C=0.6527 | train_D=0.6453 | train_I=0.6900 | train_cluster=0.4632 | train_dim_kl=3887.0127 | train_kl=0.0039 | train_loss=0.6027 | train_pred=0.2638 | train_recon=0.0207 | val_C=0.6383 | val_D=0.6532 | val_I=0.6601 | val_dim_kl=3846.6541 | val_kl=0.0038 | val_loss=0.4667 | val_pred=0.3567 | val_recon=0.0212
+[2026-06-26 20:38:37] [epoch 68] train D=0.6045 I=0.6885 | val D=0.6374 I=0.6715 | stable_dims=16 overlap=8/13 | [26, 54, 76, 78, 86, 108, 111, 112, 120, 145, 149, 157, 177, 181, 204, 205]
+[2026-06-26 20:41:13] Updated 768 samples → cluster sizes: [321, 205, 242]
+[2026-06-26 20:41:14] [epoch 68] top30 overlap=26/30 | [106, 285, 286, 293, 296, 303, 304, 311, 343, 344, 351, 352, 354, 359, 360, 364, 369, 370, 372, 473, 481, 482, 491, 493, 496, 505, 514, 516, 520, 533]
+[2026-06-26 20:41:14]   lh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume
+[2026-06-26 20:41:14]   aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV
+[2026-06-26 20:41:14]   aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity
+[2026-06-26 20:41:14]   aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, lh_hippo_subiculum-body_volume
+[2026-06-26 20:41:14]   lh_hippo_molecular_layer_HP-head_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume
+[2026-06-26 20:41:14]   rh_hippo_molecular_layer_HP-body_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampus_volume, lh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Central-nucleus_volume
+[2026-06-26 20:41:14] [epoch 68] stable_dims=16.0000 | train_C=0.6293 | train_D=0.6045 | train_I=0.6885 | train_cluster=0.5271 | train_dim_kl=3952.4075 | train_kl=0.0040 | train_loss=0.6373 | train_pred=0.2658 | train_recon=0.0208 | val_C=0.6299 | val_D=0.6374 | val_I=0.6715 | val_dim_kl=2666.3933 | val_kl=0.0027 | val_loss=0.4731 | val_pred=0.3627 | val_recon=0.0215
+[2026-06-26 20:41:28] [epoch 69] train D=0.5782 I=0.6995 | val D=0.5808 I=0.6630 | stable_dims=9 overlap=4/16 | [6, 54, 67, 112, 157, 181, 221, 230, 246]
+[2026-06-26 20:44:03] Updated 768 samples → cluster sizes: [240, 367, 161]
+[2026-06-26 20:44:04] [epoch 69] top30 overlap=25/30 | [100, 106, 248, 285, 286, 293, 296, 303, 304, 311, 343, 351, 352, 354, 359, 360, 362, 364, 369, 370, 372, 377, 473, 482, 491, 493, 496, 504, 514, 516]
+[2026-06-26 20:44:04]   lh_superiortemporal_thickness, lh_MeanThickness_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume
+[2026-06-26 20:44:04]   aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume
+[2026-06-26 20:44:04]   aseg_BrainSegVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity
+[2026-06-26 20:44:04]   aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity
+[2026-06-26 20:44:04]   aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, lh_hippo_subiculum-body_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume
+[2026-06-26 20:44:04]   lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_molecular_layer_HP-head_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampus_volume
+[2026-06-26 20:44:04] [epoch 69] stable_dims=9.0000 | train_C=0.6245 | train_D=0.5782 | train_I=0.6995 | train_cluster=0.5104 | train_dim_kl=3936.3889 | train_kl=0.0039 | train_loss=0.6699 | train_pred=0.3075 | train_recon=0.0206 | val_C=0.6444 | val_D=0.5808 | val_I=0.6630 | val_dim_kl=5433.0000 | val_kl=0.0054 | val_loss=0.5680 | val_pred=0.4515 | val_recon=0.0222
+[2026-06-26 20:44:18] [epoch 70] train D=0.6163 I=0.7083 | val D=0.6381 I=0.6880 | stable_dims=16 overlap=3/9 | [17, 38, 48, 54, 64, 73, 75, 78, 112, 145, 165, 177, 198, 204, 222, 246]
+[2026-06-26 20:46:41] Updated 768 samples → cluster sizes: [209, 205, 354]
+[2026-06-26 20:46:42] [epoch 70] top30 overlap=25/30 | [106, 285, 286, 293, 296, 303, 304, 311, 351, 352, 354, 359, 364, 369, 370, 372, 377, 472, 473, 481, 482, 491, 493, 496, 504, 505, 514, 516, 520, 531]
+[2026-06-26 20:46:42]   lh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume
+[2026-06-26 20:46:42]   aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity
+[2026-06-26 20:46:42]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity
+[2026-06-26 20:46:42]   aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, lh_hippo_Hippocampal_tail_volume, lh_hippo_subiculum-body_volume, lh_hippo_molecular_layer_HP-head_volume
+[2026-06-26 20:46:42]   lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_molecular_layer_HP-head_volume
+[2026-06-26 20:46:42]   rh_hippo_molecular_layer_HP-body_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampus_volume, lh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Accessory-Basal-nucleus_volume
+[2026-06-26 20:46:42] [epoch 70] stable_dims=16.0000 | train_C=0.6333 | train_D=0.6163 | train_I=0.7083 | train_cluster=0.5192 | train_dim_kl=3933.6423 | train_kl=0.0039 | train_loss=0.6184 | train_pred=0.2521 | train_recon=0.0206 | val_C=0.6382 | val_D=0.6381 | val_I=0.6880 | val_dim_kl=2847.2021 | val_kl=0.0028 | val_loss=0.4612 | val_pred=0.3532 | val_recon=0.0210
+[2026-06-26 20:46:57] [epoch 71] train D=0.5412 I=0.7124 | val D=0.5365 I=0.6594 | stable_dims=10 overlap=5/16 | [48, 65, 67, 78, 104, 112, 145, 204, 206, 228]
+[2026-06-26 20:50:00] Updated 768 samples → cluster sizes: [150, 326, 292]
+[2026-06-26 20:50:01] [epoch 71] top30 overlap=29/30 | [106, 285, 286, 293, 296, 303, 304, 311, 343, 351, 352, 354, 359, 364, 369, 370, 372, 377, 472, 473, 481, 482, 491, 493, 496, 504, 505, 514, 516, 520]
+[2026-06-26 20:50:01]   lh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume
+[2026-06-26 20:50:01]   aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_BrainSegVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity
+[2026-06-26 20:50:01]   aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity
+[2026-06-26 20:50:01]   aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, lh_hippo_Hippocampal_tail_volume, lh_hippo_subiculum-body_volume
+[2026-06-26 20:50:01]   lh_hippo_molecular_layer_HP-head_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume
+[2026-06-26 20:50:01]   rh_hippo_molecular_layer_HP-head_volume, rh_hippo_molecular_layer_HP-body_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampus_volume, lh_amyg_Accessory-Basal-nucleus_volume
+[2026-06-26 20:50:01] [epoch 71] stable_dims=10.0000 | train_C=0.6350 | train_D=0.5412 | train_I=0.7124 | train_cluster=0.5032 | train_dim_kl=3620.8379 | train_kl=0.0036 | train_loss=0.6945 | train_pred=0.3361 | train_recon=0.0206 | val_C=0.6402 | val_D=0.5365 | val_I=0.6594 | val_dim_kl=5359.0142 | val_kl=0.0054 | val_loss=0.8261 | val_pred=0.7084 | val_recon=0.0225
+[2026-06-26 20:50:16] [epoch 72] train D=0.5683 I=0.7091 | val D=0.5878 I=0.6848 | stable_dims=10 overlap=5/10 | [36, 64, 65, 67, 78, 105, 145, 163, 198, 204]
+[2026-06-26 20:52:51] Updated 768 samples → cluster sizes: [245, 302, 221]
+[2026-06-26 20:52:52] [epoch 72] top30 overlap=26/30 | [100, 106, 285, 286, 293, 296, 303, 304, 311, 343, 351, 352, 354, 359, 369, 370, 472, 473, 481, 482, 491, 493, 495, 496, 505, 514, 516, 520, 522, 533]
+[2026-06-26 20:52:52]   lh_superiortemporal_thickness, lh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume
+[2026-06-26 20:52:52]   aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_BrainSegVol-to-eTIV
+[2026-06-26 20:52:52]   aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity
+[2026-06-26 20:52:52]   aseg_Right-Inf-Lat-Vent_meanintensity, lh_hippo_Hippocampal_tail_volume, lh_hippo_subiculum-body_volume, lh_hippo_molecular_layer_HP-head_volume, lh_hippo_molecular_layer_HP-body_volume
+[2026-06-26 20:52:52]   lh_hippo_Whole_hippocampal_body_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_Hippocampal_tail_volume, rh_hippo_subiculum-body_volume, rh_hippo_molecular_layer_HP-body_volume
+[2026-06-26 20:52:52]   rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampus_volume, lh_amyg_Accessory-Basal-nucleus_volume, lh_amyg_Central-nucleus_volume, rh_amyg_Central-nucleus_volume
+[2026-06-26 20:52:52] [epoch 72] stable_dims=10.0000 | train_C=0.6450 | train_D=0.5683 | train_I=0.7091 | train_cluster=0.4961 | train_dim_kl=3667.9153 | train_kl=0.0037 | train_loss=0.6217 | train_pred=0.2673 | train_recon=0.0205 | val_C=0.6416 | val_D=0.5878 | val_I=0.6848 | val_dim_kl=2313.6235 | val_kl=0.0023 | val_loss=0.5722 | val_pred=0.4574 | val_recon=0.0225
+[2026-06-26 20:53:07] [epoch 73] train D=0.5273 I=0.6975 | val D=0.5585 I=0.6775 | stable_dims=13 overlap=3/10 | [1, 6, 42, 48, 65, 78, 81, 90, 120, 141, 145, 148, 181]
+[2026-06-26 20:55:28] Updated 768 samples → cluster sizes: [353, 268, 147]
+[2026-06-26 20:55:29] [epoch 73] top30 overlap=25/30 | [106, 285, 286, 293, 296, 303, 304, 311, 351, 352, 354, 359, 369, 370, 372, 377, 473, 481, 482, 491, 493, 496, 504, 505, 514, 515, 516, 520, 531, 533]
+[2026-06-26 20:55:29]   lh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume
+[2026-06-26 20:55:29]   aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity
+[2026-06-26 20:55:29]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity
+[2026-06-26 20:55:29]   aseg_Right-Hippocampus_meanintensity, lh_hippo_subiculum-body_volume, lh_hippo_molecular_layer_HP-head_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume
+[2026-06-26 20:55:29]   lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_molecular_layer_HP-head_volume, rh_hippo_molecular_layer_HP-body_volume, rh_hippo_Whole_hippocampal_body_volume
+[2026-06-26 20:55:29]   rh_hippo_Whole_hippocampal_head_volume, rh_hippo_Whole_hippocampus_volume, lh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Central-nucleus_volume
+[2026-06-26 20:55:29] [epoch 73] stable_dims=13.0000 | train_C=0.6571 | train_D=0.5273 | train_I=0.6975 | train_cluster=0.5222 | train_dim_kl=3672.7986 | train_kl=0.0037 | train_loss=0.6643 | train_pred=0.2970 | train_recon=0.0205 | val_C=0.6595 | val_D=0.5585 | val_I=0.6775 | val_dim_kl=2839.4106 | val_kl=0.0028 | val_loss=0.5047 | val_pred=0.3962 | val_recon=0.0211
+[2026-06-26 20:55:44] [epoch 74] train D=0.5248 I=0.7236 | val D=0.5445 I=0.6811 | stable_dims=11 overlap=6/13 | [3, 6, 65, 67, 76, 78, 120, 128, 145, 148, 198]
+[2026-06-26 20:58:18] Updated 768 samples → cluster sizes: [354, 231, 183]
+[2026-06-26 20:58:19] [epoch 74] top30 overlap=28/30 | [106, 285, 286, 293, 296, 303, 304, 311, 312, 351, 352, 354, 359, 364, 369, 370, 372, 473, 481, 482, 491, 493, 496, 504, 505, 514, 516, 520, 531, 533]
+[2026-06-26 20:58:19]   lh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume
+[2026-06-26 20:58:19]   aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_Right-Amygdala_volume, aseg_Left-Lateral-Ventricle_meanintensity
+[2026-06-26 20:58:19]   aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity
+[2026-06-26 20:58:19]   aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, lh_hippo_subiculum-body_volume, lh_hippo_molecular_layer_HP-head_volume, lh_hippo_molecular_layer_HP-body_volume
+[2026-06-26 20:58:19]   lh_hippo_Whole_hippocampal_body_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_molecular_layer_HP-head_volume, rh_hippo_molecular_layer_HP-body_volume
+[2026-06-26 20:58:19]   rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampus_volume, lh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Central-nucleus_volume
+[2026-06-26 20:58:19] [epoch 74] stable_dims=11.0000 | train_C=0.6498 | train_D=0.5248 | train_I=0.7236 | train_cluster=0.4620 | train_dim_kl=3555.1865 | train_kl=0.0036 | train_loss=0.6108 | train_pred=0.2736 | train_recon=0.0205 | val_C=0.6228 | val_D=0.5445 | val_I=0.6811 | val_dim_kl=3595.4939 | val_kl=0.0036 | val_loss=0.4642 | val_pred=0.3555 | val_recon=0.0210
+[2026-06-26 20:58:34] [epoch 75] train D=0.5388 I=0.7008 | val D=0.5676 I=0.6771 | stable_dims=8 overlap=4/11 | [6, 64, 68, 101, 105, 120, 128, 198]
+[2026-06-26 21:01:11] Updated 768 samples → cluster sizes: [522, 132, 114]
+[2026-06-26 21:01:12] [epoch 75] top30 overlap=26/30 | [100, 101, 106, 285, 286, 293, 296, 303, 304, 311, 312, 343, 351, 352, 354, 359, 364, 369, 370, 372, 377, 473, 481, 482, 491, 493, 496, 504, 516, 531]
+[2026-06-26 21:01:12]   lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume
+[2026-06-26 21:01:12]   aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume
+[2026-06-26 21:01:12]   aseg_Right-Amygdala_volume, aseg_BrainSegVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity
+[2026-06-26 21:01:12]   aseg_3rd-Ventricle_meanintensity, aseg_CSF_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity
+[2026-06-26 21:01:12]   aseg_Right-Hippocampus_meanintensity, lh_hippo_subiculum-body_volume, lh_hippo_molecular_layer_HP-head_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume
+[2026-06-26 21:01:12]   lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_molecular_layer_HP-head_volume, rh_hippo_Whole_hippocampus_volume, rh_amyg_Accessory-Basal-nucleus_volume
+[2026-06-26 21:01:12] [epoch 75] stable_dims=8.0000 | train_C=0.6516 | train_D=0.5388 | train_I=0.7008 | train_cluster=0.4984 | train_dim_kl=3455.4189 | train_kl=0.0035 | train_loss=0.6740 | train_pred=0.3177 | train_recon=0.0207 | val_C=0.6218 | val_D=0.5676 | val_I=0.6771 | val_dim_kl=5281.9297 | val_kl=0.0053 | val_loss=0.5152 | val_pred=0.3980 | val_recon=0.0224
+[2026-06-26 21:01:27] [epoch 76] train D=0.6043 I=0.7307 | val D=0.6614 I=0.6879 | stable_dims=14 overlap=4/8 | [64, 65, 78, 81, 100, 112, 120, 128, 133, 145, 146, 168, 198, 204]
+[2026-06-26 21:04:32] Updated 768 samples → cluster sizes: [383, 202, 183]
+[2026-06-26 21:04:33] [epoch 76] top30 overlap=27/30 | [100, 101, 106, 248, 285, 286, 293, 296, 303, 304, 311, 343, 351, 352, 354, 359, 362, 369, 370, 372, 377, 473, 481, 482, 491, 493, 496, 504, 514, 516]
+[2026-06-26 21:04:33]   lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume
+[2026-06-26 21:04:33]   aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 21:04:33]   aseg_Right-Hippocampus_volume, aseg_BrainSegVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Left-Cerebellum-Cortex_meanintensity
+[2026-06-26 21:04:33]   aseg_3rd-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity
+[2026-06-26 21:04:33]   aseg_Right-Hippocampus_meanintensity, lh_hippo_subiculum-body_volume, lh_hippo_molecular_layer_HP-head_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume
+[2026-06-26 21:04:33]   lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_molecular_layer_HP-head_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampus_volume
+[2026-06-26 21:04:33] [epoch 76] stable_dims=14.0000 | train_C=0.6369 | train_D=0.6043 | train_I=0.7307 | train_cluster=0.5261 | train_dim_kl=3808.4739 | train_kl=0.0038 | train_loss=0.6115 | train_pred=0.2434 | train_recon=0.0202 | val_C=0.6264 | val_D=0.6614 | val_I=0.6879 | val_dim_kl=2622.1265 | val_kl=0.0026 | val_loss=0.4659 | val_pred=0.3590 | val_recon=0.0209
+[2026-06-26 21:04:48] [epoch 77] train D=0.5929 I=0.7362 | val D=0.6376 I=0.6765 | stable_dims=15 overlap=3/14 | [48, 76, 78, 90, 104, 128, 129, 148, 156, 170, 194, 198, 214, 243, 252]
+[2026-06-26 21:07:24] Updated 768 samples → cluster sizes: [267, 183, 318]
+[2026-06-26 21:07:25] [epoch 77] top30 overlap=21/30 | [285, 286, 293, 296, 303, 304, 311, 312, 351, 352, 359, 369, 370, 473, 481, 482, 491, 492, 493, 496, 504, 505, 514, 515, 516, 519, 520, 527, 531, 538]
+[2026-06-26 21:07:25]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume
+[2026-06-26 21:07:25]   aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_Right-Amygdala_volume, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity
+[2026-06-26 21:07:25]   aseg_3rd-Ventricle_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, lh_hippo_subiculum-body_volume, lh_hippo_molecular_layer_HP-head_volume
+[2026-06-26 21:07:25]   lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume, lh_hippo_Whole_hippocampal_head_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume
+[2026-06-26 21:07:25]   rh_hippo_molecular_layer_HP-head_volume, rh_hippo_molecular_layer_HP-body_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampal_head_volume, rh_hippo_Whole_hippocampus_volume
+[2026-06-26 21:07:25]   lh_amyg_Basal-nucleus_volume, lh_amyg_Accessory-Basal-nucleus_volume, lh_amyg_Whole_amygdala_volume, rh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Whole_amygdala_volume
+[2026-06-26 21:07:25] [epoch 77] stable_dims=15.0000 | train_C=0.6340 | train_D=0.5929 | train_I=0.7362 | train_cluster=0.5040 | train_dim_kl=3546.0320 | train_kl=0.0035 | train_loss=0.5734 | train_pred=0.2168 | train_recon=0.0202 | val_C=0.6302 | val_D=0.6376 | val_I=0.6765 | val_dim_kl=2990.0693 | val_kl=0.0030 | val_loss=0.4974 | val_pred=0.3889 | val_recon=0.0211
+[2026-06-26 21:07:40] [epoch 78] train D=0.4137 I=0.7681 | val D=0.5042 I=0.6762 | stable_dims=5 overlap=2/15 | [48, 64, 68, 87, 129]
+[2026-06-26 21:10:00] Updated 768 samples → cluster sizes: [378, 182, 208]
+[2026-06-26 21:10:01] [epoch 78] top30 overlap=29/30 | [285, 286, 293, 296, 303, 304, 311, 312, 351, 352, 359, 369, 370, 472, 473, 481, 482, 491, 492, 493, 496, 504, 505, 514, 515, 516, 519, 520, 527, 531]
+[2026-06-26 21:10:01]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume
+[2026-06-26 21:10:01]   aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_Right-Amygdala_volume, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity
+[2026-06-26 21:10:01]   aseg_3rd-Ventricle_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, lh_hippo_Hippocampal_tail_volume, lh_hippo_subiculum-body_volume
+[2026-06-26 21:10:01]   lh_hippo_molecular_layer_HP-head_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume, lh_hippo_Whole_hippocampal_head_volume, lh_hippo_Whole_hippocampus_volume
+[2026-06-26 21:10:01]   rh_hippo_subiculum-body_volume, rh_hippo_molecular_layer_HP-head_volume, rh_hippo_molecular_layer_HP-body_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampal_head_volume
+[2026-06-26 21:10:01]   rh_hippo_Whole_hippocampus_volume, lh_amyg_Basal-nucleus_volume, lh_amyg_Accessory-Basal-nucleus_volume, lh_amyg_Whole_amygdala_volume, rh_amyg_Accessory-Basal-nucleus_volume
+[2026-06-26 21:10:01] [epoch 78] stable_dims=5.0000 | train_C=0.6362 | train_D=0.4137 | train_I=0.7681 | train_cluster=0.4487 | train_dim_kl=3462.6194 | train_kl=0.0035 | train_loss=0.6043 | train_pred=0.2749 | train_recon=0.0203 | val_C=0.6199 | val_D=0.5042 | val_I=0.6762 | val_dim_kl=4278.4888 | val_kl=0.0043 | val_loss=0.5308 | val_pred=0.4198 | val_recon=0.0214
+[2026-06-26 21:10:15] [epoch 79] train D=0.4183 I=0.7736 | val D=0.4843 I=0.6937 | stable_dims=6 overlap=0/5 | [67, 101, 133, 156, 202, 228]
+[2026-06-26 21:12:54] Updated 768 samples → cluster sizes: [219, 380, 169]
+[2026-06-26 21:12:55] [epoch 79] top30 overlap=27/30 | [285, 286, 293, 296, 303, 304, 311, 312, 351, 352, 359, 369, 370, 473, 481, 482, 491, 492, 493, 496, 501, 504, 505, 514, 515, 516, 520, 530, 531, 538]
+[2026-06-26 21:12:55]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume
+[2026-06-26 21:12:55]   aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_Right-Amygdala_volume, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity
+[2026-06-26 21:12:55]   aseg_3rd-Ventricle_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, lh_hippo_subiculum-body_volume, lh_hippo_molecular_layer_HP-head_volume
+[2026-06-26 21:12:55]   lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume, lh_hippo_Whole_hippocampal_head_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume
+[2026-06-26 21:12:55]   rh_hippo_CA1-head_volume, rh_hippo_molecular_layer_HP-head_volume, rh_hippo_molecular_layer_HP-body_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampal_head_volume
+[2026-06-26 21:12:55]   rh_hippo_Whole_hippocampus_volume, lh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Basal-nucleus_volume, rh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Whole_amygdala_volume
+[2026-06-26 21:12:55] [epoch 79] stable_dims=6.0000 | train_C=0.6314 | train_D=0.4183 | train_I=0.7736 | train_cluster=0.4877 | train_dim_kl=3665.6892 | train_kl=0.0037 | train_loss=0.5501 | train_pred=0.2022 | train_recon=0.0201 | val_C=0.6250 | val_D=0.4843 | val_I=0.6937 | val_dim_kl=3402.2092 | val_kl=0.0034 | val_loss=0.4423 | val_pred=0.3348 | val_recon=0.0208
+[2026-06-26 21:13:10] [epoch 80] train D=0.4509 I=0.7813 | val D=0.4405 I=0.6831 | stable_dims=11 overlap=2/6 | [51, 57, 64, 67, 75, 120, 133, 145, 154, 204, 221]
+[2026-06-26 21:15:47] Updated 768 samples → cluster sizes: [575, 166, 27]
+[2026-06-26 21:15:48] [epoch 80] top30 overlap=28/30 | [285, 286, 296, 303, 304, 311, 312, 351, 352, 359, 369, 370, 473, 481, 482, 491, 492, 493, 496, 501, 504, 505, 514, 515, 516, 519, 520, 527, 531, 538]
+[2026-06-26 21:15:48]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 21:15:48]   aseg_Right-Hippocampus_volume, aseg_Right-Amygdala_volume, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_3rd-Ventricle_meanintensity
+[2026-06-26 21:15:48]   aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, lh_hippo_subiculum-body_volume, lh_hippo_molecular_layer_HP-head_volume, lh_hippo_molecular_layer_HP-body_volume
+[2026-06-26 21:15:48]   lh_hippo_Whole_hippocampal_body_volume, lh_hippo_Whole_hippocampal_head_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_CA1-head_volume
+[2026-06-26 21:15:48]   rh_hippo_molecular_layer_HP-head_volume, rh_hippo_molecular_layer_HP-body_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampal_head_volume, rh_hippo_Whole_hippocampus_volume
+[2026-06-26 21:15:48]   lh_amyg_Basal-nucleus_volume, lh_amyg_Accessory-Basal-nucleus_volume, lh_amyg_Whole_amygdala_volume, rh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Whole_amygdala_volume
+[2026-06-26 21:15:48] [epoch 80] stable_dims=11.0000 | train_C=0.6328 | train_D=0.4509 | train_I=0.7813 | train_cluster=0.5092 | train_dim_kl=3942.0002 | train_kl=0.0039 | train_loss=0.5854 | train_pred=0.2269 | train_recon=0.0200 | val_C=0.6284 | val_D=0.4405 | val_I=0.6831 | val_dim_kl=5842.6631 | val_kl=0.0058 | val_loss=0.7316 | val_pred=0.6115 | val_recon=0.0228
+[2026-06-26 21:16:02] [epoch 81] train D=0.4196 I=0.7824 | val D=0.4483 I=0.6850 | stable_dims=8 overlap=4/11 | [11, 48, 64, 67, 68, 154, 204, 228]
+[2026-06-26 21:18:24] Updated 768 samples → cluster sizes: [236, 334, 198]
+[2026-06-26 21:18:25] [epoch 81] top30 overlap=27/30 | [285, 286, 293, 296, 303, 304, 311, 312, 351, 352, 369, 370, 473, 478, 481, 482, 491, 492, 493, 496, 501, 504, 514, 515, 516, 519, 520, 530, 531, 538]
+[2026-06-26 21:18:25]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume
+[2026-06-26 21:18:25]   aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_Right-Amygdala_volume, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity
+[2026-06-26 21:18:25]   aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, lh_hippo_subiculum-body_volume, lh_hippo_CA1-head_volume, lh_hippo_molecular_layer_HP-head_volume
+[2026-06-26 21:18:25]   lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume, lh_hippo_Whole_hippocampal_head_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume
+[2026-06-26 21:18:25]   rh_hippo_CA1-head_volume, rh_hippo_molecular_layer_HP-head_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampal_head_volume, rh_hippo_Whole_hippocampus_volume
+[2026-06-26 21:18:25]   lh_amyg_Basal-nucleus_volume, lh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Basal-nucleus_volume, rh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Whole_amygdala_volume
+[2026-06-26 21:18:25] [epoch 81] stable_dims=8.0000 | train_C=0.6415 | train_D=0.4196 | train_I=0.7824 | train_cluster=0.4017 | train_dim_kl=4072.4365 | train_kl=0.0041 | train_loss=0.4963 | train_pred=0.1913 | train_recon=0.0200 | val_C=0.6289 | val_D=0.4483 | val_I=0.6850 | val_dim_kl=6708.6006 | val_kl=0.0067 | val_loss=0.4931 | val_pred=0.3799 | val_recon=0.0213
+[2026-06-26 21:18:40] [epoch 82] train D=0.4161 I=0.7994 | val D=0.4681 I=0.7061 | stable_dims=14 overlap=4/8 | [1, 42, 48, 64, 67, 75, 76, 78, 90, 101, 129, 204, 208, 221]
+[2026-06-26 21:21:01] Updated 768 samples → cluster sizes: [286, 151, 331]
+[2026-06-26 21:21:02] [epoch 82] top30 overlap=28/30 | [285, 286, 296, 303, 304, 311, 312, 351, 352, 369, 370, 473, 478, 481, 482, 491, 492, 493, 496, 501, 504, 505, 514, 515, 516, 519, 520, 527, 531, 538]
+[2026-06-26 21:21:02]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 21:21:02]   aseg_Right-Hippocampus_volume, aseg_Right-Amygdala_volume, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity
+[2026-06-26 21:21:02]   aseg_Right-Inf-Lat-Vent_meanintensity, lh_hippo_subiculum-body_volume, lh_hippo_CA1-head_volume, lh_hippo_molecular_layer_HP-head_volume, lh_hippo_molecular_layer_HP-body_volume
+[2026-06-26 21:21:02]   lh_hippo_Whole_hippocampal_body_volume, lh_hippo_Whole_hippocampal_head_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_CA1-head_volume
+[2026-06-26 21:21:02]   rh_hippo_molecular_layer_HP-head_volume, rh_hippo_molecular_layer_HP-body_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampal_head_volume, rh_hippo_Whole_hippocampus_volume
+[2026-06-26 21:21:02]   lh_amyg_Basal-nucleus_volume, lh_amyg_Accessory-Basal-nucleus_volume, lh_amyg_Whole_amygdala_volume, rh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Whole_amygdala_volume
+[2026-06-26 21:21:02] [epoch 82] stable_dims=14.0000 | train_C=0.6315 | train_D=0.4161 | train_I=0.7994 | train_cluster=0.6512 | train_dim_kl=3986.8186 | train_kl=0.0040 | train_loss=0.6155 | train_pred=0.1837 | train_recon=0.0204 | val_C=0.6241 | val_D=0.4681 | val_I=0.7061 | val_dim_kl=1949.2952 | val_kl=0.0019 | val_loss=0.4553 | val_pred=0.3480 | val_recon=0.0211
+[2026-06-26 21:21:17] [epoch 83] train D=0.4125 I=0.8033 | val D=0.4260 I=0.7062 | stable_dims=8 overlap=3/14 | [4, 11, 78, 120, 129, 171, 221, 253]
+[2026-06-26 21:23:44] Updated 768 samples → cluster sizes: [165, 362, 241]
+[2026-06-26 21:23:45] [epoch 83] top30 overlap=29/30 | [285, 286, 296, 303, 304, 311, 351, 352, 369, 370, 473, 478, 481, 482, 491, 492, 493, 496, 501, 504, 505, 514, 515, 516, 519, 520, 527, 530, 531, 538]
+[2026-06-26 21:23:45]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 21:23:45]   aseg_Right-Hippocampus_volume, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity
+[2026-06-26 21:23:45]   lh_hippo_subiculum-body_volume, lh_hippo_CA1-head_volume, lh_hippo_molecular_layer_HP-head_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume
+[2026-06-26 21:23:45]   lh_hippo_Whole_hippocampal_head_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_CA1-head_volume, rh_hippo_molecular_layer_HP-head_volume
+[2026-06-26 21:23:45]   rh_hippo_molecular_layer_HP-body_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampal_head_volume, rh_hippo_Whole_hippocampus_volume, lh_amyg_Basal-nucleus_volume
+[2026-06-26 21:23:45]   lh_amyg_Accessory-Basal-nucleus_volume, lh_amyg_Whole_amygdala_volume, rh_amyg_Basal-nucleus_volume, rh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Whole_amygdala_volume
+[2026-06-26 21:23:45] [epoch 83] stable_dims=8.0000 | train_C=0.6315 | train_D=0.4125 | train_I=0.8033 | train_cluster=0.5711 | train_dim_kl=4006.4236 | train_kl=0.0040 | train_loss=0.5583 | train_pred=0.1688 | train_recon=0.0200 | val_C=0.6155 | val_D=0.4260 | val_I=0.7062 | val_dim_kl=3015.0518 | val_kl=0.0030 | val_loss=0.4792 | val_pred=0.3723 | val_recon=0.0208
+[2026-06-26 21:24:00] [epoch 84] train D=0.3863 I=0.8040 | val D=0.4283 I=0.7091 | stable_dims=11 overlap=5/8 | [1, 4, 6, 33, 78, 90, 120, 129, 185, 208, 221]
+[2026-06-26 21:26:49] Updated 768 samples → cluster sizes: [335, 224, 209]
+[2026-06-26 21:26:50] [epoch 84] top30 overlap=29/30 | [285, 286, 296, 303, 304, 311, 312, 351, 352, 369, 370, 473, 478, 481, 482, 491, 492, 493, 496, 504, 505, 514, 515, 516, 519, 520, 527, 530, 531, 538]
+[2026-06-26 21:26:50]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 21:26:50]   aseg_Right-Hippocampus_volume, aseg_Right-Amygdala_volume, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity
+[2026-06-26 21:26:50]   aseg_Right-Inf-Lat-Vent_meanintensity, lh_hippo_subiculum-body_volume, lh_hippo_CA1-head_volume, lh_hippo_molecular_layer_HP-head_volume, lh_hippo_molecular_layer_HP-body_volume
+[2026-06-26 21:26:50]   lh_hippo_Whole_hippocampal_body_volume, lh_hippo_Whole_hippocampal_head_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_molecular_layer_HP-head_volume
+[2026-06-26 21:26:50]   rh_hippo_molecular_layer_HP-body_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampal_head_volume, rh_hippo_Whole_hippocampus_volume, lh_amyg_Basal-nucleus_volume
+[2026-06-26 21:26:50]   lh_amyg_Accessory-Basal-nucleus_volume, lh_amyg_Whole_amygdala_volume, rh_amyg_Basal-nucleus_volume, rh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Whole_amygdala_volume
+[2026-06-26 21:26:50] [epoch 84] stable_dims=11.0000 | train_C=0.6529 | train_D=0.3863 | train_I=0.8040 | train_cluster=0.5031 | train_dim_kl=3787.2344 | train_kl=0.0038 | train_loss=0.5240 | train_pred=0.1690 | train_recon=0.0199 | val_C=0.6311 | val_D=0.4283 | val_I=0.7091 | val_dim_kl=3312.0569 | val_kl=0.0033 | val_loss=0.4015 | val_pred=0.2946 | val_recon=0.0207
+[2026-06-26 21:27:05] [epoch 85] train D=0.4058 I=0.8132 | val D=0.4665 I=0.7105 | stable_dims=13 overlap=8/11 | [33, 67, 78, 90, 120, 129, 130, 185, 206, 207, 208, 211, 221]
+[2026-06-26 21:29:42] Updated 768 samples → cluster sizes: [153, 211, 404]
+[2026-06-26 21:29:43] [epoch 85] top30 overlap=29/30 | [285, 286, 296, 303, 304, 311, 312, 351, 352, 369, 370, 473, 481, 482, 491, 492, 493, 496, 501, 504, 505, 514, 515, 516, 519, 520, 527, 530, 531, 538]
+[2026-06-26 21:29:43]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 21:29:43]   aseg_Right-Hippocampus_volume, aseg_Right-Amygdala_volume, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity
+[2026-06-26 21:29:43]   aseg_Right-Inf-Lat-Vent_meanintensity, lh_hippo_subiculum-body_volume, lh_hippo_molecular_layer_HP-head_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume
+[2026-06-26 21:29:43]   lh_hippo_Whole_hippocampal_head_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_CA1-head_volume, rh_hippo_molecular_layer_HP-head_volume
+[2026-06-26 21:29:43]   rh_hippo_molecular_layer_HP-body_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampal_head_volume, rh_hippo_Whole_hippocampus_volume, lh_amyg_Basal-nucleus_volume
+[2026-06-26 21:29:43]   lh_amyg_Accessory-Basal-nucleus_volume, lh_amyg_Whole_amygdala_volume, rh_amyg_Basal-nucleus_volume, rh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Whole_amygdala_volume
+[2026-06-26 21:29:43] [epoch 85] stable_dims=13.0000 | train_C=0.6355 | train_D=0.4058 | train_I=0.8132 | train_cluster=0.5341 | train_dim_kl=3810.5439 | train_kl=0.0038 | train_loss=0.5261 | train_pred=0.1555 | train_recon=0.0199 | val_C=0.6271 | val_D=0.4665 | val_I=0.7105 | val_dim_kl=2441.5503 | val_kl=0.0024 | val_loss=0.4225 | val_pred=0.3163 | val_recon=0.0207
+[2026-06-26 21:29:57] [epoch 86] train D=0.4052 I=0.8284 | val D=0.4691 I=0.7003 | stable_dims=10 overlap=5/13 | [1, 33, 48, 78, 101, 120, 129, 208, 228, 231]
+[2026-06-26 21:33:04] Updated 768 samples → cluster sizes: [140, 287, 341]
+[2026-06-26 21:33:05] [epoch 86] top30 overlap=27/30 | [285, 296, 311, 312, 351, 352, 359, 369, 370, 473, 478, 481, 482, 491, 492, 493, 496, 501, 504, 505, 514, 515, 516, 519, 520, 525, 527, 530, 531, 538]
+[2026-06-26 21:33:05]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Hippocampus_volume, aseg_Right-Hippocampus_volume, aseg_Right-Amygdala_volume, aseg_Left-Lateral-Ventricle_meanintensity
+[2026-06-26 21:33:05]   aseg_Left-Inf-Lat-Vent_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, lh_hippo_subiculum-body_volume
+[2026-06-26 21:33:05]   lh_hippo_CA1-head_volume, lh_hippo_molecular_layer_HP-head_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume, lh_hippo_Whole_hippocampal_head_volume
+[2026-06-26 21:33:05]   lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_CA1-head_volume, rh_hippo_molecular_layer_HP-head_volume, rh_hippo_molecular_layer_HP-body_volume
+[2026-06-26 21:33:05]   rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampal_head_volume, rh_hippo_Whole_hippocampus_volume, lh_amyg_Basal-nucleus_volume, lh_amyg_Accessory-Basal-nucleus_volume
+[2026-06-26 21:33:05]   lh_amyg_Corticoamygdaloid-transitio_volume, lh_amyg_Whole_amygdala_volume, rh_amyg_Basal-nucleus_volume, rh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Whole_amygdala_volume
+[2026-06-26 21:33:05] [epoch 86] stable_dims=10.0000 | train_C=0.6307 | train_D=0.4052 | train_I=0.8284 | train_cluster=0.5120 | train_dim_kl=3941.4924 | train_kl=0.0039 | train_loss=0.4945 | train_pred=0.1363 | train_recon=0.0197 | val_C=0.6316 | val_D=0.4691 | val_I=0.7003 | val_dim_kl=2735.7739 | val_kl=0.0027 | val_loss=0.4970 | val_pred=0.3916 | val_recon=0.0205
+[2026-06-26 21:33:20] [epoch 87] train D=0.3651 I=0.8232 | val D=0.4268 I=0.6861 | stable_dims=12 overlap=6/10 | [4, 42, 48, 64, 74, 75, 101, 120, 129, 208, 221, 231]
+[2026-06-26 21:35:44] Updated 768 samples → cluster sizes: [123, 449, 196]
+[2026-06-26 21:35:45] [epoch 87] top30 overlap=26/30 | [285, 286, 296, 297, 303, 304, 311, 312, 352, 370, 473, 478, 481, 482, 491, 492, 493, 496, 501, 504, 505, 514, 515, 516, 519, 520, 527, 530, 531, 538]
+[2026-06-26 21:35:45]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_Left-Hippocampus_volume, aseg_Left-Amygdala_volume, aseg_Right-Lateral-Ventricle_volume
+[2026-06-26 21:35:45]   aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_Right-Amygdala_volume, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity
+[2026-06-26 21:35:45]   lh_hippo_subiculum-body_volume, lh_hippo_CA1-head_volume, lh_hippo_molecular_layer_HP-head_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume
+[2026-06-26 21:35:45]   lh_hippo_Whole_hippocampal_head_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_CA1-head_volume, rh_hippo_molecular_layer_HP-head_volume
+[2026-06-26 21:35:45]   rh_hippo_molecular_layer_HP-body_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampal_head_volume, rh_hippo_Whole_hippocampus_volume, lh_amyg_Basal-nucleus_volume
+[2026-06-26 21:35:45]   lh_amyg_Accessory-Basal-nucleus_volume, lh_amyg_Whole_amygdala_volume, rh_amyg_Basal-nucleus_volume, rh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Whole_amygdala_volume
+[2026-06-26 21:35:45] [epoch 87] stable_dims=12.0000 | train_C=0.6502 | train_D=0.3651 | train_I=0.8232 | train_cluster=0.5011 | train_dim_kl=3814.5125 | train_kl=0.0038 | train_loss=0.5163 | train_pred=0.1638 | train_recon=0.0196 | val_C=0.6369 | val_D=0.4268 | val_I=0.6861 | val_dim_kl=2598.0454 | val_kl=0.0026 | val_loss=0.4827 | val_pred=0.3773 | val_recon=0.0206
+[2026-06-26 21:35:59] [epoch 88] train D=0.3696 I=0.8096 | val D=0.3591 I=0.6904 | stable_dims=5 overlap=2/12 | [4, 6, 76, 145, 208]
+[2026-06-26 21:38:21] Updated 768 samples → cluster sizes: [229, 274, 265]
+[2026-06-26 21:38:22] [epoch 88] top30 overlap=29/30 | [285, 286, 296, 303, 304, 311, 312, 351, 352, 370, 473, 478, 481, 482, 491, 492, 493, 496, 501, 504, 505, 514, 515, 516, 519, 520, 527, 530, 531, 538]
+[2026-06-26 21:38:22]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 21:38:22]   aseg_Right-Hippocampus_volume, aseg_Right-Amygdala_volume, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity
+[2026-06-26 21:38:22]   lh_hippo_subiculum-body_volume, lh_hippo_CA1-head_volume, lh_hippo_molecular_layer_HP-head_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume
+[2026-06-26 21:38:22]   lh_hippo_Whole_hippocampal_head_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_CA1-head_volume, rh_hippo_molecular_layer_HP-head_volume
+[2026-06-26 21:38:22]   rh_hippo_molecular_layer_HP-body_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampal_head_volume, rh_hippo_Whole_hippocampus_volume, lh_amyg_Basal-nucleus_volume
+[2026-06-26 21:38:22]   lh_amyg_Accessory-Basal-nucleus_volume, lh_amyg_Whole_amygdala_volume, rh_amyg_Basal-nucleus_volume, rh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Whole_amygdala_volume
+[2026-06-26 21:38:22] [epoch 88] stable_dims=5.0000 | train_C=0.6441 | train_D=0.3696 | train_I=0.8096 | train_cluster=0.5513 | train_dim_kl=3664.0217 | train_kl=0.0037 | train_loss=0.5545 | train_pred=0.1755 | train_recon=0.0199 | val_C=0.6082 | val_D=0.3591 | val_I=0.6904 | val_dim_kl=3142.0088 | val_kl=0.0031 | val_loss=0.4603 | val_pred=0.3535 | val_recon=0.0207
+[2026-06-26 21:38:37] [epoch 89] train D=0.4060 I=0.8302 | val D=0.3992 I=0.6811 | stable_dims=7 overlap=2/5 | [4, 101, 104, 120, 129, 208, 232]
+[2026-06-26 21:41:12] Updated 768 samples → cluster sizes: [338, 232, 198]
+[2026-06-26 21:41:13] [epoch 89] top30 overlap=30/30 | [285, 286, 296, 303, 304, 311, 312, 351, 352, 370, 473, 478, 481, 482, 491, 492, 493, 496, 501, 504, 505, 514, 515, 516, 519, 520, 527, 530, 531, 538]
+[2026-06-26 21:41:13]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 21:41:13]   aseg_Right-Hippocampus_volume, aseg_Right-Amygdala_volume, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity
+[2026-06-26 21:41:13]   lh_hippo_subiculum-body_volume, lh_hippo_CA1-head_volume, lh_hippo_molecular_layer_HP-head_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume
+[2026-06-26 21:41:13]   lh_hippo_Whole_hippocampal_head_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_CA1-head_volume, rh_hippo_molecular_layer_HP-head_volume
+[2026-06-26 21:41:13]   rh_hippo_molecular_layer_HP-body_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampal_head_volume, rh_hippo_Whole_hippocampus_volume, lh_amyg_Basal-nucleus_volume
+[2026-06-26 21:41:13]   lh_amyg_Accessory-Basal-nucleus_volume, lh_amyg_Whole_amygdala_volume, rh_amyg_Basal-nucleus_volume, rh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Whole_amygdala_volume
+[2026-06-26 21:41:13] [epoch 89] stable_dims=7.0000 | train_C=0.6516 | train_D=0.4060 | train_I=0.8302 | train_cluster=0.5366 | train_dim_kl=3602.3420 | train_kl=0.0036 | train_loss=0.5033 | train_pred=0.1333 | train_recon=0.0196 | val_C=0.6433 | val_D=0.3992 | val_I=0.6811 | val_dim_kl=5867.4468 | val_kl=0.0059 | val_loss=0.4671 | val_pred=0.3564 | val_recon=0.0209
+[2026-06-26 21:41:27] [epoch 90] train D=0.4160 I=0.8380 | val D=0.4272 I=0.7036 | stable_dims=6 overlap=2/7 | [6, 11, 42, 120, 129, 203]
+[2026-06-26 21:44:05] Updated 768 samples → cluster sizes: [395, 200, 173]
+[2026-06-26 21:44:06] [epoch 90] top30 overlap=29/30 | [285, 286, 296, 297, 303, 304, 311, 312, 352, 370, 473, 478, 481, 482, 491, 492, 493, 496, 501, 504, 505, 514, 515, 516, 519, 520, 527, 530, 531, 538]
+[2026-06-26 21:44:06]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_Left-Hippocampus_volume, aseg_Left-Amygdala_volume, aseg_Right-Lateral-Ventricle_volume
+[2026-06-26 21:44:06]   aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_Right-Amygdala_volume, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity
+[2026-06-26 21:44:06]   lh_hippo_subiculum-body_volume, lh_hippo_CA1-head_volume, lh_hippo_molecular_layer_HP-head_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume
+[2026-06-26 21:44:06]   lh_hippo_Whole_hippocampal_head_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_CA1-head_volume, rh_hippo_molecular_layer_HP-head_volume
+[2026-06-26 21:44:06]   rh_hippo_molecular_layer_HP-body_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampal_head_volume, rh_hippo_Whole_hippocampus_volume, lh_amyg_Basal-nucleus_volume
+[2026-06-26 21:44:06]   lh_amyg_Accessory-Basal-nucleus_volume, lh_amyg_Whole_amygdala_volume, rh_amyg_Basal-nucleus_volume, rh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Whole_amygdala_volume
+[2026-06-26 21:44:06] [epoch 90] stable_dims=6.0000 | train_C=0.6382 | train_D=0.4160 | train_I=0.8380 | train_cluster=0.5436 | train_dim_kl=3580.0344 | train_kl=0.0036 | train_loss=0.4966 | train_pred=0.1244 | train_recon=0.0194 | val_C=0.6169 | val_D=0.4272 | val_I=0.7036 | val_dim_kl=3082.4976 | val_kl=0.0031 | val_loss=0.4129 | val_pred=0.3086 | val_recon=0.0202
+[2026-06-26 21:44:20] [epoch 91] train D=0.3924 I=0.8415 | val D=0.3589 I=0.6965 | stable_dims=6 overlap=2/6 | [4, 26, 42, 86, 203, 208]
+[2026-06-26 21:47:11] Updated 768 samples → cluster sizes: [105, 214, 449]
+[2026-06-26 21:47:12] [epoch 91] top30 overlap=29/30 | [285, 286, 296, 303, 304, 311, 312, 351, 352, 370, 473, 478, 481, 482, 491, 492, 493, 496, 501, 504, 505, 514, 515, 516, 519, 520, 527, 530, 531, 538]
+[2026-06-26 21:47:12]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 21:47:12]   aseg_Right-Hippocampus_volume, aseg_Right-Amygdala_volume, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity
+[2026-06-26 21:47:12]   lh_hippo_subiculum-body_volume, lh_hippo_CA1-head_volume, lh_hippo_molecular_layer_HP-head_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume
+[2026-06-26 21:47:12]   lh_hippo_Whole_hippocampal_head_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_CA1-head_volume, rh_hippo_molecular_layer_HP-head_volume
+[2026-06-26 21:47:12]   rh_hippo_molecular_layer_HP-body_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampal_head_volume, rh_hippo_Whole_hippocampus_volume, lh_amyg_Basal-nucleus_volume
+[2026-06-26 21:47:12]   lh_amyg_Accessory-Basal-nucleus_volume, lh_amyg_Whole_amygdala_volume, rh_amyg_Basal-nucleus_volume, rh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Whole_amygdala_volume
+[2026-06-26 21:47:12] [epoch 91] stable_dims=6.0000 | train_C=0.6461 | train_D=0.3924 | train_I=0.8415 | train_cluster=0.5259 | train_dim_kl=3512.4834 | train_kl=0.0035 | train_loss=0.4841 | train_pred=0.1212 | train_recon=0.0193 | val_C=0.6256 | val_D=0.3589 | val_I=0.6965 | val_dim_kl=3831.9583 | val_kl=0.0038 | val_loss=0.4178 | val_pred=0.3131 | val_recon=0.0202
+[2026-06-26 21:47:26] [epoch 92] train D=0.4180 I=0.8471 | val D=0.3837 I=0.7014 | stable_dims=9 overlap=4/6 | [4, 26, 42, 48, 129, 169, 203, 232, 253]
+[2026-06-26 21:50:14] Updated 768 samples → cluster sizes: [233, 380, 155]
+[2026-06-26 21:50:15] [epoch 92] top30 overlap=29/30 | [285, 286, 296, 297, 303, 304, 311, 312, 352, 370, 473, 478, 481, 482, 491, 492, 493, 496, 501, 504, 505, 514, 515, 516, 519, 520, 527, 530, 531, 538]
+[2026-06-26 21:50:15]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_Left-Hippocampus_volume, aseg_Left-Amygdala_volume, aseg_Right-Lateral-Ventricle_volume
+[2026-06-26 21:50:15]   aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_Right-Amygdala_volume, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity
+[2026-06-26 21:50:15]   lh_hippo_subiculum-body_volume, lh_hippo_CA1-head_volume, lh_hippo_molecular_layer_HP-head_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume
+[2026-06-26 21:50:15]   lh_hippo_Whole_hippocampal_head_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_CA1-head_volume, rh_hippo_molecular_layer_HP-head_volume
+[2026-06-26 21:50:15]   rh_hippo_molecular_layer_HP-body_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampal_head_volume, rh_hippo_Whole_hippocampus_volume, lh_amyg_Basal-nucleus_volume
+[2026-06-26 21:50:15]   lh_amyg_Accessory-Basal-nucleus_volume, lh_amyg_Whole_amygdala_volume, rh_amyg_Basal-nucleus_volume, rh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Whole_amygdala_volume
+[2026-06-26 21:50:15] [epoch 92] stable_dims=9.0000 | train_C=0.6376 | train_D=0.4180 | train_I=0.8471 | train_cluster=0.4494 | train_dim_kl=3463.0261 | train_kl=0.0035 | train_loss=0.4359 | train_pred=0.1115 | train_recon=0.0192 | val_C=0.6217 | val_D=0.3837 | val_I=0.7014 | val_dim_kl=6128.9307 | val_kl=0.0061 | val_loss=0.4515 | val_pred=0.3415 | val_recon=0.0208
+[2026-06-26 21:50:30] [epoch 93] train D=0.3904 I=0.8404 | val D=0.3916 I=0.6955 | stable_dims=8 overlap=4/9 | [1, 4, 6, 48, 157, 208, 232, 253]
+[2026-06-26 21:53:33] Updated 768 samples → cluster sizes: [162, 405, 201]
+[2026-06-26 21:53:34] [epoch 93] top30 overlap=29/30 | [285, 296, 297, 303, 304, 311, 312, 351, 352, 370, 473, 478, 481, 482, 491, 492, 493, 496, 501, 504, 505, 514, 515, 516, 519, 520, 527, 530, 531, 538]
+[2026-06-26 21:53:34]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Hippocampus_volume, aseg_Left-Amygdala_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 21:53:34]   aseg_Right-Hippocampus_volume, aseg_Right-Amygdala_volume, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity
+[2026-06-26 21:53:34]   lh_hippo_subiculum-body_volume, lh_hippo_CA1-head_volume, lh_hippo_molecular_layer_HP-head_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume
+[2026-06-26 21:53:34]   lh_hippo_Whole_hippocampal_head_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_CA1-head_volume, rh_hippo_molecular_layer_HP-head_volume
+[2026-06-26 21:53:34]   rh_hippo_molecular_layer_HP-body_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampal_head_volume, rh_hippo_Whole_hippocampus_volume, lh_amyg_Basal-nucleus_volume
+[2026-06-26 21:53:34]   lh_amyg_Accessory-Basal-nucleus_volume, lh_amyg_Whole_amygdala_volume, rh_amyg_Basal-nucleus_volume, rh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Whole_amygdala_volume
+[2026-06-26 21:53:34] [epoch 93] stable_dims=8.0000 | train_C=0.6415 | train_D=0.3904 | train_I=0.8404 | train_cluster=0.5630 | train_dim_kl=3610.9597 | train_kl=0.0036 | train_loss=0.5035 | train_pred=0.1210 | train_recon=0.0195 | val_C=0.6254 | val_D=0.3916 | val_I=0.6955 | val_dim_kl=3207.9854 | val_kl=0.0032 | val_loss=0.4250 | val_pred=0.3212 | val_recon=0.0201
+[2026-06-26 21:53:49] [epoch 94] train D=0.4044 I=0.8410 | val D=0.3948 I=0.6909 | stable_dims=8 overlap=2/8 | [4, 24, 36, 48, 67, 111, 129, 169]
+[2026-06-26 21:56:26] Updated 768 samples → cluster sizes: [186, 418, 164]
+[2026-06-26 21:56:26] [epoch 94] top30 overlap=29/30 | [285, 286, 296, 297, 303, 304, 311, 312, 352, 370, 473, 478, 481, 482, 491, 492, 493, 496, 501, 504, 505, 514, 515, 516, 519, 520, 527, 530, 531, 538]
+[2026-06-26 21:56:26]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_Left-Hippocampus_volume, aseg_Left-Amygdala_volume, aseg_Right-Lateral-Ventricle_volume
+[2026-06-26 21:56:26]   aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_Right-Amygdala_volume, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity
+[2026-06-26 21:56:26]   lh_hippo_subiculum-body_volume, lh_hippo_CA1-head_volume, lh_hippo_molecular_layer_HP-head_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume
+[2026-06-26 21:56:26]   lh_hippo_Whole_hippocampal_head_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_CA1-head_volume, rh_hippo_molecular_layer_HP-head_volume
+[2026-06-26 21:56:26]   rh_hippo_molecular_layer_HP-body_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampal_head_volume, rh_hippo_Whole_hippocampus_volume, lh_amyg_Basal-nucleus_volume
+[2026-06-26 21:56:26]   lh_amyg_Accessory-Basal-nucleus_volume, lh_amyg_Whole_amygdala_volume, rh_amyg_Basal-nucleus_volume, rh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Whole_amygdala_volume
+[2026-06-26 21:56:27] [epoch 94] stable_dims=8.0000 | train_C=0.6331 | train_D=0.4044 | train_I=0.8410 | train_cluster=0.5253 | train_dim_kl=3366.5159 | train_kl=0.0034 | train_loss=0.4873 | train_pred=0.1244 | train_recon=0.0194 | val_C=0.6524 | val_D=0.3948 | val_I=0.6909 | val_dim_kl=3605.3589 | val_kl=0.0036 | val_loss=0.4586 | val_pred=0.3518 | val_recon=0.0206
+[2026-06-26 21:56:41] [epoch 95] train D=0.3708 I=0.8320 | val D=0.3880 I=0.7004 | stable_dims=6 overlap=2/8 | [1, 4, 24, 26, 101, 157]
+[2026-06-26 21:59:32] Updated 768 samples → cluster sizes: [197, 306, 265]
+[2026-06-26 21:59:33] [epoch 95] top30 overlap=29/30 | [285, 286, 296, 303, 304, 311, 312, 351, 352, 370, 473, 478, 481, 482, 491, 492, 493, 496, 501, 504, 505, 514, 515, 516, 519, 520, 527, 530, 531, 538]
+[2026-06-26 21:59:33]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 21:59:33]   aseg_Right-Hippocampus_volume, aseg_Right-Amygdala_volume, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity
+[2026-06-26 21:59:33]   lh_hippo_subiculum-body_volume, lh_hippo_CA1-head_volume, lh_hippo_molecular_layer_HP-head_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume
+[2026-06-26 21:59:33]   lh_hippo_Whole_hippocampal_head_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_CA1-head_volume, rh_hippo_molecular_layer_HP-head_volume
+[2026-06-26 21:59:33]   rh_hippo_molecular_layer_HP-body_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampal_head_volume, rh_hippo_Whole_hippocampus_volume, lh_amyg_Basal-nucleus_volume
+[2026-06-26 21:59:33]   lh_amyg_Accessory-Basal-nucleus_volume, lh_amyg_Whole_amygdala_volume, rh_amyg_Basal-nucleus_volume, rh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Whole_amygdala_volume
+[2026-06-26 21:59:33] [epoch 95] stable_dims=6.0000 | train_C=0.6317 | train_D=0.3708 | train_I=0.8320 | train_cluster=0.4994 | train_dim_kl=3487.3411 | train_kl=0.0035 | train_loss=0.4795 | train_pred=0.1284 | train_recon=0.0196 | val_C=0.6274 | val_D=0.3880 | val_I=0.7004 | val_dim_kl=2885.7124 | val_kl=0.0029 | val_loss=0.4795 | val_pred=0.3724 | val_recon=0.0208
+[2026-06-26 21:59:48] [epoch 96] train D=0.4171 I=0.8438 | val D=0.4258 I=0.7056 | stable_dims=6 overlap=1/6 | [4, 17, 42, 78, 129, 130]
+[2026-06-26 22:02:11] Updated 768 samples → cluster sizes: [338, 204, 226]
+[2026-06-26 22:02:12] [epoch 96] top30 overlap=29/30 | [285, 286, 296, 297, 303, 304, 311, 312, 352, 370, 473, 478, 481, 482, 491, 492, 493, 496, 501, 504, 505, 514, 515, 516, 519, 520, 527, 530, 531, 538]
+[2026-06-26 22:02:12]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_Left-Hippocampus_volume, aseg_Left-Amygdala_volume, aseg_Right-Lateral-Ventricle_volume
+[2026-06-26 22:02:12]   aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_Right-Amygdala_volume, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity
+[2026-06-26 22:02:12]   lh_hippo_subiculum-body_volume, lh_hippo_CA1-head_volume, lh_hippo_molecular_layer_HP-head_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume
+[2026-06-26 22:02:12]   lh_hippo_Whole_hippocampal_head_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_CA1-head_volume, rh_hippo_molecular_layer_HP-head_volume
+[2026-06-26 22:02:12]   rh_hippo_molecular_layer_HP-body_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampal_head_volume, rh_hippo_Whole_hippocampus_volume, lh_amyg_Basal-nucleus_volume
+[2026-06-26 22:02:12]   lh_amyg_Accessory-Basal-nucleus_volume, lh_amyg_Whole_amygdala_volume, rh_amyg_Basal-nucleus_volume, rh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Whole_amygdala_volume
+[2026-06-26 22:02:12] [epoch 96] stable_dims=6.0000 | train_C=0.6190 | train_D=0.4171 | train_I=0.8438 | train_cluster=0.5239 | train_dim_kl=3485.0217 | train_kl=0.0035 | train_loss=0.4771 | train_pred=0.1152 | train_recon=0.0193 | val_C=0.6388 | val_D=0.4258 | val_I=0.7056 | val_dim_kl=3481.7993 | val_kl=0.0035 | val_loss=0.3950 | val_pred=0.2911 | val_recon=0.0201
+[2026-06-26 22:02:27] [epoch 97] train D=0.3819 I=0.8461 | val D=0.3776 I=0.7041 | stable_dims=7 overlap=2/6 | [1, 4, 130, 157, 208, 214, 221]
+[2026-06-26 22:05:21] Updated 768 samples → cluster sizes: [525, 69, 174]
+[2026-06-26 22:05:22] [epoch 97] top30 overlap=30/30 | [285, 286, 296, 297, 303, 304, 311, 312, 352, 370, 473, 478, 481, 482, 491, 492, 493, 496, 501, 504, 505, 514, 515, 516, 519, 520, 527, 530, 531, 538]
+[2026-06-26 22:05:22]   aseg_Left-Lateral-Ventricle_volume, aseg_Left-Inf-Lat-Vent_volume, aseg_Left-Hippocampus_volume, aseg_Left-Amygdala_volume, aseg_Right-Lateral-Ventricle_volume
+[2026-06-26 22:05:22]   aseg_Right-Inf-Lat-Vent_volume, aseg_Right-Hippocampus_volume, aseg_Right-Amygdala_volume, aseg_Left-Inf-Lat-Vent_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity
+[2026-06-26 22:05:22]   lh_hippo_subiculum-body_volume, lh_hippo_CA1-head_volume, lh_hippo_molecular_layer_HP-head_volume, lh_hippo_molecular_layer_HP-body_volume, lh_hippo_Whole_hippocampal_body_volume
+[2026-06-26 22:05:22]   lh_hippo_Whole_hippocampal_head_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_CA1-head_volume, rh_hippo_molecular_layer_HP-head_volume
+[2026-06-26 22:05:22]   rh_hippo_molecular_layer_HP-body_volume, rh_hippo_Whole_hippocampal_body_volume, rh_hippo_Whole_hippocampal_head_volume, rh_hippo_Whole_hippocampus_volume, lh_amyg_Basal-nucleus_volume
+[2026-06-26 22:05:22]   lh_amyg_Accessory-Basal-nucleus_volume, lh_amyg_Whole_amygdala_volume, rh_amyg_Basal-nucleus_volume, rh_amyg_Accessory-Basal-nucleus_volume, rh_amyg_Whole_amygdala_volume
+[2026-06-26 22:05:22] [epoch 97] stable_dims=7.0000 | train_C=0.6206 | train_D=0.3819 | train_I=0.8461 | train_cluster=0.4547 | train_dim_kl=3412.2786 | train_kl=0.0034 | train_loss=0.4343 | train_pred=0.1083 | train_recon=0.0190 | val_C=0.6397 | val_D=0.3776 | val_I=0.7041 | val_dim_kl=3147.9868 | val_kl=0.0031 | val_loss=0.4087 | val_pred=0.3057 | val_recon=0.0200
+[2026-06-26 22:05:37] [epoch 98] train D=0.3880 I=0.8423 | val D=0.3815 I=0.6992 | stable_dims=4 overlap=3/7 | [4, 130, 208, 245]
+[2026-06-26 22:08:11] Updated 768 samples → cluster sizes: [334, 228, 206]
+[2026-06-26 22:08:12] [epoch 98] top30 overlap=0/30 | [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 362]
+[2026-06-26 22:08:12]   lh_aparc_area, lh_bankssts_area, lh_caudalanteriorcingulate_area, lh_caudalmiddlefrontal_area, lh_cuneus_area
+[2026-06-26 22:08:12]   lh_entorhinal_area, lh_fusiform_area, lh_inferiorparietal_area, lh_inferiortemporal_area, lh_isthmuscingulate_area
+[2026-06-26 22:08:12]   lh_lateraloccipital_area, lh_lateralorbitofrontal_area, lh_lingual_area, lh_medialorbitofrontal_area, lh_middletemporal_area
+[2026-06-26 22:08:12]   lh_parahippocampal_area, lh_paracentral_area, lh_parsopercularis_area, lh_parsorbitalis_area, lh_parstriangularis_area
+[2026-06-26 22:08:12]   lh_pericalcarine_area, lh_postcentral_area, lh_posteriorcingulate_area, lh_precentral_area, lh_precuneus_area
+[2026-06-26 22:08:12]   lh_rostralanteriorcingulate_area, lh_rostralmiddlefrontal_area, lh_superiorfrontal_area, lh_superiorparietal_area, aseg_Left-Hippocampus_meanintensity
+[2026-06-26 22:08:12] [epoch 98] stable_dims=4.0000 | train_C=0.6227 | train_D=0.3880 | train_I=0.8423 | train_cluster=0.5136 | train_dim_kl=3412.6252 | train_kl=0.0034 | train_loss=0.4711 | train_pred=0.1157 | train_recon=0.0190 | val_C=0.6110 | val_D=0.3815 | val_I=0.6992 | val_dim_kl=2533.0378 | val_kl=0.0025 | val_loss=0.5085 | val_pred=0.4041 | val_recon=0.0204
+[2026-06-26 22:08:27] [epoch 99] train D=0.4234 I=0.1236 | val D=0.4579 I=0.1727 | stable_dims=0 overlap=0/4 | []
+[2026-06-26 22:10:54] Updated 768 samples → cluster sizes: [413, 220, 135]
+[2026-06-26 22:10:55] [epoch 99] top30 overlap=1/30 | [100, 101, 106, 248, 285, 286, 293, 296, 303, 304, 311, 343, 344, 351, 352, 354, 359, 360, 362, 364, 369, 370, 372, 377, 472, 473, 491, 493, 496, 516]
+[2026-06-26 22:10:55]   lh_superiortemporal_thickness, lh_supramarginal_thickness, lh_MeanThickness_thickness, rh_MeanThickness_thickness, aseg_Left-Lateral-Ventricle_volume
+[2026-06-26 22:10:55]   aseg_Left-Inf-Lat-Vent_volume, aseg_3rd-Ventricle_volume, aseg_Left-Hippocampus_volume, aseg_Right-Lateral-Ventricle_volume, aseg_Right-Inf-Lat-Vent_volume
+[2026-06-26 22:10:55]   aseg_Right-Hippocampus_volume, aseg_BrainSegVol-to-eTIV, aseg_MaskVol-to-eTIV, aseg_Left-Lateral-Ventricle_meanintensity, aseg_Left-Inf-Lat-Vent_meanintensity
+[2026-06-26 22:10:55]   aseg_Left-Cerebellum-Cortex_meanintensity, aseg_3rd-Ventricle_meanintensity, aseg_4th-Ventricle_meanintensity, aseg_Left-Hippocampus_meanintensity, aseg_CSF_meanintensity
+[2026-06-26 22:10:55]   aseg_Right-Lateral-Ventricle_meanintensity, aseg_Right-Inf-Lat-Vent_meanintensity, aseg_Right-Cerebellum-Cortex_meanintensity, aseg_Right-Hippocampus_meanintensity, lh_hippo_Hippocampal_tail_volume
+[2026-06-26 22:10:55]   lh_hippo_subiculum-body_volume, lh_hippo_Whole_hippocampal_body_volume, lh_hippo_Whole_hippocampus_volume, rh_hippo_subiculum-body_volume, rh_hippo_Whole_hippocampus_volume
+[2026-06-26 22:10:55] [epoch 99] stable_dims=0.0000 | train_C=0.6908 | train_D=0.4234 | train_I=0.1236 | train_cluster=0.5896 | train_dim_kl=3552.2830 | train_kl=0.0036 | train_loss=1.4541 | train_pred=1.0479 | train_recon=0.0216 | val_C=0.6977 | val_D=0.4579 | val_I=0.1727 | val_dim_kl=20267.9902 | val_kl=0.0203 | val_loss=1.4669 | val_pred=1.2964 | val_recon=0.0300
+[2026-06-26 22:10:55] Training completed

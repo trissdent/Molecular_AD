@@ -8,7 +8,7 @@ from typing import Optional
 from .transforms import BaseTransformer
 
 
-class IMGDataset(Dataset):
+class MRIDataset(Dataset):
 
     def __init__(self, data_dir: str, feature_csv_path: str,
         transform: Optional[BaseTransformer] = None,
@@ -57,7 +57,7 @@ class IMGDataset(Dataset):
                     continue
                 if self.allowed_ids is not None and image_id not in self.allowed_ids:
                     continue
-                mgz_path = os.path.join(subject_path, image_id, "img", "finalsurfs.mgz")
+                mgz_path = os.path.join(subject_path, image_id, "mri", "brain.finalsurfs.mgz")
                 if os.path.exists(mgz_path) and image_id in self.features_df.index:
                     samples.append({
                         "mgz_path": mgz_path,

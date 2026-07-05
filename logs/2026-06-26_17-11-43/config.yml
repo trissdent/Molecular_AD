@@ -24,7 +24,7 @@ training:
   checkpoint_dir: "../checkpoints/"
   log_dir: "../logs/"
   dci_every_n_epochs: 1
-  top_k: 20
+  top_k: 30
   estimate_c_every: 5
   estimate_c_warmup: 5
   estimate_c_until: 40
