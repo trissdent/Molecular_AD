@@ -23,15 +23,15 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
     run_ckpt_dir = config.training.checkpoint_dir + run_name + "/"
     os.makedirs(run_ckpt_dir, exist_ok=True)
 
-    transform = MRITransformer(
+    transform = IMGTransformer(
         target_shape=tuple(config.transform.target_shape),
         margin=config.transform.margin,
     )
 
-    demo = pd.read_csv("/home/minhtri/Molecular_AD/data/all_demographics.csv")
+    demo = pd.read_csv("/home/minhtri/data/all_demographics.csv")
     demo["image_id"] = demo["image_id"].astype(str)
-    demo = demo.dropna(subset=["diagnosis"])
-    label_lookup = dict(zip(demo["image_id"], demo["diagnosis"].str.lower()))
+    demo = demo.dropna(subset=["label"])
+    label_lookup = dict(zip(demo["image_id"], demo["label"].str.lower()))
 
     feat_df = pd.read_csv(config.data.feature_csv_path)
     feat_df["image_id"] = feat_df["image_id"].astype(str)
@@ -64,7 +64,7 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
     print(f"Train: {len(train_ids)}, val: {len(val_ids)}, test: {len(test_ids)}")
 
     def make_ds(id_list):
-        return MRIDataset(
+        return IMGDataset(
             data_dir=config.data.data_dir,
             feature_csv_path=config.data.feature_csv_path,
             transform=transform,
