@@ -93,19 +93,13 @@ class LightningModel(pl.LightningModule):
             val_z = torch.cat(self.val_z, dim=0)
             val_features = torch.cat(self.val_features, dim=0)
 
-            train_dci = self.metric_handler.compute_dci(train_z, train_features)
-            val_dci = self.metric_handler.compute_dci(val_z, val_features)
-
             idx = getattr(self.loss_handler.loss_fn, "active_feature_idx", None)
             if idx is not None:
-                train_dci_topk = self.metric_handler.compute_dci(
-                    train_z, train_features[:, idx])
-                val_dci_topk = self.metric_handler.compute_dci(
-                    val_z, val_features[:, idx])
-                self.log("train_I_topk", train_dci_topk["informativeness"], prog_bar=False)
-                self.log("val_I_topk", val_dci_topk["informativeness"], prog_bar=False)
-                self.log("train_D_topk", train_dci_topk["disentanglement"], prog_bar=False)
-                self.log("val_D_topk", val_dci_topk["disentanglement"], prog_bar=False)
+                train_features = train_features[:, idx]
+                val_features = val_features[:, idx]
+
+            train_dci = self.metric_handler.compute_dci(train_z, train_features)
+            val_dci = self.metric_handler.compute_dci(val_z, val_features)
 
             stable_dims = self.metric_handler.get_stable_dims(
                 train_dci["importance_matrix"],
@@ -221,15 +215,6 @@ class Trainer:
             save_last=False,
         )
 
-        stable_dims_callback = ModelCheckpoint(
-            dirpath=self.checkpoint_dir,
-            filename="best_stable_dims",
-            monitor="stable_dims",
-            mode="max",
-            save_top_k=1,
-            save_last=False,
-        )
-
         if self.experiment_dir:
             logger = CSVLogger(save_dir=self.experiment_dir, name="", version="")
         else:
@@ -239,10 +224,9 @@ class Trainer:
             max_epochs=self.max_epochs,
             accelerator="auto",
             devices=1,
-            callbacks=[checkpoint_callback, stable_dims_callback],
+            callbacks=[checkpoint_callback],
             logger=logger,
             log_every_n_steps=5,
-            gradient_clip_val=1.0,
         )
 
         trainer.fit(lightning_model, train_loader, val_loader)

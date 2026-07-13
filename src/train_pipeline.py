@@ -138,6 +138,7 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
     optimizer_handler = OptimizerHandler(
         optimizer_type=config.training.optimizer,
         lr=config.training.lr,
+        weight_decay=config.training.weight_decay,
     )
 
     # Train
