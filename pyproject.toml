@@ -16,6 +16,8 @@ dependencies = [
     "torchvision==0.20.1",
     "torchaudio==2.5.1",
     "tqdm>=4.67.0",
+    "python-dotenv>=1.2.2",
+    "asyncpg>=0.31.0",
 ]
 
 [tool.uv.sources]
