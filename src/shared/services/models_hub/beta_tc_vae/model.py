@@ -1,8 +1,9 @@
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
-from ..base import ModelManager
+from torch import nn
+
 from .. import utils
+from ..base import ModelManager
 
 
 class Encoder3D(nn.Module):
@@ -98,8 +99,8 @@ class ClusterProjectionHead(nn.Module):
         )
 
     def forward(self, z):
-        logits = self.fc(z)
-        pairwise = torch.matmul(logits, logits.t())
+        logits = F.normalize(self.fc(z), dim=1)
+        pairwise = logits @ logits.t() * 5.0
         return pairwise
 
 
@@ -124,8 +125,8 @@ class BetaTCVAE(nn.Module, ModelManager):
         mu, logvar = self.encoder(x)
         z = self.reparameterize(mu, logvar)
         recon = self.decoder(z)
-        feature_pred = self.prediction_head(z)
-        cluster_pairwise = self.cluster_projection_head(z)
+        feature_pred = self.prediction_head(mu)
+        cluster_pairwise = self.cluster_projection_head(mu)
 
         return {
             "recon": recon,

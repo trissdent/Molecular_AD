@@ -1,8 +1,10 @@
+import os
+
+import numpy as np
 import pytorch_lightning as pl
+import torch
 from pytorch_lightning.callbacks import ModelCheckpoint
 from pytorch_lightning.loggers import CSVLogger
-import torch
-import numpy as np
 from shared.models.CIMLR import CIMLR_Feature_Ranking
 
 
@@ -22,6 +24,7 @@ class LightningModel(pl.LightningModule):
         self.exp_logger = exp_logger
         self.feature_names = feature_names
         self.top_k = top_k
+        self.topk_history = []        
         self.train_z = []
         self.train_features = []
         self.train_image_ids = []
@@ -43,8 +46,10 @@ class LightningModel(pl.LightningModule):
         self.log("train_recon", loss_dict["recon_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.log("train_kl", loss_dict["kl_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.log("train_dim_kl", loss_dict["dim_kl"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
+        self.log("train_tc", loss_dict["tc"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.log("train_pred", loss_dict["pred_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.log("train_cluster", loss_dict["cluster_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
+        self.log("train_cluster_pw_std", loss_dict["cluster_pw_std"], on_step=False, on_epoch=True, batch_size=bs)
         self.train_z.append(model_output["mu"].detach().cpu())
         self.train_features.append(features.detach().cpu())
         ids = image_id if isinstance(image_id, (list, tuple)) else list(image_id)
@@ -64,6 +69,7 @@ class LightningModel(pl.LightningModule):
         self.log("val_recon", loss_dict["recon_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.log("val_kl", loss_dict["kl_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.log("val_dim_kl", loss_dict["dim_kl"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
+        self.log("val_tc", loss_dict["tc"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.log("val_pred", loss_dict["pred_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
 
         self.val_z.append(model_output["mu"].detach().cpu())
@@ -93,11 +99,6 @@ class LightningModel(pl.LightningModule):
             val_z = torch.cat(self.val_z, dim=0)
             val_features = torch.cat(self.val_features, dim=0)
 
-            idx = getattr(self.loss_handler.loss_fn, "active_feature_idx", None)
-            if idx is not None:
-                train_features = train_features[:, idx]
-                val_features = val_features[:, idx]
-
             train_dci = self.metric_handler.compute_dci(train_z, train_features)
             val_dci = self.metric_handler.compute_dci(val_z, val_features)
 
@@ -114,7 +115,7 @@ class LightningModel(pl.LightningModule):
             self.log("val_C", val_dci["completeness"], prog_bar=True)
             self.log("stable_dims", float(len(stable_dims)), prog_bar=True)
 
-            cur = set(int(d) for d in stable_dims)
+            cur = {int(d) for d in stable_dims}
             prev = getattr(self, "prev_stable_dims", None)
             overlap = len(cur & prev) if prev is not None else 0
             denom = len(prev) if prev else len(cur)
@@ -154,6 +155,17 @@ class LightningModel(pl.LightningModule):
             overlap = len(set(topk) & set(prev)) if prev else 0
             self.prev_topk = topk
             self.loss_handler.loss_fn.active_feature_idx = topk
+    
+            names = [self.feature_names[i] for i in topk] if self.feature_names is not None else []
+            self.topk_history.append({
+                "epoch": self.current_epoch,
+                "overlap": overlap,
+                "top_k": self.top_k,
+                "n_clusters": self.loss_handler.loss_fn.n_clusters,
+                "feature_idx": "|".join(str(i) for i in topk),
+                "feature_names": "|".join(names),
+            })
+
             if self.exp_logger:
                 self.exp_logger.log_message(
                     f"[epoch {self.current_epoch}] top{self.top_k} "
@@ -178,6 +190,12 @@ class LightningModel(pl.LightningModule):
             return optimizer
         return {"optimizer": optimizer, "lr_scheduler": scheduler}
 
+    def on_train_end(self):
+        if self.topk_history and self.exp_logger:
+            import pandas as pd
+            pd.DataFrame(self.topk_history).to_csv(
+                self.exp_logger.experiment_dir / "topk_history.csv", index=False
+            )
 
 class Trainer:
 
@@ -209,10 +227,10 @@ class Trainer:
         checkpoint_callback = ModelCheckpoint(
             dirpath=self.checkpoint_dir,
             filename="best",
-            monitor="val_loss",
+            monitor="val_pred",
             mode="min",
             save_top_k=1,
-            save_last=False,
+            save_last=True,
         )
 
         if self.experiment_dir:

@@ -1,17 +1,22 @@
-import torch, os, json
-from torch.utils.data import DataLoader
+import json
+import os
+
+import numpy as np
+import pandas as pd
+import torch
 from configs.config import ConfigReader
+from shared.models.logger import ExperimentLogger
 from shared.models.loss_function import LossHandler
 from shared.models.metrics import MetricHandler
 from shared.models.optimization import OptimizerHandler
 from shared.models.trainer import Trainer
-from shared.models.logger import ExperimentLogger
 from shared.models.visualization import plot_training_curves
 from shared.services.data.dataset import MRIDataset
 from shared.services.data.transforms import MRITransformer
 from shared.services.models_hub.beta_tc_vae.model import BetaTCVAE
-import pandas as pd
 from sklearn.model_selection import train_test_split
+from torch.utils.data import DataLoader
+
 
 def run(config_path="./configs/defaults.yaml", experiment_path=None):
     config = ConfigReader.merge(config_path, experiment_path)
@@ -32,6 +37,7 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
     demo["image_id"] = demo["image_id"].astype(str)
     demo = demo.dropna(subset=["diagnosis"])
     label_lookup = dict(zip(demo["image_id"], demo["diagnosis"].str.lower()))
+    ptau_ids = set(demo.loc[demo["ptau217_alzpath"].notna(), "image_id"])
 
     feat_df = pd.read_csv(config.data.feature_csv_path)
     feat_df["image_id"] = feat_df["image_id"].astype(str)
@@ -50,16 +56,48 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
         train_ids, val_ids, test_ids = split["train"], split["val"], split["test"]
         print(f"Loaded existing split: {split_path}")
     else:
-        train_ids, temp_ids, train_lab, temp_lab = train_test_split(
-            ids, labels, train_size=768, stratify=labels, random_state=42,
+        TEST_SIZE = 143
+        VAL_SIZE = 142
+
+        id_label = dict(zip(ids, labels))
+        with_ptau = [i for i in ids if i in ptau_ids]
+        without_ptau = [i for i in ids if i not in ptau_ids]
+
+        n_cn = sum(1 for i in with_ptau if id_label[i] == "cn")
+        n_ad = len(with_ptau) - n_cn
+        n_fill = TEST_SIZE - len(with_ptau)
+
+        rng = np.random.default_rng(42)
+        pool_cn = [i for i in without_ptau if id_label[i] == "cn"]
+        pool_ad = [i for i in without_ptau if id_label[i] == "ad"]
+        rng.shuffle(pool_cn)
+        rng.shuffle(pool_ad)
+
+        fill_ad = min(n_fill, max(0, n_cn - n_ad), len(pool_ad))
+        fill_cn = min(n_fill - fill_ad, len(pool_cn))
+        filler = pool_ad[:fill_ad] + pool_cn[:fill_cn]
+
+        test_ids = with_ptau + filler
+        remaining = [i for i in ids if i not in set(test_ids)]
+        remaining_labels = [id_label[i] for i in remaining]
+
+        train_ids, val_ids = train_test_split(
+            remaining, train_size=768, test_size=VAL_SIZE, stratify=remaining_labels, random_state=42,
         )
-        val_ids, test_ids = train_test_split(
-            temp_ids, test_size=0.50, stratify=temp_lab, random_state=42,
-        )
+
         split = {"train": train_ids, "val": val_ids, "test": test_ids}
         os.makedirs(config.training.checkpoint_dir, exist_ok=True)
         with open(split_path, "w") as f:
             json.dump(split, f, indent=2)
+
+        def counts(id_list):
+            c = pd.Series([id_label[i] for i in id_list]).value_counts().to_dict()
+            p = sum(1 for i in id_list if i in ptau_ids)
+            return f"n={len(id_list)} {c} ptau={p}"
+
+        print(f"train  {counts(train_ids)}")
+        print(f"val    {counts(val_ids)}")
+        print(f"test   {counts(test_ids)}")
 
     print(f"Train: {len(train_ids)}, val: {len(val_ids)}, test: {len(test_ids)}")
 
@@ -126,7 +164,14 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
         kl_weight=config.loss.kl_weight,
         prediction_weight=config.loss.prediction_weight,
         cluster_weight=config.loss.cluster_weight,
+        tc_weight=config.loss.tc_weight,
+        queue_size=config.loss.queue_size,
+        queue_warmup=config.loss.queue_warmup,
         n_clusters=config.loss.n_clusters,
+        recon_scale=config.loss.recon_scale,
+        pred_scale=config.loss.pred_scale,
+        cluster_scale=config.loss.cluster_scale,
+        tc_scale=config.loss.tc_scale,
         dataset_size=len(train_subset),
         exp_logger=logger,
     )
@@ -159,7 +204,7 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
         exp_logger=logger,
         feature_names=train_dataset.feature_names,
         top_k=config.training.top_k,
-        estimate_c_every=config.training.estimate_c_every,
+        estimate_c_every=0,
         estimate_c_warmup=config.training.estimate_c_warmup,
         estimate_c_until=config.training.estimate_c_until,
         

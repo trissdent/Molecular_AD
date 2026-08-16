@@ -1,10 +1,12 @@
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import numpy as np
 import time
-from sklearn.mixture import GaussianMixture
+
+import numpy as np
+import torch
+import torch.nn.functional as F
 from shared.models.CIMLR import CIMLR, Estimate_Number_of_Clusters_CIMLR
+from sklearn.mixture import GaussianMixture
+from torch import nn
+
 
 class LossHandler:
 
@@ -32,6 +34,8 @@ class BetaTCVAELoss:
 
     def __init__(self, recon_weight=1.0, kl_weight=1e-6,
                 prediction_weight=1.0, cluster_weight=0.5,
+                tc_weight=1.0, queue_size=8, queue_warmup=4,
+                recon_scale=1.0, pred_scale=1.0, cluster_scale=1.0, tc_scale=1.0,
                 n_clusters=2, dataset_size=None, exp_logger=None):
         self.dataset_size = dataset_size
         self.training = True
@@ -40,6 +44,15 @@ class BetaTCVAELoss:
         self.kl_weight = kl_weight
         self.prediction_weight = prediction_weight
         self.cluster_weight = cluster_weight
+        self.tc_weight = tc_weight
+        self.recon_scale = recon_scale
+        self.pred_scale = pred_scale
+        self.cluster_scale = cluster_scale
+        self.tc_scale = tc_scale
+        self.queue_size = queue_size
+        self.queue_warmup = queue_warmup
+        self.mu_queue = []
+        self.logvar_queue = []
         self.n_clusters = n_clusters
         print("num cluster", self.n_clusters)
         self.exp_logger = exp_logger
@@ -59,6 +72,28 @@ class BetaTCVAELoss:
         # Positive KL(q(z|x) || N(0, I)), averaged per subject
         kl = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp(), dim=1)
         return kl.mean()
+
+    def _log_gaussian(self, z, mu, logvar):
+        return -0.5 * (np.log(2 * np.pi) + logvar + (z - mu).pow(2) / logvar.exp())
+
+    def _tc_loss(self, z, mu_ref, logvar_ref):
+        B, D = z.shape
+        M = mu_ref.size(0)
+
+        mat = self._log_gaussian(z.view(B, 1, D),
+                                 mu_ref.view(1, M, D),
+                                 logvar_ref.view(1, M, D))
+
+        log_q_z = torch.logsumexp(mat.sum(2), dim=1) - np.log(M)
+        log_prod_q_z = (torch.logsumexp(mat, dim=1) - np.log(M)).sum(1)
+
+        return (log_q_z - log_prod_q_z).mean()
+
+    def _push_queue(self, mu, logvar):
+        self.mu_queue.append(mu.detach())
+        self.logvar_queue.append(logvar.detach())
+        self.mu_queue = self.mu_queue[-self.queue_size:]
+        self.logvar_queue = self.logvar_queue[-self.queue_size:]
 
     def _prediction_loss(self, feature_pred, feature_target):
         idx = getattr(self, "active_feature_idx", None)
@@ -84,7 +119,7 @@ class BetaTCVAELoss:
             probs_list.append(self.cluster_probs_cache[key])
 
         probs = torch.stack(probs_list).to(cluster_pairwise.device)
-        target = torch.matmul(probs, probs.t())
+        target = 1.0 - torch.cdist(probs, probs, p=1) / 2.0
         return F.binary_cross_entropy_with_logits(cluster_pairwise, target)
 
     def update_cluster_cache(self, image_ids: list, z_np: np.ndarray, estimate_c: bool = False):
@@ -110,7 +145,7 @@ class BetaTCVAELoss:
             print("num cluster", self.n_clusters)
             if estimate_c:
                 candidates = np.array([2, 3, 4])
-                K1, K2 = Estimate_Number_of_Clusters_CIMLR([z_np], candidates)
+                K1, _K2 = Estimate_Number_of_Clusters_CIMLR([z_np], candidates)
                 best_c = int(candidates[np.argmin(K1)])
                 if best_c != self.n_clusters:
                     self._log(f"[ClusterCount] c: {self.n_clusters} → {best_c}")
@@ -141,7 +176,7 @@ class BetaTCVAELoss:
             self._log(f"Updated {N} samples → "
                     f"cluster sizes: {np.bincount(probs.argmax(1)).tolist()}")
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             self._log(f"[ClusterCache] CIMLR/GMM failed, keeping old cache: {e}")
 
 
@@ -149,6 +184,7 @@ class BetaTCVAELoss:
         recon = model_output["recon"]
         mu = model_output["mu"]
         logvar = model_output["logvar"]
+        z = model_output["z"]
         feature_pred = model_output["feature_pred"]
         cluster_pairwise = model_output["cluster_pairwise"]
         image_ids = model_output.get("image_ids", [])
@@ -158,24 +194,36 @@ class BetaTCVAELoss:
         dim_kl = self._standard_kl_loss(mu, logvar)
         kl_loss = self.kl_weight * dim_kl
 
+        mu_ref = torch.cat(self.mu_queue + [mu], dim=0)
+        logvar_ref = torch.cat(self.logvar_queue + [logvar], dim=0)
+        tc = self._tc_loss(z, mu_ref, logvar_ref)
+        ready = len(self.mu_queue) >= self.queue_warmup
+        tc_term = tc.clamp(min=0.0) if (self.training and ready) else torch.tensor(0.0, device=recon.device)
+
+        if self.training:
+            self._push_queue(mu, logvar)
+
         pred_loss = self._prediction_loss(feature_pred, feature_target)
         if compute_cluster:
             cluster_loss = self._cluster_loss(cluster_pairwise, image_ids)
         else:
             cluster_loss = torch.tensor(0.0, device=recon.device)
 
-        total_loss = (self.recon_weight * recon_loss
-                      + kl_loss
-                      + self.prediction_weight * pred_loss
-                      + self.cluster_weight * cluster_loss)
+        total_loss = (self.recon_weight * recon_loss / self.recon_scale
+                + kl_loss
+                + self.tc_weight * tc_term / self.tc_scale
+                + self.prediction_weight * pred_loss / self.pred_scale
+                + self.cluster_weight * cluster_loss / self.cluster_scale)
 
         loss_dict = {
             "total_loss": total_loss,
             "recon_loss": recon_loss,
             "dim_kl": dim_kl,
             "kl_loss": kl_loss,
+            "tc": tc,
             "pred_loss": pred_loss,
             "cluster_loss": cluster_loss,
+            "cluster_pw_std": cluster_pairwise.std().detach(),
         }
 
         return total_loss, loss_dict
