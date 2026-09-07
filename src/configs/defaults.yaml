@@ -21,7 +21,7 @@ training:
   lr: 0.0002
   optimizer: "adamw"
   weight_decay: 1.0e-2
-  scheduler: null
+  scheduler: "cosine"
   checkpoint_dir: "../checkpoints/"
   log_dir: "../logs/"
   dci_every_n_epochs: 1
@@ -44,7 +44,7 @@ loss:
   recon_scale: 0.1575
   pred_scale: 0.9945
   cluster_scale: 1.1391
-  tc_scale: 0.8646
+  tc_scale: 2.8851
 # Metrics
 metrics:
   dci_alpha: 0.1

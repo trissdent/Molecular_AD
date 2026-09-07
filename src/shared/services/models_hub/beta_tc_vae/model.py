@@ -81,6 +81,7 @@ class PredictionHead(nn.Module):
         self.fc = nn.Sequential(
             nn.Linear(z_dim, 128),
             nn.ReLU(),
+            nn.Dropout(0.5),
             nn.Linear(128, num_features),
         )
 

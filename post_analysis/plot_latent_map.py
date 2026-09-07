@@ -34,7 +34,8 @@ OUT_DIR = RUN_DIR / "post_analysis"
 
 N_BINS = 3
 CV_FOLDS = 5
-
+DISPLAY_NAMES = {"etiv": "head size", "age": "age", "gender": "sex"}
+BIN_NAMES = {3: ["small", "medium", "large"]}
 
 def cluster_mu(mu, n_clusters):
     mu = mu.astype("float64")
@@ -119,9 +120,11 @@ def scatter_panel(ax, coords, labels, title, is_diagnosis):
                        color=colors.get(value, "tab:gray"), label=str(value))
     else:
         finite = np.isfinite(labels)
+        names = BIN_NAMES.get(N_BINS)
         for value in np.unique(labels[finite]):
             mask = finite & (labels == value)
-            ax.scatter(coords[mask, 0], coords[mask, 1], s=14, alpha=0.7, label=f"bin {int(value)}")
+            label = names[int(value)] if names else f"bin {int(value)}"
+            ax.scatter(coords[mask, 0], coords[mask, 1], s=14, alpha=0.7, label=label)
 
     ax.set_xlabel("PC1")
     ax.set_ylabel("PC2")
@@ -194,8 +197,9 @@ if __name__ == "__main__":
             continue
 
         labels = values if name == "gender" else bin_continuous(values)
-        rows.append(plot_alignment(features, mu, diagnoses, labels, name, OUT_DIR / f"alignment_{name}.png"))
-
+        rows.append(plot_alignment(features, mu, diagnoses, labels,
+                                   DISPLAY_NAMES.get(name, name),
+                                   OUT_DIR / f"alignment_{name}.png"))
     summary = pd.DataFrame(rows)
     summary.to_csv(OUT_DIR / "alignment_decodability.csv", index=False)
 
