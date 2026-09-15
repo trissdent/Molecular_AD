@@ -1,10 +1,17 @@
-cd /home/minhtri/Molecular_AD
+#!/bin/bash
 
-export RUN_DIR="/home/minhtri/Molecular_AD/checkpoints/2026-08-16_13-48-33"
+set -e
 
-# python post_analysis/extract_latents.py && \
-# python post_analysis/analyze_dci.py && \
-# python post_analysis/compute_index.py && \
-# python post_analysis/validate_index.py && \
-python post_analysis/plot_latent_map.py 
-# python post_analysis/age_index.py
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+RUN_NAME="2026-08-16_13-48-33"
+export RUN_DIR="$PROJECT_ROOT/checkpoints/$RUN_NAME"
+
+cd "$PROJECT_ROOT/src" && python test_pipeline.py
+
+cd "$PROJECT_ROOT"
+
+python post_analysis/s1_latent_space.py
+python post_analysis/s2_index.py
+python post_analysis/s3_alignment.py
+python post_analysis/s4_apoe.py
