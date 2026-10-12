@@ -334,6 +334,7 @@ if __name__ == "__main__":
     test_df = merged[merged["split"] == "test"].copy()
 
     plot_distribution(test_df, RAW_INDEX, OUT_DIR / f"{RAW_INDEX}_distribution.png")
+    plot_distribution(test_df, AGECORR_INDEX, OUT_DIR / f"{AGECORR_INDEX}_distribution.png")
 
     for target in TARGETS:
         if target not in test_df.columns:

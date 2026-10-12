@@ -130,7 +130,7 @@ def plot_partial(ad_df, index_name, statistics, output_path):
         ax.set_ylabel(TARGET_LABELS[target])
         ax.set_title(
             f"{TARGET_LABELS[target]} (n={row['n']})\n"
-            f"index p={row['index_p']:.3f}   |   APOE e4 p={row['e4_p']:.2f}",
+            f"index p={row['index_p']:.2g}   |   APOE e4 p={row['e4_p']:.2g}",
             fontsize=10)
         ax.legend(frameon=False, fontsize=9)
         ax.spines[["top", "right"]].set_visible(False)
