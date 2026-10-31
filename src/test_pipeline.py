@@ -23,9 +23,9 @@ def build_metadata(demographics_path, feature_csv_path):
     record_date = pd.to_datetime(demographics["record_date"], errors="coerce")
     demographics["age"] = record_date.dt.year - demographics["birth_year"]
 
-    features = pd.read_csv(feature_csv_path, usecols=["image_id", ETIV_COL])
+    features = pd.read_csv(feature_csv_path, usecols=["image_id"])
     features["image_id"] = features["image_id"].astype(str)
-    features = features.rename(columns={ETIV_COL: "etiv"})
+    features["etiv"] = float("nan")
 
     merged = demographics.merge(features, on="image_id", how="left")
     return merged.set_index("image_id")

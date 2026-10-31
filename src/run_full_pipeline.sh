@@ -29,5 +29,6 @@ cd "$PROJECT_ROOT"
 python post_analysis/s1_latent_space.py
 python post_analysis/s2_index.py
 python post_analysis/s3_alignment.py
+python post_analysis/s4_apoe.py
 
 echo "Full pipeline completed"

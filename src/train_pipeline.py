@@ -82,7 +82,7 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
         remaining_labels = [id_label[i] for i in remaining]
 
         train_ids, val_ids = train_test_split(
-            remaining, train_size=768, test_size=VAL_SIZE, stratify=remaining_labels, random_state=42,
+            remaining, train_size=768, test_size=len(remaining) - 768, stratify=remaining_labels, random_state=42,
         )
 
         split = {"train": train_ids, "val": val_ids, "test": test_ids}
