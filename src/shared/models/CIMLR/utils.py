@@ -1,7 +1,8 @@
 import numpy as np
 import scipy.spatial.distance as dist
-from scipy.stats import norm, beta
+from scipy.stats import beta, norm
 from sklearn.cluster import KMeans
+
 
 def dist2(x, c=None):
     if c is None:

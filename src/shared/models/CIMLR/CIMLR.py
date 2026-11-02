@@ -1,7 +1,22 @@
-import numpy as np
 import time
+
+import numpy as np
 from tqdm import tqdm
-from .utils import multipleK, Network_Diffusion, NE_dn, eig1, L2_distance_1, projsplx_c, umkl_bo, Kbeta, tsne_p_bo, litekmeans, dist2
+
+from .utils import (
+    Kbeta,
+    L2_distance_1,
+    NE_dn,
+    Network_Diffusion,
+    dist2,
+    eig1,
+    litekmeans,
+    multipleK,
+    projsplx_c,
+    tsne_p_bo,
+    umkl_bo,
+)
+
 
 def CIMLR(alldata, c, k=10):
     NITER = 30
@@ -77,7 +92,7 @@ def CIMLR(alldata, c, k=10):
         D_mat = np.diag(np.sum(S, axis=1))
         L = D_mat - S
         F_old = F
-        F, temp_val, ev = eig1(L, c, 0)
+        F, _temp_val, ev = eig1(L, c, 0)
         F = NE_dn(F, 'ave')
         F = (1 - beta) * F_old + beta * F
         evs[:, iter+1] = ev[:c]

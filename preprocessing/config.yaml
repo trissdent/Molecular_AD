@@ -1,0 +1,54 @@
+# preprocessing/config.yaml
+# One-time data preparation. Every preprocessing script reads only this file.
+
+paths:
+  project_root: /home/minhtri/Molecular_AD
+  out_dir: /home/minhtri/Molecular_AD/data/prepared   # all outputs land here
+  db_url_env: POSTGRESQL_URL                          # read from .env, never stored here
+  aligned_dir: /mnt/data_lab513/molecular_mri/algined_dti
+
+# Server = ground truth for which scans exist. DB table = confirms modality + gives visit_id.
+modalities:
+  smri:
+    db_table: mri
+    scan_root: /mnt/data_lab513/adni/sMRI/processed/data
+    scan_file: mri/brain.finalsurfs.mgz        # <scan_root>/<subject>/<image_id>/<scan_file>
+    feature_csv: /home/minhtri/Molecular_AD/data/extracted_from_img_pipeline/smri_features.csv
+    column_dict_csv: /home/minhtri/Molecular_AD/data/extracted_from_img_pipeline/smri_columns.csv
+    cache_dir: /mnt/data_lab513/molecular_mri/cache_smri
+    
+  dti:
+    db_table: dti
+    scan_root: /mnt/data_lab513/adni/dti/processed/data
+    scan_file: dtifit/dti_FA.nii.gz
+    feature_csv: /home/minhtri/Molecular_AD/data/extracted_from_img_pipeline/dti_features.csv
+    column_dict_csv: /home/minhtri/Molecular_AD/data/extracted_from_img_pipeline/dti_columns.csv
+    cache_dir: /mnt/data_lab513/molecular_mri/cache_dti
+
+# Cohort = visits that have BOTH modalities (all models train and test on it)
+cohort:
+  require_modalities: [smri, dti]
+  diagnoses: [cn, ad]
+
+clinical:
+  apoe_csv: /mnt/data_lab513/adni/raw_metadata/APOERES.csv
+  biomarker_csv: /home/minhtri/data_pipeline.clean_adni/new_table/blood_biomarker.csv
+  biomarker_platform: SIMOA
+  biomarkers:                                  # PLASMA_BIOMARKER -> output column
+    AlzPath_plasma_ptau217: ptau217_alzpath
+    Janssen_plasma_ptau217: ptau217_janssen
+
+features:
+  corr_threshold: 0.99
+  max_missing: 0.05
+  dti:
+    maps: [FA, AxD, RD]
+
+volumes:
+  target_shape: [96, 96, 96]
+  margin: 5
+
+split:
+  seed: 42
+  test_anchor: ptau217_alzpath
+  train_visits: 768

@@ -2,11 +2,14 @@ import os
 from pathlib import Path
 
 import matplotlib
+
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import statsmodels.api as sm
+import yaml
+from index_core import add_trend_line
 from scipy.stats import spearmanr
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score, roc_curve
@@ -21,7 +24,8 @@ if not RUN_DIR:
 RUN_DIR = Path(RUN_DIR).resolve()
 
 INDEX_PATH = RUN_DIR / "s2_index" / "disease_index.csv"
-DEMOGRAPHICS_PATH = PROJECT_ROOT / "data" / "all_demographics.csv"
+RUN_CONFIG = yaml.safe_load(open(PROJECT_ROOT / "logs" / RUN_DIR.name / "config.yml"))
+COHORT_PATH = Path(RUN_CONFIG["data"]["prepared_dir"]) / "cohort.csv"
 OUT_DIR = RUN_DIR / "s4_apoe"
 
 RAW_INDEX = "cn_ad_projection"
@@ -36,7 +40,6 @@ TARGET_LABELS = {
     "ptau217_alzpath": "pTau-217 alzpath",
     "ptau217_janssen": "pTau-217 janssen",
 }
-N_OUTLIER_DROP = 1
 
 GENOTYPE_ORDER = ["2/2", "2/3", "3/3", "2/4", "3/4", "4/4"]
 
@@ -53,16 +56,8 @@ def count_e4(genotype):
     return float(genotype.count("4"))
 
 
-def drop_outliers(subset, target):
-    if target not in PTAU_TARGETS or N_OUTLIER_DROP <= 0 or len(subset) <= N_OUTLIER_DROP:
-        return subset
-
-    order = np.argsort(subset[target].to_numpy())
-    return subset.iloc[np.sort(order[:-N_OUTLIER_DROP])]
-
-
 def paired_subset(df, index_name, target):
-    return drop_outliers(df.dropna(subset=[index_name, target, "e4_carrier"]), target)
+    return df.dropna(subset=[index_name, target, "e4_carrier"])
 
 
 def safe_spearman(x, y):
@@ -122,9 +117,7 @@ def plot_partial(ad_df, index_name, statistics, output_path):
                        edgecolor="white", linewidth=0.6,
                        label=f"e4 {name} (n={len(group)})")
 
-        fit = np.polyfit(subset[index_name], subset[target], 1)
-        line_x = np.linspace(subset[index_name].min(), subset[index_name].max(), 50)
-        ax.plot(line_x, np.polyval(fit, line_x), color="#444444", linewidth=1.8, alpha=0.9)
+        add_trend_line(ax, subset[index_name], subset[target], target, "#444444")
 
         ax.set_xlabel("disease index")
         ax.set_ylabel(TARGET_LABELS[target])
@@ -155,10 +148,7 @@ def plot_stratified(subset, index_name, target, output_path):
         ax.scatter(group[index_name], group[target], s=46, alpha=0.8, color=color,
                    edgecolor="white", linewidth=0.6)
 
-        if len(group) > 4:
-            fit = np.polyfit(group[index_name], group[target], 1)
-            line_x = np.linspace(group[index_name].min(), group[index_name].max(), 50)
-            ax.plot(line_x, np.polyval(fit, line_x), color=color, linewidth=1.8, alpha=0.9)
+        add_trend_line(ax, group[index_name], group[target], target, color)
 
         ax.set_xlabel("disease index")
         ax.set_ylabel(label)
@@ -283,14 +273,11 @@ def plot_genotype_gradient(table, output_path):
 if __name__ == "__main__":
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    index_df = pd.read_csv(INDEX_PATH)
-    index_df["image_id"] = index_df["image_id"].astype(str)
+    index_df = pd.read_csv(INDEX_PATH, dtype={"visit_id": str})
+    cohort = pd.read_csv(COHORT_PATH, dtype={"visit_id": str})
 
-    demographics = pd.read_csv(DEMOGRAPHICS_PATH, low_memory=False)
-    demographics["image_id"] = demographics["image_id"].astype(str)
-
-    keep = ["image_id", "apoe_genotype"] + [t for t in TARGETS if t not in index_df.columns]
-    merged = index_df.merge(demographics[keep], on="image_id", how="left")
+    keep = ["visit_id", "apoe_genotype"] + [t for t in TARGETS if t not in index_df.columns]
+    merged = index_df.merge(cohort[keep], on="visit_id", how="left")
 
     merged["e4_count"] = merged["apoe_genotype"].map(count_e4)
     merged["e4_carrier"] = (merged["e4_count"] > 0).astype(float)

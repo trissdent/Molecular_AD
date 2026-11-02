@@ -3,8 +3,8 @@
 # Add your reusable layers here.
 
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
+from torch import nn
 
 
 class DoubleConv(nn.Module):

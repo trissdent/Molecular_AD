@@ -1,6 +1,8 @@
 import numpy as np
 from scipy.stats import beta
+
 from .utils import LaplacianScore
+
 
 def betaScores(r):
     n = np.sum(~np.isnan(r))
@@ -38,7 +40,7 @@ def CIMLR_Feature_Ranking(A, X):
     
     for i in range(100):
         index = np.random.permutation(n_samples)
-        index = index[:int(round(n_samples * 0.9))]
+        index = index[:round(n_samples * 0.9)]
         Ai = A[np.ix_(index, index)]
         Xi = X[index, :]
         yscore[i, :] = LaplacianScore(Xi, Ai)
@@ -46,7 +48,7 @@ def CIMLR_Feature_Ranking(A, X):
     yscore = 1 - yscore
     glist = (yscore.T - np.min(yscore) + np.finfo(float).eps) / (np.max(yscore) - np.min(yscore) + np.finfo(float).eps)
     
-    aggR, pval = aggregateRanks(glist)
+    _aggR, pval = aggregateRanks(glist)
     aggR_idx = np.argsort(pval, kind='stable')
     pval = pval[aggR_idx]
     

@@ -1,0 +1,4 @@
+# Early fusion: T1 + aligned FA as 2 channels, sMRI + DTI features concatenated as targets.
+# Loss scales tuned for this experiment go here (override loss: in defaults.yaml).
+data:
+  modality: both

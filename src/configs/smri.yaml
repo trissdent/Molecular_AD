@@ -1,0 +1,5 @@
+# sMRI, stronger weight decay against overfitting (default 1.0e-2).
+data:
+  modality: smri
+training:
+  weight_decay: 5.0e-2

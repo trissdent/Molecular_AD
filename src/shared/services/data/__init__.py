@@ -1,8 +1,17 @@
-from .dataset import MRIDataset
-from .transforms import BaseTransformer, MRITransformer
+from .dataset import (
+    VisitDataset,
+    load_features,
+    load_metadata,
+    load_split,
+    modality_list,
+    n_channels,
+)
 
 __all__ = [
-    "BaseTransformer",
-    "MRIDataset",
-    "MRITransformer"
+    "VisitDataset",
+    "load_features",
+    "load_metadata",
+    "load_split",
+    "modality_list",
+    "n_channels",
 ]

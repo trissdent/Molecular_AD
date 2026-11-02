@@ -1,6 +1,8 @@
 import numpy as np
-from .utils import multipleK, Network_Diffusion
 from scipy.sparse import spdiags
+
+from .utils import Network_Diffusion, multipleK
+
 
 def discretisationEigenVectorData(EigenVector):
     n, k = EigenVector.shape
@@ -69,7 +71,7 @@ def Estimate_Number_of_Clusters_given_graph(W, NUMC):
         else:
             UU = U[:, :ck]
             UU = UU / (np.sqrt(np.sum(UU**2, axis=1))[:, None] + np.finfo(float).eps)
-            EigenvectorsDiscrete, EigenVectors = discretisation(UU)
+            _EigenvectorsDiscrete, EigenVectors = discretisation(UU)
             EigenVectors = EigenVectors**2
             temp1 = np.sort(EigenVectors, axis=1)[:, ::-1]
             val = (1 - eigenvalue[ck]) / (1 - eigenvalue[ck-1]) * np.sum(np.diag(1.0 / (temp1[:, 0] + np.finfo(float).eps)) @ temp1[:, :max(2, ck-1)])

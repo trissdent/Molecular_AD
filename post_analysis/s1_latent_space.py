@@ -4,6 +4,7 @@ import sys
 from pathlib import Path
 
 import matplotlib
+
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
@@ -60,7 +61,9 @@ def load_cimlr_topk():
     row = history[history["epoch"] == best_epoch]
 
     if row.empty:
-        raise ValueError(f"No top-k recorded for best epoch {best_epoch}")
+        # best epoch fell before the top-k warmup: use the first top-k recorded
+        row = history.head(1)
+        print(f"No top-k at best epoch {best_epoch}; using epoch {int(row.iloc[0]['epoch'])}")
 
     cimlr_topk = [int(x) for x in row.iloc[0]["feature_idx"].split("|")]
     return best_epoch, cimlr_topk, history

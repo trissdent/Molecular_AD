@@ -1,22 +1,27 @@
 # defaults.yaml
+# Shared settings for every experiment. Per-experiment overrides live in
+# configs/smri.yaml, configs/dti.yaml, configs/both.yaml (passed with --exp).
 
-# Data
+# Data (everything here is produced by preprocessing/)
 data:
-  data_dir: "/mnt/data_lab513/adni/dti/processed/data/"
-  feature_csv_path: "/home/minhtri/Molecular_AD/data/pool_dti.csv"
-  cache_dir: "/home/minhtri/Molecular_AD/output/cache_dti"
+  modality: smri                    # smri | dti | both (set by the override file)
+  prepared_dir: "/home/minhtri/Molecular_AD/data/prepared"   # cohort, split, features, etiv
+  cache_dirs:
+    smri: "/mnt/data_lab513/molecular_mri/cache_smri"
+    dti: "/mnt/data_lab513/molecular_mri/cache_dti"
   batch_size: 32
   num_workers: 8
 
-# Model
+# Model (in_channels follows the modality: 1, or 2 for both)
 model:
   name: "beta_tc_vae"
   z_dim: 128
-  in_channels: 1
   cluster_projection_dim: 32
+  input_size: 96                    # must match volumes.target_shape in preprocessing
 
 # Training
 training:
+  seed: 42                          # training randomness (weights, batch order); the split has its own seed
   max_epochs: 100
   lr: 0.0002
   optimizer: "adamw"
@@ -29,8 +34,11 @@ training:
   estimate_c_every: 0
   estimate_c_warmup: 5
   estimate_c_until: 40
+  cimlr_mode: full                  # full | off | fixed (off / fixed are the ablations)
+  cluster_age_adjust: false         # true: CIMLR clusters latents with the CN aging trend removed
+  checkpoint_monitor: val_pred      # best epoch = lowest val prediction error on the active features
 
-# Loss
+# Loss (scales bring each term to a similar size; weights set their importance)
 loss:
   type: "beta_tc_vae"
   recon_weight: 1.0
@@ -45,11 +53,7 @@ loss:
   pred_scale: 0.9945
   cluster_scale: 1.1391
   tc_scale: 2.8851
+
 # Metrics
 metrics:
   dci_alpha: 0.1
-
-# Transform
-transform:
-  target_shape: [96, 96, 96]
-  margin: 5

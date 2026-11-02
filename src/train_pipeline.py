@@ -1,8 +1,19 @@
-import json
-import os
+"""Train one experiment.
 
-import numpy as np
-import pandas as pd
+    python train_pipeline.py --exp configs/smri.yaml   # or dti.yaml / both.yaml
+
+Reads cohort split, features and volume caches made by preprocessing/.
+The merged config (defaults + override) is saved in the run's log folder, so
+test_pipeline and post_analysis need only the run name afterwards.
+"""
+
+import argparse
+import os
+import subprocess
+from datetime import datetime
+from pathlib import Path
+
+import pytorch_lightning as pl
 import torch
 from configs.config import ConfigReader
 from shared.models.logger import ExperimentLogger
@@ -11,149 +22,91 @@ from shared.models.metrics import MetricHandler
 from shared.models.optimization import OptimizerHandler
 from shared.models.trainer import Trainer
 from shared.models.visualization import plot_training_curves
-from shared.services.data.dataset import MRIDataset
-from shared.services.data.transforms import MRITransformer
+from shared.services.data import VisitDataset, load_metadata, load_split, n_channels
 from shared.services.models_hub.beta_tc_vae.model import BetaTCVAE
-from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader
 
 
-def run(config_path="./configs/defaults.yaml", experiment_path=None):
-    config = ConfigReader.merge(config_path, experiment_path)
+def git_state():
+    """Commit of the code this run used, and whether there were uncommitted changes."""
+    here = Path(__file__).resolve().parent
 
-    logger = ExperimentLogger(log_dir=config.training.log_dir)
-    logger.log_config(config_path)
-    logger.log_message("Training started")
+    def git(*args):
+        try:
+            return subprocess.run(["git", *args], cwd=here, capture_output=True,
+                                  text=True, check=True).stdout.strip()
+        except (OSError, subprocess.CalledProcessError):
+            return None
+
+    commit = git("rev-parse", "HEAD")
+    changes = git("status", "--porcelain", "--untracked-files=no")
+    return {"commit": commit, "uncommitted_changes": bool(changes) if changes is not None else None}
+
+
+def run(config_path="./configs/defaults.yaml", experiment_path=None, run_name_file=None):
+    config_dict = ConfigReader.merge_dict(config_path, experiment_path)
+    split_ids, split_sha = load_split(config_dict["data"]["prepared_dir"])
+    config_dict["data"]["split_sha"] = split_sha          # test_pipeline checks this
+    config_dict["data"]["experiment_file"] = experiment_path
+    config_dict["git"] = git_state()                       # which code version produced this run
+    config = ConfigReader(config_dict)
+    modality = config.data.modality
+    pl.seed_everything(config.training.seed, workers=True)
+
+    # run name = override file name + time, e.g. dti_seed1_2026-11-02_10-00-00
+    tag = Path(experiment_path).stem if experiment_path else "defaults"
+    run_name = f"{tag}_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}"
+    logger = ExperimentLogger(log_dir=config.training.log_dir, experiment_name=run_name)
+    if run_name_file:       # lets train_and_evaluate.sh know exactly which run this is
+        Path(run_name_file).write_text(run_name)
+    logger.log_config_dict(config_dict)
     run_name = logger.get_run_name()
     run_ckpt_dir = config.training.checkpoint_dir + run_name + "/"
     os.makedirs(run_ckpt_dir, exist_ok=True)
 
-    transform = MRITransformer(
-        target_shape=tuple(config.transform.target_shape),
-        margin=config.transform.margin,
-    )
+    counts = {name: len(ids) for name, ids in split_ids.items()}
+    logger.log_message(f"Training started | modality={modality} | seed={config.training.seed} | "
+                       f"split={counts} sha={split_sha}")
+    print(f"Run {run_name} | modality {modality} | seed {config.training.seed} | "
+          f"split {counts} (sha {split_sha})")
 
-    demo = pd.read_csv("/home/minhtri/Molecular_AD/data/all_demographics.csv")
-    demo["image_id"] = demo["image_id"].astype(str)
-    demo = demo.dropna(subset=["diagnosis"])
-    label_lookup = dict(zip(demo["image_id"], demo["diagnosis"].str.lower()))
-    ptau_ids = set(demo.loc[demo["ptau217_alzpath"].notna(), "image_id"])
+    def make_ds(ids):
+        return VisitDataset(ids, modality, config.data.prepared_dir,
+                            vars(config.data.cache_dirs), normalize=False)
 
-    feat_df = pd.read_csv(config.data.feature_csv_path)
-    feat_df["image_id"] = feat_df["image_id"].astype(str)
-    all_ids = feat_df["image_id"].tolist()
+    train_dataset = make_ds(split_ids["train"])
+    val_dataset = make_ds(split_ids["val"])
 
-    ids, labels = [], []
-    for iid in all_ids:
-        if iid in label_lookup:
-            ids.append(iid)
-            labels.append(label_lookup[iid])
-
-    split_path = run_ckpt_dir + "split.json"
-    if os.path.exists(split_path):
-        with open(split_path) as f:
-            split = json.load(f)
-        train_ids, val_ids, test_ids = split["train"], split["val"], split["test"]
-        print(f"Loaded existing split: {split_path}")
-    else:
-        TEST_SIZE = 143
-        VAL_SIZE = 142
-
-        id_label = dict(zip(ids, labels))
-        with_ptau = [i for i in ids if i in ptau_ids]
-        without_ptau = [i for i in ids if i not in ptau_ids]
-
-        n_cn = sum(1 for i in with_ptau if id_label[i] == "cn")
-        n_ad = len(with_ptau) - n_cn
-        n_fill = TEST_SIZE - len(with_ptau)
-
-        rng = np.random.default_rng(42)
-        pool_cn = [i for i in without_ptau if id_label[i] == "cn"]
-        pool_ad = [i for i in without_ptau if id_label[i] == "ad"]
-        rng.shuffle(pool_cn)
-        rng.shuffle(pool_ad)
-
-        fill_ad = min(n_fill, max(0, n_cn - n_ad), len(pool_ad))
-        fill_cn = min(n_fill - fill_ad, len(pool_cn))
-        filler = pool_ad[:fill_ad] + pool_cn[:fill_cn]
-
-        test_ids = with_ptau + filler
-        remaining = [i for i in ids if i not in set(test_ids)]
-        remaining_labels = [id_label[i] for i in remaining]
-
-        train_ids, val_ids = train_test_split(
-            remaining, train_size=768, test_size=len(remaining) - 768, stratify=remaining_labels, random_state=42,
-        )
-
-        split = {"train": train_ids, "val": val_ids, "test": test_ids}
-        os.makedirs(config.training.checkpoint_dir, exist_ok=True)
-        with open(split_path, "w") as f:
-            json.dump(split, f, indent=2)
-
-        def counts(id_list):
-            c = pd.Series([id_label[i] for i in id_list]).value_counts().to_dict()
-            p = sum(1 for i in id_list if i in ptau_ids)
-            return f"n={len(id_list)} {c} ptau={p}"
-
-        print(f"train  {counts(train_ids)}")
-        print(f"val    {counts(val_ids)}")
-        print(f"test   {counts(test_ids)}")
-
-    print(f"Train: {len(train_ids)}, val: {len(val_ids)}, test: {len(test_ids)}")
-
-    def make_ds(id_list):
-        return MRIDataset(
-            data_dir=config.data.data_dir,
-            feature_csv_path=config.data.feature_csv_path,
-            transform=transform,
-            cache_dir=config.data.cache_dir,
-            image_ids=id_list,
-            normalize=False,
-        )
-
-    train_dataset = make_ds(train_ids)
-    val_dataset   = make_ds(val_ids)
-    test_dataset  = make_ds(test_ids)
-
-    train_raw = train_dataset.raw_features_df.loc[
-        [s["image_id"] for s in train_dataset.samples]
-    ]
+    # feature normalization from the training visits only
+    train_raw = train_dataset.raw_features_df.loc[split_ids["train"]]
     mean = train_raw.mean()
     std = train_raw.std().replace(0, 1.0)
-    for ds in (train_dataset, val_dataset, test_dataset):
+    for ds in (train_dataset, val_dataset):
         ds.set_normalization(mean, std)
-
-    os.makedirs(config.training.checkpoint_dir, exist_ok=True)
     mean.to_csv(run_ckpt_dir + "feature_mean.csv")
     std.to_csv(run_ckpt_dir + "feature_std.csv")
 
-    train_subset = train_dataset
-    val_subset = val_dataset
-
     train_loader = DataLoader(
-        train_subset,
+        train_dataset,
         batch_size=config.data.batch_size,
         shuffle=True,
         num_workers=config.data.num_workers,
-        pin_memory=torch.cuda.is_available()
+        pin_memory=torch.cuda.is_available(),
     )
     val_loader = DataLoader(
-        val_subset,
+        val_dataset,
         batch_size=config.data.batch_size,
         shuffle=False,
         num_workers=config.data.num_workers,
         pin_memory=torch.cuda.is_available(),
     )
 
-    print(f"Train: {len(train_subset)}, Val: {len(val_subset)}")
-    print(f"Features: {len(train_dataset.feature_names)}")
-
     model = BetaTCVAE(
         z_dim=config.model.z_dim,
-        in_channels=config.model.in_channels,
+        in_channels=n_channels(modality),
         num_features=len(train_dataset.feature_names),
         cluster_projection_dim=config.model.cluster_projection_dim,
-        input_size=config.transform.target_shape[0],
+        input_size=config.model.input_size,
     )
     model.summary()
     logger.log_model_info(model)
@@ -172,7 +125,7 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
         pred_scale=config.loss.pred_scale,
         cluster_scale=config.loss.cluster_scale,
         tc_scale=config.loss.tc_scale,
-        dataset_size=len(train_subset),
+        dataset_size=len(train_dataset),
         exp_logger=logger,
     )
 
@@ -188,7 +141,14 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
         T_max=config.training.max_epochs,
     )
 
-    # Train
+    # age + CN flag per training visit, used only when CIMLR clusters age-adjusted latents
+    cluster_age_adjust = bool(getattr(config.training, "cluster_age_adjust", False))
+    cluster_covariates = None
+    if cluster_age_adjust:
+        meta = load_metadata(config.data.prepared_dir).loc[split_ids["train"]]
+        cluster_covariates = {v: (float(r.age), r.diagnosis == "cn") for v, r in meta.iterrows()}
+        logger.log_message("CIMLR clusters age-adjusted latents (trend fitted on train CN)")
+
     trainer = Trainer(
         max_epochs=config.training.max_epochs,
         checkpoint_dir=run_ckpt_dir,
@@ -206,10 +166,13 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
         exp_logger=logger,
         feature_names=train_dataset.feature_names,
         top_k=config.training.top_k,
-        estimate_c_every=0,
+        estimate_c_every=config.training.estimate_c_every,
         estimate_c_warmup=config.training.estimate_c_warmup,
         estimate_c_until=config.training.estimate_c_until,
-        
+        cimlr_mode=config.training.cimlr_mode,
+        checkpoint_monitor=config.training.checkpoint_monitor,
+        cluster_age_adjust=cluster_age_adjust,
+        cluster_covariates=cluster_covariates,
     )
 
     model.save(run_ckpt_dir + "model_weights.pt")
@@ -222,4 +185,9 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None):
 
 
 if __name__ == "__main__":
-    run(config_path="./configs/defaults.yaml")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--config", default="./configs/defaults.yaml")
+    parser.add_argument("--exp", default=None, help="override file, e.g. configs/dti.yaml")
+    parser.add_argument("--run-name-file", default=None, help="write the run name to this file")
+    args = parser.parse_args()
+    run(config_path=args.config, experiment_path=args.exp, run_name_file=args.run_name_file)

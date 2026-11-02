@@ -26,16 +26,22 @@ class ConfigReader:
             return cls(yaml.safe_load(f))
     
     @classmethod
-    def merge(cls, default_path: str, experiment_path: str = None):  # ty:ignore[invalid-parameter-default]
+    def merge_dict(cls, default_path: str, experiment_path: str = None) -> dict:  # ty:ignore[invalid-parameter-default]
+        """defaults.yaml with an optional override file applied on top, as a plain dict."""
         with open(default_path, 'r') as f:
-            default = yaml.safe_load(f)
-        
-        if experiment_path and os.path.exists(experiment_path):
+            merged = yaml.safe_load(f)
+
+        if experiment_path:
+            if not os.path.exists(experiment_path):
+                raise ConfigException(f"Override file not found: {experiment_path}")
             with open(experiment_path, 'r') as f:
-                experiment = yaml.safe_load(f)
-            default = cls._deep_merge(default, experiment)
-        
-        return cls(default)
+                merged = cls._deep_merge(merged, yaml.safe_load(f) or {})
+
+        return merged
+
+    @classmethod
+    def merge(cls, default_path: str, experiment_path: str = None):  # ty:ignore[invalid-parameter-default]
+        return cls(cls.merge_dict(default_path, experiment_path))
     
     @staticmethod
     def _deep_merge(default: dict, override: dict) -> dict:

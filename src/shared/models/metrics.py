@@ -2,7 +2,7 @@ import numpy as np
 import torch
 from sklearn.linear_model import Lasso
 from sklearn.preprocessing import StandardScaler
-from torchmetrics.functional import accuracy, precision, recall, f1_score, jaccard_index
+from torchmetrics.functional import accuracy, f1_score, jaccard_index, precision, recall
 
 
 class MetricHandler:

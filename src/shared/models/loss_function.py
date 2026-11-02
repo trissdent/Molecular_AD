@@ -176,7 +176,7 @@ class BetaTCVAELoss:
             self._log(f"Updated {N} samples → "
                     f"cluster sizes: {np.bincount(probs.argmax(1)).tolist()}")
 
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             self._log(f"[ClusterCache] CIMLR/GMM failed, keeping old cache: {e}")
 
 
@@ -222,6 +222,8 @@ class BetaTCVAELoss:
             "kl_loss": kl_loss,
             "tc": tc,
             "pred_loss": pred_loss,
+            # all features, whatever subset is active: comparable across epochs and runs
+            "pred_loss_all": F.mse_loss(feature_pred, feature_target, reduction='mean').detach(),
             "cluster_loss": cluster_loss,
             "cluster_pw_std": cluster_pairwise.std().detach(),
         }
