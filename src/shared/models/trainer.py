@@ -270,7 +270,7 @@ class LightningModel(pl.LightningModule):
                     self.exp_logger.log_message(
                         f"[fixed] top{self.top_k} picked once from the training features")
             return self.fixed_topk
-        except Exception as e:  # noqa: BLE001 — keep training if CIMLR fails on one epoch
+        except Exception as e:
             if self.exp_logger:
                 self.exp_logger.log_message(f"[topk] CIMLR ranking failed, kept previous: {e}")
             return getattr(self, "prev_topk", None)

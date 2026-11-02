@@ -1,5 +1,4 @@
-# sMRI, stronger weight decay against overfitting (default 1.0e-2).
+# sMRI only: T1 channel, sMRI features as targets.
+
 data:
   modality: smri
-training:
-  weight_decay: 5.0e-2

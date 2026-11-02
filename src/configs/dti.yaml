@@ -1,5 +1,4 @@
-# DTI, CIMLR clusters age-adjusted latents (CN aging trend removed before clustering).
+# DTI only: aligned FA channel, DTI tract features as targets.
+
 data:
   modality: dti
-training:
-  cluster_age_adjust: true
