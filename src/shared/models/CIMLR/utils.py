@@ -1,5 +1,6 @@
 import numpy as np
 import scipy.spatial.distance as dist
+import torch
 from scipy.stats import beta, norm
 from sklearn.cluster import KMeans
 
@@ -54,6 +55,16 @@ def multipleK(x):
         
     return D_Kernels
 
+def eigh_sym(A):
+    """Eigen-decomposition of a symmetric matrix (float64), on the GPU when there is one.
+
+    Replaces np.linalg.eig: same eigenvalues, eigenvectors equal up to sign.
+    """
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    d, v = torch.linalg.eigh(torch.from_numpy(np.ascontiguousarray(A, dtype=np.float64)).to(device))
+    return d.cpu().numpy(), v.cpu().numpy()
+
+
 def dominateset(aff_matrix, NR_OF_KNN):
     B = np.argsort(-aff_matrix, axis=1, kind='stable')
     A = np.take_along_axis(aff_matrix, B, axis=1)
@@ -94,7 +105,7 @@ def Network_Diffusion(A, K):
     DD = np.sum(np.abs(P.T), axis=0)
     P = P + np.eye(P.shape[0]) + np.diag(np.sum(np.abs(P.T), axis=0))
     P = TransitionFields(P)
-    D_vals, U = np.linalg.eig(P)
+    D_vals, U = eigh_sym(P)        # P = W @ W.T, symmetric
     d = np.real(D_vals) + np.finfo(float).eps
     alpha = 0.8
     beta_param = 2
@@ -111,7 +122,7 @@ def Network_Diffusion(A, K):
 def eig1(A, c, isMax=1, isSym=1):
     if isSym == 1:
         A = np.maximum(A, A.T)
-    d, v = np.linalg.eig(A)
+    d, v = eigh_sym(A) if isSym == 1 else np.linalg.eig(A)
     if isMax == 0:
         idx = np.argsort(d)
     else:
@@ -124,36 +135,40 @@ def eig1(A, c, isMax=1, isSym=1):
     return eigvec, eigval, eigval_full
 
 def projsplx_c(y):
+    """Same steps as the original per-column Python loop, done for all columns at once.
+
+    Per column: shift, then (if any value < 0) repeat lambda += (f - 1) / npos, where f is
+    the sum of the positive parts, until |f| <= 1e-10 or 101 passes. The sum of the positive
+    parts is taken in the same order as the old loop (cumsum), so the output is identical.
+    """
     m, n = y.shape
-    x = np.zeros((m, n))
-    for k in range(n):
-        s = y[:, k]
-        means = np.sum(s)
-        mins = np.min(s)
-        s_shifted = s - (means - 1.0)/m
-        if mins < 0:
-            f = 1.0
-            lambda_m = 0.0
-            vs = np.zeros(m)
-            ft = 1
-            while abs(f) > 1e-10:
-                npos = 0
-                f = 0.0
-                for j in range(m):
-                    vs[j] = s_shifted[j] - lambda_m
-                    if vs[j] > 0:
-                        npos += 1
-                        f += vs[j]
-                if npos > 0:
-                    lambda_m += (f - 1.0) / npos
-                if ft > 100:
-                    x[:, k] = np.maximum(vs, 0)
-                    break
-                ft += 1
-            if ft <= 100:
-                x[:, k] = np.maximum(vs, 0)
-        else:
-            x[:, k] = s_shifted
+    means = np.array([np.sum(y[:, k]) for k in range(n)])   # same summation as before
+    mins = y.min(axis=0)
+    s_shifted = y - (means - 1.0) / m
+    x = s_shifted.copy()
+
+    neg = np.flatnonzero(mins < 0)
+    if neg.size == 0:
+        return x
+    s = s_shifted[:, neg]
+    lam = np.zeros(neg.size)
+    vs = np.zeros_like(s)
+    active = np.ones(neg.size, dtype=bool)
+    ft = 1
+    while active.any():
+        a = np.flatnonzero(active)
+        v = s[:, a] - lam[a]
+        vs[:, a] = v
+        pos = v > 0
+        npos = pos.sum(axis=0)
+        f = np.cumsum(np.where(pos, v, 0.0), axis=0)[-1]   # left-to-right sum, as the old loop
+        upd = npos > 0
+        lam[a[upd]] += (f[upd] - 1.0) / npos[upd]
+        if ft > 100:
+            break
+        ft += 1
+        active[a[np.abs(f) <= 1e-10]] = False
+    x[:, neg] = np.maximum(vs, 0)
     return x
 
 def Hbeta(D, beta_val):
