@@ -22,7 +22,7 @@ model:
 # Training
 training:
   seed: 42                          # training randomness (weights, batch order); the split has its own seed
-  max_epochs: 100
+  max_epochs: 70
   lr: 0.0002
   optimizer: "adamw"
   weight_decay: 1.0e-2
