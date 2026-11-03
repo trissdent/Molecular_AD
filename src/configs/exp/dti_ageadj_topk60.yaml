@@ -1,0 +1,6 @@
+# DTI age-adjusted, CIMLR picks 60 features instead of 30.
+data:
+  modality: dti
+training:
+  cluster_age_adjust: true
+  top_k: 60

@@ -36,6 +36,7 @@ def load_model(config, num_features, ckpt_path, device):
         num_features=num_features,
         cluster_projection_dim=config.model.cluster_projection_dim,
         input_size=config.model.input_size,
+        salient_dim=int(config.model.salient_dim) if getattr(config.model, "contrastive", False) else 0,
     )
 
     ckpt = torch.load(ckpt_path, map_location=device)

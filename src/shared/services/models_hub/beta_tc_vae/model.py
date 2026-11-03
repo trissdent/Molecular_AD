@@ -108,26 +108,44 @@ class ClusterProjectionHead(nn.Module):
 class BetaTCVAE(nn.Module, ModelManager):
 
     def __init__(self, z_dim=256, in_channels=1, num_features=1,
-                 cluster_projection_dim=128, input_size=96):
+                 cluster_projection_dim=128, input_size=96, salient_dim=0):
+        """salient_dim > 0: contrastive latent. The last salient_dim dimensions are the
+        disease part (zero for CN during training); the rest is the common part."""
         super().__init__()
+        if not 0 <= salient_dim < z_dim:
+            raise ValueError(f"salient_dim must be in [0, z_dim), got {salient_dim}")
         self.z_dim = z_dim
+        self.salient_dim = salient_dim
         self.encoder = Encoder3D(z_dim=z_dim, in_channels=in_channels, input_size=input_size)
         self.decoder = Decoder3D(z_dim=z_dim, out_channels=in_channels,
                                  spatial=self.encoder.spatial)
         self.prediction_head = PredictionHead(z_dim=z_dim, num_features=num_features)
-        self.cluster_projection_head = ClusterProjectionHead(z_dim=z_dim, projection_dim=cluster_projection_dim)
+        # the cluster head sees the same part of the latent that CIMLR clusters
+        self.cluster_projection_head = ClusterProjectionHead(
+            z_dim=salient_dim or z_dim, projection_dim=cluster_projection_dim)
 
     def reparameterize(self, mu, logvar):
         std = torch.exp(0.5 * logvar)
         eps = torch.randn_like(std)
         return mu + eps * std
 
-    def forward(self, x):
+    def salient(self, z):
+        """The disease part of a latent (all of it when the latent is not contrastive)."""
+        return z[:, -self.salient_dim:] if self.salient_dim else z
+
+    def forward(self, x, is_cn=None):
+        """is_cn (bool tensor, training only): CN visits are decoded with their disease part
+        set to zero, so whatever varies among CN has to live in the common part."""
         mu, logvar = self.encoder(x)
         z = self.reparameterize(mu, logvar)
-        recon = self.decoder(z)
+        z_dec = z
+        if self.salient_dim and is_cn is not None:
+            keep = torch.ones_like(z)
+            keep[is_cn, -self.salient_dim:] = 0.0
+            z_dec = z * keep
+        recon = self.decoder(z_dec)
         feature_pred = self.prediction_head(mu)
-        cluster_pairwise = self.cluster_projection_head(mu)
+        cluster_pairwise = self.cluster_projection_head(self.salient(mu))
 
         return {
             "recon": recon,
@@ -136,4 +154,5 @@ class BetaTCVAE(nn.Module, ModelManager):
             "z": z,
             "feature_pred": feature_pred,
             "cluster_pairwise": cluster_pairwise,
+            "mu_salient": self.salient(mu) if self.salient_dim else None,
         }

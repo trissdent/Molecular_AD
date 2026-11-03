@@ -1,0 +1,4 @@
+data: {modality: smri}
+training: {seed: 3, cimlr_mode: "fixed"}
+loss: {prediction_weight: 0.5}
+

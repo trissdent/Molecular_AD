@@ -18,6 +18,8 @@ model:
   z_dim: 128
   cluster_projection_dim: 32
   input_size: 96                    # must match volumes.target_shape in preprocessing
+  contrastive: false                # true: latent = common part + disease part (zero for CN in training)
+  salient_dim: 32                   # size of the disease part when contrastive (out of z_dim)
 
 # Training
 training:
@@ -45,6 +47,7 @@ loss:
   kl_weight: 1.0e-3
   prediction_weight: 1.0
   cluster_weight: 1.0
+  salient_cn_weight: 1.0            # contrastive only: pulls the disease part of CN visits to zero
   n_clusters: 2
   tc_weight: 1.0
   queue_size: 8

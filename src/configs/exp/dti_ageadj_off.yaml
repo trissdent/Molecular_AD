@@ -1,0 +1,6 @@
+# DTI age-adjusted, no CIMLR in training: prediction on all features.
+data:
+  modality: dti
+training:
+  cluster_age_adjust: true
+  cimlr_mode: "off"

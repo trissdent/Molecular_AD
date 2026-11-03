@@ -1,0 +1,4 @@
+# smri_pw0.5_s4.yaml
+data: {modality: smri}
+training: {seed: 4}
+loss: {prediction_weight: 0.5}
