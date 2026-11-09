@@ -4,22 +4,21 @@
 
 # Data (everything here is produced by preprocessing/)
 data:
-  modality: smri                    # smri | dti | both (set by the override file)
+  modality: smri                    # smri | dti | both | fa_md | t1_fa_md (set by the override file)
   prepared_dir: "/home/minhtri/Molecular_AD/data/prepared"   # cohort, split, features, etiv
   cache_dirs:
     smri: "/mnt/data_lab513/molecular_mri/cache_smri"
     dti: "/mnt/data_lab513/molecular_mri/cache_dti"
+    dti_md: "/mnt/data_lab513/molecular_mri/cache_dti_md"   # used by fa_md / t1_fa_md
   batch_size: 32
   num_workers: 8
 
-# Model (in_channels follows the modality: 1, or 2 for both)
+# Model (in_channels follows the modality: 1; 2 for both / fa_md; 3 for t1_fa_md)
 model:
   name: "beta_tc_vae"
   z_dim: 128
   cluster_projection_dim: 32
   input_size: 96                    # must match volumes.target_shape in preprocessing
-  contrastive: false                # true: latent = common part + disease part (zero for CN in training)
-  salient_dim: 32                   # size of the disease part when contrastive (out of z_dim)
 
 # Training
 training:
@@ -47,7 +46,6 @@ loss:
   kl_weight: 1.0e-3
   prediction_weight: 1.0
   cluster_weight: 1.0
-  salient_cn_weight: 1.0            # contrastive only: pulls the disease part of CN visits to zero
   n_clusters: 2
   tc_weight: 1.0
   queue_size: 8

@@ -36,10 +36,8 @@ class BetaTCVAELoss:
                 prediction_weight=1.0, cluster_weight=0.5,
                 tc_weight=1.0, queue_size=8, queue_warmup=4,
                 recon_scale=1.0, pred_scale=1.0, cluster_scale=1.0, tc_scale=1.0,
-                n_clusters=2, dataset_size=None, exp_logger=None, salient_cn_weight=1.0):
+                n_clusters=2, dataset_size=None, exp_logger=None):
         self.dataset_size = dataset_size
-        # contrastive latent only: pull the disease part of CN visits to zero
-        self.salient_cn_weight = salient_cn_weight
         self.training = True
 
         self.recon_weight = recon_weight
@@ -211,19 +209,11 @@ class BetaTCVAELoss:
         else:
             cluster_loss = torch.tensor(0.0, device=recon.device)
 
-        # contrastive latent, training only: disease part of CN visits pulled to zero
-        salient_cn = torch.tensor(0.0, device=recon.device)
-        mu_salient = model_output.get("mu_salient")
-        is_cn = model_output.get("is_cn")
-        if self.training and mu_salient is not None and is_cn is not None and is_cn.any():
-            salient_cn = mu_salient[is_cn].pow(2).mean()
-
         total_loss = (self.recon_weight * recon_loss / self.recon_scale
                 + kl_loss
                 + self.tc_weight * tc_term / self.tc_scale
                 + self.prediction_weight * pred_loss / self.pred_scale
-                + self.cluster_weight * cluster_loss / self.cluster_scale
-                + self.salient_cn_weight * salient_cn)
+                + self.cluster_weight * cluster_loss / self.cluster_scale)
 
         loss_dict = {
             "total_loss": total_loss,
@@ -236,7 +226,6 @@ class BetaTCVAELoss:
             "pred_loss_all": F.mse_loss(feature_pred, feature_target, reduction='mean').detach(),
             "cluster_loss": cluster_loss,
             "cluster_pw_std": cluster_pairwise.std().detach(),
-            "salient_cn": salient_cn.detach(),
         }
 
         return total_loss, loss_dict

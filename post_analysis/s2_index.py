@@ -1,6 +1,6 @@
 """s2: CN-AD disease index from the CALIBER latents (mu), validated on every split.
 
-Index construction and statistics live in index_core.py, shared with baselines.py.
+Index construction and statistics live in i1_index_core.py, shared with i2_baselines.py.
 Outputs in <run_dir>/s2_index/: disease_index.csv, index_validation.csv, plots.
 """
 
@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import yaml
-from index_core import (
+from i1_index_core import (
     AGECORR_INDEX,
     RAW_INDEX,
     SPLITS,

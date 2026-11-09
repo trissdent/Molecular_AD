@@ -1,15 +1,20 @@
-"""Build the CNN input cache: one cube per visit, the same box for T1 and FA.
+"""Build the CNN input cache: one cube per visit, the same box for T1, FA and MD.
 
     python cache_volumes.py build
 
 Per visit (as the original sMRI pipeline):
     brain = T1 > 0 or aligned FA > 0 (so neither image is cut)
     cube  = that brain's longest extent + volumes.margin voxels on each side, centered on it
-            (zero-padded where it leaves the grid) -> same box applied to T1 and FA
+            (zero-padded where it leaves the grid) -> same box applied to T1, FA and MD
     -> resized to volumes.target_shape. Every brain fills its frame, so head size is not
        visible to the model; it has to use shape (atrophy relative to the head).
     T1: min-max to 0-1 (arbitrary intensity units)   FA: kept as is, clipped to 0-1
-    -> <cache_dir>/<visit_id>.npy (float32) for each modality
+    MD: divided by MD_SCALE (about free water, mm^2/s) and clipped to 0-1, a fixed physical
+        scale like FA, so values stay comparable across visits
+    -> <cache_dir>/<visit_id>.npy (float32) for each modality; MD in dti.md_cache_dir
+
+Safe to rerun: only missing cubes are written (the box does not depend on MD, so adding MD
+leaves the existing T1 and FA cubes unchanged).
 """
 
 import concurrent.futures
@@ -25,13 +30,14 @@ from scipy.ndimage import zoom
 
 N_JOBS = 8
 CROP = "per_brain"
+MD_SCALE = 3.0e-3           # MD of free water at body temperature is about 3e-3 mm^2/s
 
 
 def paths(r, config):
     t1 = (Path(config["modalities"]["smri"]["scan_root"]) / r.adni_id / r.smri_image_id
           / "mri/brain.finalsurfs.mgz")
-    fa = Path(config["paths"]["aligned_dir"]) / r.visit_id / "FA_in_t1.nii.gz"
-    return t1, fa
+    aligned = Path(config["paths"]["aligned_dir"]) / r.visit_id
+    return t1, aligned / "FA_in_t1.nii.gz", aligned / "MD_in_t1.nii.gz"
 
 
 def load(path):
@@ -69,17 +75,28 @@ def minmax(volume):
     return (volume - lo) / (hi - lo) if hi > lo else np.zeros_like(volume)
 
 
-def build_visit(r, config, margin, target, smri_cache, dti_cache):
-    smri_out, dti_out = smri_cache / f"{r.visit_id}.npy", dti_cache / f"{r.visit_id}.npy"
-    if smri_out.is_file() and dti_out.is_file():
+def build_visit(r, config, margin, target, smri_cache, dti_cache, md_cache):
+    outs = {name: cache / f"{r.visit_id}.npy"
+            for name, cache in (("smri", smri_cache), ("dti", dti_cache), ("md", md_cache))}
+    if all(p.is_file() for p in outs.values()):
         return {"visit_id": r.visit_id, "status": "skipped"}
-    t1_path, fa_path = paths(r, config)
+    t1_path, fa_path, md_path = paths(r, config)
     if not fa_path.is_file():
         return {"visit_id": r.visit_id, "status": "no_aligned_fa"}
+    if not md_path.is_file():
+        return {"visit_id": r.visit_id, "status": "no_aligned_md"}
     t1, fa = load(t1_path), load(fa_path)
     center, side = brain_box(t1, fa, margin)
-    np.save(smri_out, minmax(resize(crop_cube(t1, center, side), target)))
-    np.save(dti_out, np.clip(resize(crop_cube(fa, center, side), target), 0.0, 1.0))
+
+    def cube(volume):
+        return resize(crop_cube(volume, center, side), target)
+
+    if not outs["smri"].is_file():
+        np.save(outs["smri"], minmax(cube(t1)))
+    if not outs["dti"].is_file():
+        np.save(outs["dti"], np.clip(cube(fa), 0.0, 1.0))
+    if not outs["md"].is_file():
+        np.save(outs["md"], np.clip(cube(load(md_path)) / MD_SCALE, 0.0, 1.0))
     return {"visit_id": r.visit_id, "status": "done", "cube_side": side}
 
 
@@ -104,10 +121,13 @@ if __name__ == "__main__":
 
     info = {"crop": CROP, "margin": margin, "target_shape": list(target)}
     caches = []
-    for name in ("smri", "dti"):
-        cache = Path(config["modalities"][name]["cache_dir"])
+    for cache, cache_info in ((config["modalities"]["smri"]["cache_dir"], info),
+                              (config["modalities"]["dti"]["cache_dir"], info),
+                              (config["modalities"]["dti"]["md_cache_dir"],
+                               {**info, "md_scale": MD_SCALE})):
+        cache = Path(cache)
         cache.mkdir(parents=True, exist_ok=True)
-        check_cache_info(cache, info)
+        check_cache_info(cache, cache_info)
         caches.append(cache)
 
     cohort = pd.read_csv(out_dir(config) / "cohort.csv", dtype=str)
@@ -123,4 +143,4 @@ if __name__ == "__main__":
         sides = report["cube_side"].dropna()
         print(f"cube side (voxels): min {int(sides.min())}, median {int(sides.median())}, "
               f"max {int(sides.max())}")
-    print(f"Saved to {caches[0]} and {caches[1]}")
+    print(f"Saved to {caches[0]}, {caches[1]} and {caches[2]}")

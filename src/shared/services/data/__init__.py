@@ -1,5 +1,6 @@
 from .dataset import (
     VisitDataset,
+    feature_list,
     load_features,
     load_metadata,
     load_split,
@@ -9,6 +10,7 @@ from .dataset import (
 
 __all__ = [
     "VisitDataset",
+    "feature_list",
     "load_features",
     "load_metadata",
     "load_split",

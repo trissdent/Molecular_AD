@@ -1,6 +1,6 @@
 """Shared steps for building and validating a CN-AD index.
 
-Used by s2_index.py (CALIBER latents) and baselines.py (simple indices), so every
+Used by s2_index.py (CALIBER latents) and i2_baselines.py (simple indices), so every
 index goes through the identical age correction, projection and statistics.
 
 Index: representation X (n x d) per split

@@ -1,6 +1,6 @@
 """Simple comparison indices, built and validated exactly like the CALIBER index (s2).
 
-    python post_analysis/baselines.py        (PREPARED_DIR=... to override the data folder)
+    python post_analysis/i2_baselines.py        (PREPARED_DIR=... to override the data folder)
 
 Baselines (all fitted on the training split only):
     hippocampus   left + right aseg hippocampal volume, adjusted for eTIV
@@ -8,12 +8,14 @@ Baselines (all fitted on the training split only):
     pca_smri      features standardized on train -> PCA fitted on train
     pca_dti       same, DTI features
     pca_both      same, sMRI + DTI features side by side
-Each representation then goes through index_core: age correction on training CN,
+Each representation then goes through i1_index_core: age correction on training CN,
 CN -> AD projection, statistics with subject-level bootstrap CIs.
 
 No neural network is trained here. Outputs in results/baselines/:
     baseline_validation.csv   all statistics, every baseline x index version x split
     baseline_summary.csv      test split, age-corrected index: the comparison table
+    baseline_index.csv        every visit's index per baseline (same columns as a run's
+                              s2_index/disease_index.csv, plus 'baseline'), for m2_compare_models
 """
 
 import os
@@ -21,7 +23,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from index_core import (
+from i1_index_core import (
     AGECORR_INDEX,
     PRIMARY_SPLIT,
     SPLITS,
@@ -95,8 +97,9 @@ def evaluate(name, reps, frames):
     table = drop_excluded(table.merge(pd.concat(frames.values())[keep], on="visit_id", how="left"))
     validation = validate_all(table)
     validation.insert(0, "baseline", name)
+    table.insert(0, "baseline", name)
     print(f"{name:12s} {primary_summary(validation)}")
-    return validation
+    return validation, table
 
 
 def summary_table(validation):
@@ -130,11 +133,14 @@ if __name__ == "__main__":
         evaluate("pca_dti", pca_reps(frames, feats["dti"]), frames),
         evaluate("pca_both", pca_reps(frames, both), frames),
     ]
-    validation = pd.concat(results, ignore_index=True)
+    validation = pd.concat([v for v, _ in results], ignore_index=True)
     validation.to_csv(OUT_DIR / "baseline_validation.csv", index=False)
+    pd.concat([t for _, t in results], ignore_index=True).to_csv(
+        OUT_DIR / "baseline_index.csv", index=False)
 
     summary = summary_table(validation)
     summary.to_csv(OUT_DIR / "baseline_summary.csv", index=False)
     print("\n" + summary.to_string(index=False))
     print(f"\nSaved: {OUT_DIR / 'baseline_validation.csv'}")
     print(f"Saved: {OUT_DIR / 'baseline_summary.csv'}")
+    print(f"Saved: {OUT_DIR / 'baseline_index.csv'}")

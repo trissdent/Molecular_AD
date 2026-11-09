@@ -3,8 +3,11 @@
     <cache_dir>/<visit_id>.npy          96^3 float32 volume per modality (cache_volumes.py)
     <prepared_dir>/features_<mod>.csv   prediction targets per modality (features.py)
 
-modality 'smri' / 'dti' -> 1 channel and that modality's features;
-modality 'both'         -> 2 channels (smri, dti) and both feature sets side by side.
+modality 'smri' / 'dti' -> 1 channel (T1 / FA) and that modality's features;
+modality 'both'         -> 2 channels (T1, FA) and both feature sets side by side;
+modality 'fa_md'        -> 2 channels (FA, MD) and the DTI features;
+modality 't1_fa_md'     -> 3 channels (T1, FA, MD) and both feature sets side by side.
+Channel names are cache_dirs keys; feature names are features_<name>.csv files.
 """
 
 import hashlib
@@ -15,13 +18,25 @@ import pandas as pd
 import torch
 from torch.utils.data import Dataset
 
-MODALITIES = {"smri": ["smri"], "dti": ["dti"], "both": ["smri", "dti"]}
+# image channels per modality (cache_dirs keys, stacked in this order)
+MODALITIES = {"smri": ["smri"], "dti": ["dti"], "both": ["smri", "dti"],
+              "fa_md": ["dti", "dti_md"], "t1_fa_md": ["smri", "dti", "dti_md"]}
+# prediction-feature tables per modality (features_<name>.csv)
+FEATURE_SETS = {"smri": ["smri"], "dti": ["dti"], "both": ["smri", "dti"],
+                "fa_md": ["dti"], "t1_fa_md": ["smri", "dti"]}
 
 
 def modality_list(modality):
+    """Image channels of the modality."""
     if modality not in MODALITIES:
         raise ValueError(f"modality must be one of {list(MODALITIES)}, got {modality!r}")
     return MODALITIES[modality]
+
+
+def feature_list(modality):
+    """Feature tables of the modality."""
+    modality_list(modality)                     # same check and error message
+    return FEATURE_SETS[modality]
 
 
 def n_channels(modality):
@@ -46,9 +61,9 @@ def load_metadata(prepared_dir):
 
 
 def load_features(prepared_dir, modality):
-    """Features of the chosen modality, indexed by visit_id (sMRI columns first for 'both')."""
+    """Features of the chosen modality, indexed by visit_id (sMRI columns first when both)."""
     frames = []
-    for m in modality_list(modality):
+    for m in feature_list(modality):
         df = pd.read_csv(Path(prepared_dir) / f"features_{m}.csv", dtype={"visit_id": str})
         df = df.drop(columns=[f"{m}_image_id"]).set_index("visit_id")
         frames.append(df.apply(pd.to_numeric, errors="coerce"))

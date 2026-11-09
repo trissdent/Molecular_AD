@@ -24,6 +24,8 @@ modalities:
     feature_csv: /home/minhtri/Molecular_AD/data/extracted_from_img_pipeline/dti_features.csv
     column_dict_csv: /home/minhtri/Molecular_AD/data/extracted_from_img_pipeline/dti_columns.csv
     cache_dir: /mnt/data_lab513/molecular_mri/cache_dti
+    md_file: dtifit/dti_MD.nii.gz              # second DTI channel (modalities fa_md, t1_fa_md)
+    md_cache_dir: /mnt/data_lab513/molecular_mri/cache_dti_md
 
 # Cohort = visits that have BOTH modalities (all models train and test on it)
 cohort:

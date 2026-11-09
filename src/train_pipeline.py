@@ -101,16 +101,12 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None, run_name_fi
         pin_memory=torch.cuda.is_available(),
     )
 
-    # contrastive latent: common part + disease part (zero for CN in training)
-    contrastive = bool(getattr(config.model, "contrastive", False))
-    salient_dim = int(config.model.salient_dim) if contrastive else 0
     model = BetaTCVAE(
         z_dim=config.model.z_dim,
         in_channels=n_channels(modality),
         num_features=len(train_dataset.feature_names),
         cluster_projection_dim=config.model.cluster_projection_dim,
         input_size=config.model.input_size,
-        salient_dim=salient_dim,
     )
     model.summary()
     logger.log_model_info(model)
@@ -131,7 +127,6 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None, run_name_fi
         tc_scale=config.loss.tc_scale,
         dataset_size=len(train_dataset),
         exp_logger=logger,
-        salient_cn_weight=float(getattr(config.loss, "salient_cn_weight", 1.0)),
     )
 
     metric_handler = MetricHandler(
@@ -146,18 +141,13 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None, run_name_fi
         T_max=config.training.max_epochs,
     )
 
-    # age + CN flag per training visit: for the age adjustment of what CIMLR sees,
-    # and for the contrastive latent (CN visits decoded without their disease part)
+    # age + CN flag per training visit, used only when CIMLR clusters age-adjusted latents
     cluster_age_adjust = bool(getattr(config.training, "cluster_age_adjust", False))
     cluster_covariates = None
-    if cluster_age_adjust or salient_dim:
+    if cluster_age_adjust:
         meta = load_metadata(config.data.prepared_dir).loc[split_ids["train"]]
         cluster_covariates = {v: (float(r.age), r.diagnosis == "cn") for v, r in meta.iterrows()}
-    if cluster_age_adjust:
         logger.log_message("CIMLR clusters age-adjusted latents (trend fitted on train CN)")
-    if salient_dim:
-        logger.log_message(f"Contrastive latent: {config.model.z_dim - salient_dim} common + "
-                           f"{salient_dim} disease dims; CIMLR clusters the disease part")
 
     trainer = Trainer(
         max_epochs=config.training.max_epochs,

@@ -3,16 +3,18 @@
 Method (validated by the pilot):
     FLIRT 6 dof, normalized mutual information, b0_brain -> brain.finalsurfs,
     starting from the scanner position (-usesqform) and only fine-tuning (-nosearch).
-    The same transform is then applied to FA.
+    The same transform is then applied to FA and MD.
 The T1 is not moved. Features (FreeSurfer, ENIGMA) are not touched.
 
 Outputs, per visit, in paths.aligned_dir/<visit_id>/:
     dti_to_t1.mat      FLIRT transform
     FA_in_t1.nii.gz    FA on the T1 grid
+    MD_in_t1.nii.gz    MD on the T1 grid
     qc.json            brain overlap between T1 and aligned b0
 Report: paths.out_dir/align_report.csv, with outliers flagged.
 
-Safe to rerun: finished visits are skipped.
+Safe to rerun: finished visits are skipped. A visit aligned before MD was added only gets
+MD_in_t1 from its saved transform (status md_added); the registration is not redone.
 """
 
 import concurrent.futures
@@ -46,18 +48,35 @@ def dice(a, b):
     return float(2 * (a & b).sum() / total) if total else float("nan")
 
 
+def add_md(md, out, info, qc):
+    """Visit already aligned: put MD on the T1 grid with the saved transform (no re-registration).
+    FA_in_t1 is on the T1 grid, so it serves as the reference grid."""
+    try:
+        flirt("-in", md, "-ref", out / "FA_in_t1.nii.gz", "-applyxfm", "-init", out / "dti_to_t1.mat",
+              "-interp", "trilinear", "-out", out / "MD_in_t1.nii.gz")
+    except subprocess.CalledProcessError as e:
+        return {**info, **qc, "status": "md_failed", "detail": e.stderr.decode(errors="ignore")[-300:]}
+    return {**info, **qc, "status": "md_added"}
+
+
 def align_visit(r, smri_root, dti_root, aligned_dir):
     t1_mgz = smri_root / r.adni_id / r.smri_image_id / "mri/brain.finalsurfs.mgz"
     dti = dti_root / r.adni_id / r.dti_image_id
     b0, fa = dti / "mask/b0_brain.nii.gz", dti / "dtifit/dti_FA.nii.gz"
+    md = dti / "dtifit/dti_MD.nii.gz"
     out = aligned_dir / r.visit_id
     info = {"visit_id": r.visit_id,
             "dti_type": "pair" if (dti / "input/rev.bval").exists() else "single"}
 
     if (out / "qc.json").is_file() and (out / "FA_in_t1.nii.gz").is_file():
-        return {**info, **json.loads((out / "qc.json").read_text()), "status": "skipped"}
+        qc = json.loads((out / "qc.json").read_text())
+        if (out / "MD_in_t1.nii.gz").is_file():
+            return {**info, **qc, "status": "skipped"}
+        if not is_real(md):
+            return {**info, **qc, "status": "missing_md", "detail": md.name}
+        return add_md(md, out, info, qc)
 
-    missing = [p.name for p in (t1_mgz, b0, fa) if not is_real(p)]
+    missing = [p.name for p in (t1_mgz, b0, fa, md) if not is_real(p)]
     if missing:
         return {**info, "status": "missing_data", "detail": " ".join(missing)}
 
@@ -73,6 +92,8 @@ def align_visit(r, smri_root, dti_root, aligned_dir):
                   "-omat", out / "dti_to_t1.mat", "-out", b0_in_t1)
             flirt("-in", fa, "-ref", t1, "-applyxfm", "-init", out / "dti_to_t1.mat",
                   "-interp", "trilinear", "-out", out / "FA_in_t1.nii.gz")
+            flirt("-in", md, "-ref", t1, "-applyxfm", "-init", out / "dti_to_t1.mat",
+                  "-interp", "trilinear", "-out", out / "MD_in_t1.nii.gz")
 
             t1_brain = np.asarray(t1_img.dataobj) > 0
             b0_brain = np.asarray(nib.load(str(b0_in_t1)).dataobj) > 0
@@ -128,6 +149,7 @@ if __name__ == "__main__":
     print(f"\nstatus: {report['status'].value_counts().to_dict()}")
     print(f"brain overlap: median {median:.3f}, outlier below {cutoff:.3f}")
     print(f"outliers: {int(report['outlier'].sum())}")
-    print(report[report["outlier"] | report["status"].isin(["failed", "missing_data"])]
+    print(report[report["outlier"]
+                 | report["status"].isin(["failed", "missing_data", "missing_md", "md_failed"])]
           [["visit_id", "dti_type", "status", "brain_dice", "detail"]].to_string(index=False))
     print(f"\nSaved: {out_dir(config) / 'align_report.csv'}")

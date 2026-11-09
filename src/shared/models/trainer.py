@@ -29,9 +29,8 @@ class LightningModel(pl.LightningModule):
         super().__init__()
         if cimlr_mode not in CIMLR_MODES:
             raise ValueError(f"cimlr_mode must be one of {CIMLR_MODES}, got {cimlr_mode!r}")
-        if (cluster_age_adjust or getattr(model, "salient_dim", 0)) and not cluster_covariates:
-            raise ValueError("cluster_age_adjust / a contrastive latent need cluster_covariates "
-                             "{visit_id: (age, is_cn)}")
+        if cluster_age_adjust and not cluster_covariates:
+            raise ValueError("cluster_age_adjust needs cluster_covariates {visit_id: (age, is_cn)}")
         self.cimlr_mode = cimlr_mode
         self.fixed_topk = None
         # age adjustment of what CIMLR sees (the latent itself is never changed)
@@ -58,14 +57,8 @@ class LightningModel(pl.LightningModule):
     def training_step(self, batch, batch_idx):
         volume, features, image_id = batch
         bs = volume.size(0)
-        is_cn = None
-        if getattr(self.model, "salient_dim", 0):
-            # contrastive latent: CN visits are decoded without their disease part (training only)
-            is_cn = torch.tensor([self.cluster_covariates[str(v)][1] for v in image_id],
-                                 dtype=torch.bool, device=volume.device)
-        model_output = self.model(volume, is_cn=is_cn)
+        model_output = self.model(volume)
         model_output["image_ids"] = image_id
-        model_output["is_cn"] = is_cn
         self.loss_handler.loss_fn.training = True
         total_loss, loss_dict = self.loss_handler(model_output, volume, features)
 
@@ -78,8 +71,6 @@ class LightningModel(pl.LightningModule):
         self.log("train_pred_all", loss_dict["pred_loss_all"], on_step=False, on_epoch=True, batch_size=bs)
         self.log("train_cluster", loss_dict["cluster_loss"], prog_bar=True, on_step=False, on_epoch=True, batch_size=bs)
         self.log("train_cluster_pw_std", loss_dict["cluster_pw_std"], on_step=False, on_epoch=True, batch_size=bs)
-        if is_cn is not None:
-            self.log("train_salient_cn", loss_dict["salient_cn"], on_step=False, on_epoch=True, batch_size=bs)
         self.train_z.append(model_output["mu"].detach().cpu())
         self.train_features.append(features.detach().cpu())
         ids = image_id if isinstance(image_id, (list, tuple)) else list(image_id)
@@ -176,9 +167,6 @@ class LightningModel(pl.LightningModule):
         topk = None
         if len(self.train_z) > 0 and hasattr(loss_fn, "update_cluster_cache"):
             z_all = torch.cat(self.train_z, dim=0).cpu().numpy().astype('float64')
-            salient_dim = getattr(self.model, "salient_dim", 0)
-            if salient_dim:
-                z_all = z_all[:, -salient_dim:]      # CIMLR clusters the disease part only
             if self.cluster_age_adjust:
                 z_all = self._age_adjusted(z_all, self.train_image_ids)
             epoch_num = self.current_epoch + 1

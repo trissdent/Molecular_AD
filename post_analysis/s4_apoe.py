@@ -1,3 +1,13 @@
+"""APOE e4 and adjusted associations, test split.
+
+Within AD, per target (MMSE, pTau-217 AlzPath, pTau-217 Janssen) and index version:
+    simple Spearman (as in s2);
+    partial Spearman adjusted for APOE e4 carrier, age and sex: ranks of the index and
+        the target, each residualized on the covariates, then correlated (t-test, n-2-k df);
+    OLS of the target on index + APOE e4 + age + sex (coefficients and p per term).
+Also: APOE-stratified correlations, AUC of index vs index + e4, genotype gradient.
+"""
+
 import os
 from pathlib import Path
 
@@ -9,8 +19,9 @@ import numpy as np
 import pandas as pd
 import statsmodels.api as sm
 import yaml
-from index_core import add_trend_line
-from scipy.stats import spearmanr
+from i1_index_core import add_trend_line
+from scipy.stats import rankdata, spearmanr
+from scipy.stats import t as t_dist
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score, roc_curve
 
@@ -42,6 +53,7 @@ TARGET_LABELS = {
 }
 
 GENOTYPE_ORDER = ["2/2", "2/3", "3/3", "2/4", "3/4", "4/4"]
+COVARIATES = ["e4_carrier", "age", "sex"]      # adjustment set for the within-AD models
 
 N_BOOTSTRAP = 2000
 RNG = np.random.default_rng(42)
@@ -57,7 +69,7 @@ def count_e4(genotype):
 
 
 def paired_subset(df, index_name, target):
-    return df.dropna(subset=[index_name, target, "e4_carrier"])
+    return df.dropna(subset=[index_name, target] + COVARIATES)
 
 
 def safe_spearman(x, y):
@@ -67,12 +79,33 @@ def safe_spearman(x, y):
     return float(r), float(p)
 
 
+def partial_spearman(subset, index_name, target):
+    """Spearman between index and target with the covariates partialled out."""
+    values = subset[COVARIATES].astype(float).to_numpy()
+    varying = values[:, np.ptp(values, axis=0) > 0]           # a constant covariate adds nothing
+    covariates = np.column_stack([np.ones(len(subset)), varying])
+
+    def residual(values):
+        ranks = rankdata(values)
+        coef, *_ = np.linalg.lstsq(covariates, ranks, rcond=None)
+        return ranks - covariates @ coef
+
+    x, y = residual(subset[index_name].to_numpy()), residual(subset[target].to_numpy())
+    r = float(np.corrcoef(x, y)[0, 1])
+    dof = len(subset) - 2 - (covariates.shape[1] - 1)
+    if dof <= 0 or not np.isfinite(r) or abs(r) >= 1:
+        return r, float("nan")
+    stat = r * np.sqrt(dof / (1 - r ** 2))
+    return r, float(2 * t_dist.sf(abs(stat), dof))
+
+
 def partial_model(subset, index_name, target):
-    design = sm.add_constant(subset[[index_name, "e4_carrier"]].astype(float))
+    design = sm.add_constant(subset[[index_name] + COVARIATES].astype(float))
     model = sm.OLS(subset[target].astype(float), design).fit()
 
     simple_r, simple_p = safe_spearman(
         subset[index_name].to_numpy(), subset[target].to_numpy())
+    adjusted_r, adjusted_p = partial_spearman(subset, index_name, target)
 
     confidence = model.conf_int()
 
@@ -80,12 +113,18 @@ def partial_model(subset, index_name, target):
         "n": len(subset),
         "simple_r": simple_r,
         "simple_p": simple_p,
+        "adjusted_r": adjusted_r,
+        "adjusted_p": adjusted_p,
         "index_beta": float(model.params[index_name]),
         "index_ci_lo": float(confidence.loc[index_name, 0]),
         "index_ci_hi": float(confidence.loc[index_name, 1]),
         "index_p": float(model.pvalues[index_name]),
         "e4_beta": float(model.params["e4_carrier"]),
         "e4_p": float(model.pvalues["e4_carrier"]),
+        "age_beta": float(model.params["age"]),
+        "age_p": float(model.pvalues["age"]),
+        "sex_beta": float(model.params["sex"]),
+        "sex_p": float(model.pvalues["sex"]),
         "r_squared": float(model.rsquared),
     }
 
@@ -123,12 +162,13 @@ def plot_partial(ad_df, index_name, statistics, output_path):
         ax.set_ylabel(TARGET_LABELS[target])
         ax.set_title(
             f"{TARGET_LABELS[target]} (n={row['n']})\n"
-            f"index p={row['index_p']:.2g}   |   APOE e4 p={row['e4_p']:.2g}",
+            f"adjusted r={row['adjusted_r']:.2f} (p={row['adjusted_p']:.2g})   |   "
+            f"APOE e4 p={row['e4_p']:.2g}",
             fontsize=10)
         ax.legend(frameon=False, fontsize=9)
         ax.spines[["top", "right"]].set_visible(False)
 
-    fig.suptitle("AD: index predicts outcome with APOE e4 in the model", fontsize=12)
+    fig.suptitle("AD: index vs outcome, adjusted for APOE e4, age and sex", fontsize=12)
     fig.tight_layout()
     fig.savefig(output_path, dpi=300, bbox_inches="tight")
     plt.close(fig)
@@ -276,8 +316,10 @@ if __name__ == "__main__":
     index_df = pd.read_csv(INDEX_PATH, dtype={"visit_id": str})
     cohort = pd.read_csv(COHORT_PATH, dtype={"visit_id": str})
 
-    keep = ["visit_id", "apoe_genotype"] + [t for t in TARGETS if t not in index_df.columns]
+    keep = ["visit_id", "apoe_genotype"] + [c for c in TARGETS + ["age", "gender"]
+                                            if c not in index_df.columns]
     merged = index_df.merge(cohort[keep], on="visit_id", how="left")
+    merged["sex"] = pd.to_numeric(merged["gender"], errors="coerce")   # two-level code as in cohort
 
     merged["e4_count"] = merged["apoe_genotype"].map(count_e4)
     merged["e4_carrier"] = (merged["e4_count"] > 0).astype(float)

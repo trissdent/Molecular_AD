@@ -215,3 +215,4 @@ __marimo__/
 /checkpoints/
 *_gitig_*
 /src/analyze_dci/
+/results
