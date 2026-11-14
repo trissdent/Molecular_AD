@@ -1,7 +1,0 @@
-# DTI age-adjusted, CIMLR with 3 clusters instead of 2.
-data:
-  modality: dti
-training:
-  cluster_age_adjust: true
-loss:
-  n_clusters: 3

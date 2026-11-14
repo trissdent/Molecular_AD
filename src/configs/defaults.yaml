@@ -4,12 +4,13 @@
 
 # Data (everything here is produced by preprocessing/)
 data:
-  modality: smri                    # smri | dti | both | fa_md | t1_fa_md (set by the override file)
+  modality: smri                    # smri | dti | both | fa_md | t1_fa_md | md (set by the override file)
   prepared_dir: "/home/minhtri/Molecular_AD/data/prepared"   # cohort, split, features, etiv
   cache_dirs:
     smri: "/mnt/data_lab513/molecular_mri/cache_smri"
     dti: "/mnt/data_lab513/molecular_mri/cache_dti"
-    dti_md: "/mnt/data_lab513/molecular_mri/cache_dti_md"   # used by fa_md / t1_fa_md
+    dti_md: "/mnt/data_lab513/molecular_mri/cache_dti_md"   # used by fa_md / t1_fa_md / md
+  feature_tables: {}                # optional, e.g. {dti: dti_md_gm} -> features_dti_md_gm.csv
   batch_size: 32
   num_workers: 8
 

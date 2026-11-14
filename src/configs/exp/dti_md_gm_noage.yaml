@@ -1,0 +1,3 @@
+# image md, features dti_gm, full CIMLR, raw latents to CIMLR
+data: {modality: md, feature_tables: {dti: dti_gm}}
+training: {cluster_age_adjust: false}

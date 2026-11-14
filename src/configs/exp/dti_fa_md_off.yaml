@@ -1,3 +1,0 @@
-  # FA + MD input, no CIMLR in training (as dti_ageadj_off).
-  data: {modality: fa_md}
-  training: {cluster_age_adjust: true, cimlr_mode: "off"}

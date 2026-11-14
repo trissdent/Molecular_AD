@@ -45,6 +45,19 @@ features:
   max_missing: 0.05
   dti:
     maps: [FA, AxD, RD]
+    extra_tables:                      # more DTI tables, same rules -> features_<name>.csv
+      dti_md:    {maps: [FA, AxD, RD, MD]}
+      dti_gm:    {maps: [FA, AxD, RD], gray_matter: true}       # + gm_md.py regions
+      dti_md_gm: {maps: [FA, AxD, RD, MD], gray_matter: true}
+
+gm_md:                                   # gray-matter MD per FreeSurfer region (gm_md.py)
+  work_dir: /mnt/data_lab513/molecular_mri/gm_md
+  feature_csv: /home/minhtri/Molecular_AD/data/extracted_from_img_pipeline/gm_md_features.csv
+  column_dict_csv: /home/minhtri/Molecular_AD/data/extracted_from_img_pipeline/gm_md_columns.csv
+  seg_erode: 1                           # erode subcortical labels by 1 voxel (cortex: none)
+  md_ceiling: 2.0                        # 1e-3 mm^2/s; voxels above are CSF-like, excluded
+  subcortical_ids: [10, 11, 12, 13, 17, 18, 26, 49, 50, 51, 52, 53, 54, 58]
+  n_jobs: 8
 
 volumes:
   target_shape: [96, 96, 96]

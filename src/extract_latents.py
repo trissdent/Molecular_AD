@@ -24,7 +24,8 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 def make_dataset(config, visit_ids, mean, std):
     dataset = VisitDataset(visit_ids, config.data.modality, config.data.prepared_dir,
-                           vars(config.data.cache_dirs), normalize=False)
+                           vars(config.data.cache_dirs), normalize=False,
+                           feature_tables=getattr(getattr(config.data, "feature_tables", None), "__dict__", None))
     dataset.set_normalization(mean, std)
     return dataset
 

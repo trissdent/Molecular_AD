@@ -6,8 +6,11 @@
 modality 'smri' / 'dti' -> 1 channel (T1 / FA) and that modality's features;
 modality 'both'         -> 2 channels (T1, FA) and both feature sets side by side;
 modality 'fa_md'        -> 2 channels (FA, MD) and the DTI features;
-modality 't1_fa_md'     -> 3 channels (T1, FA, MD) and both feature sets side by side.
+modality 't1_fa_md'     -> 3 channels (T1, FA, MD) and both feature sets side by side;
+modality 'md'           -> 1 channel (MD) and the DTI features.
 Channel names are cache_dirs keys; feature names are features_<name>.csv files.
+data.feature_tables (optional) swaps a feature set for another table of the same modality,
+e.g. {dti: dti_md_gm} reads features_dti_md_gm.csv in place of features_dti.csv.
 """
 
 import hashlib
@@ -20,10 +23,11 @@ from torch.utils.data import Dataset
 
 # image channels per modality (cache_dirs keys, stacked in this order)
 MODALITIES = {"smri": ["smri"], "dti": ["dti"], "both": ["smri", "dti"],
-              "fa_md": ["dti", "dti_md"], "t1_fa_md": ["smri", "dti", "dti_md"]}
+              "fa_md": ["dti", "dti_md"], "t1_fa_md": ["smri", "dti", "dti_md"],
+              "md": ["dti_md"]}
 # prediction-feature tables per modality (features_<name>.csv)
 FEATURE_SETS = {"smri": ["smri"], "dti": ["dti"], "both": ["smri", "dti"],
-                "fa_md": ["dti"], "t1_fa_md": ["smri", "dti"]}
+                "fa_md": ["dti"], "t1_fa_md": ["smri", "dti"], "md": ["dti"]}
 
 
 def modality_list(modality):
@@ -60,11 +64,14 @@ def load_metadata(prepared_dir):
     return cohort.merge(etiv, on="visit_id", how="left").set_index("visit_id")
 
 
-def load_features(prepared_dir, modality):
-    """Features of the chosen modality, indexed by visit_id (sMRI columns first when both)."""
+def load_features(prepared_dir, modality, feature_tables=None):
+    """Features of the chosen modality, indexed by visit_id (sMRI columns first when both).
+    feature_tables maps a feature set to the table to read instead (e.g. {"dti": "dti_md_gm"})."""
+    feature_tables = feature_tables or {}
     frames = []
     for m in feature_list(modality):
-        df = pd.read_csv(Path(prepared_dir) / f"features_{m}.csv", dtype={"visit_id": str})
+        table = feature_tables.get(m, m)
+        df = pd.read_csv(Path(prepared_dir) / f"features_{table}.csv", dtype={"visit_id": str})
         df = df.drop(columns=[f"{m}_image_id"]).set_index("visit_id")
         frames.append(df.apply(pd.to_numeric, errors="coerce"))
     features = pd.concat(frames, axis=1, join="inner")
@@ -77,12 +84,13 @@ def load_features(prepared_dir, modality):
 
 class VisitDataset(Dataset):
 
-    def __init__(self, visit_ids, modality, prepared_dir, cache_dirs, normalize=False):
+    def __init__(self, visit_ids, modality, prepared_dir, cache_dirs, normalize=False,
+                 feature_tables=None):
         self.modalities = modality_list(modality)
         self.cache_dirs = {m: Path(cache_dirs[m]) for m in self.modalities}
         self.visit_ids = [str(v) for v in visit_ids]
 
-        self.raw_features_df = load_features(prepared_dir, modality)
+        self.raw_features_df = load_features(prepared_dir, modality, feature_tables)
         self.feature_names = list(self.raw_features_df.columns)
         self.feature_mean = None
         self.feature_std = None

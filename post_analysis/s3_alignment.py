@@ -48,7 +48,8 @@ OUT_DIR = RUN_DIR / "s3_alignment"
 DECODABILITY_PATH = OUT_DIR / "alignment_decodability.csv"
 
 MODALITY_CHANNELS = {"smri": ["smri"], "dti": ["dti"], "both": ["smri", "dti"],
-                     "fa_md": ["dti", "dti_md"], "t1_fa_md": ["smri", "dti", "dti_md"]}
+                     "fa_md": ["dti", "dti_md"], "t1_fa_md": ["smri", "dti", "dti_md"],
+                     "md": ["dti_md"]}
 DOWNSAMPLE = 2
 N_COMPONENTS = 128
 N_BINS = 3

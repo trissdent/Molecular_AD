@@ -1,0 +1,4 @@
+# src/configs/exp/dti_md_gmmdt_noage.yaml
+# MD input; DTI targets = white-matter tracts (FA, AxD, RD, MD) + gray-matter MD; no age adjustment in clustering.
+data: {modality: md, feature_tables: {dti: dti_md_gm}}
+training: {cluster_age_adjust: false}

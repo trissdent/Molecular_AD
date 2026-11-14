@@ -1,5 +1,0 @@
-# DTI, CIMLR clusters age-adjusted latents (CN aging trend removed before clustering).
-data:
-  modality: dti
-training:
-  cluster_age_adjust: true

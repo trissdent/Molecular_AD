@@ -1,3 +1,0 @@
-  # FA + MD input, full CIMLR, age-adjusted clustering (as dti_ageadj).
-  data: {modality: fa_md}
-  training: {cluster_age_adjust: true}

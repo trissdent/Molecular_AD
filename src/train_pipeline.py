@@ -72,7 +72,8 @@ def run(config_path="./configs/defaults.yaml", experiment_path=None, run_name_fi
 
     def make_ds(ids):
         return VisitDataset(ids, modality, config.data.prepared_dir,
-                            vars(config.data.cache_dirs), normalize=False)
+                            vars(config.data.cache_dirs), normalize=False,
+                            feature_tables=getattr(getattr(config.data, "feature_tables", None), "__dict__", None))
 
     train_dataset = make_ds(split_ids["train"])
     val_dataset = make_ds(split_ids["val"])
