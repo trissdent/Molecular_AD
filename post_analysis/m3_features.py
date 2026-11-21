@@ -1,32 +1,3 @@
-"""Which features does each model's prediction loss use, how stable are they, and do they
-relate to pTau? Reads what training already logged; no model is run.
-
-    python post_analysis/m3_features.py \\
-        --group full "smri_pw0.5_s*" "smri_pw0.5_2026*" --group fixed "smri_pw0.5_fixed*"
-
---group NAME GLOB [GLOB ...]   one model = its seed runs (globs over checkpoints/, quoted);
-                               the first group is the reference
---out NAME                     output name (default: the reference group's name)
-
-Per run:
-    best epoch E   read from checkpoints/<run>/best.ckpt (the checkpoint every result uses)
-    active top-k   the list the model was trained toward when it was saved: the last entry of
-                   logs/<run>/topk_history.csv selected before epoch E (a list chosen at the end
-                   of epoch e is used to train epoch e+1). Before the warm-up ends, all features
-                   are predicted; with cimlr_mode off the logged list is never used in training.
-    epoch share    per feature, the share of the epochs up to E in which it was in the top-k
-
-Per group: in how many seeds each feature is active, its mean epoch share, and how similar the
-seeds' active lists are (mean pairwise Jaccard). Between groups: the same counts side by side.
-Link to pTau: for every feature active in any run, its own Spearman (FreeSurfer / DTI value)
-with pTau-217 (both assays) and MMSE within AD, test split, pTau outliers excluded as in s2.
-
-Outputs in results/features/:
-    <out>_runs.csv       one row per run: group, seed, best epoch, which list was active
-    <out>_features.csv   one row per group x feature: seeds active, epoch share
-    <out>_links.csv      one row per feature: counts per group + correlations within AD
-"""
-
 import argparse
 import itertools
 import sys
@@ -73,6 +44,7 @@ def read_run(run):
     return {
         "run": run, "seed": config["training"]["seed"], "modality": config["data"]["modality"],
         "cimlr_mode": mode, "prepared_dir": config["data"]["prepared_dir"],
+        "feature_tables": config["data"].get("feature_tables") or {},
         "best_epoch": epoch, "active_chosen_at_epoch": chosen_at,
         "n_active": len(active) if active else "all",
         "used_in_training": mode != "off",
@@ -119,14 +91,14 @@ def stability(runs):
     return float(np.mean([jaccard(a, b) for a, b in itertools.combinations(lists, 2)]))
 
 
-def correlations(features, prepared_dir):
+def correlations(features, prepared_dir, feature_tables=None):
     """Spearman of each feature with the targets within AD on the test split (outliers out)."""
     prepared = Path(prepared_dir)
     cohort = pd.read_csv(prepared / "cohort.csv", dtype={"visit_id": str, "adni_id": str})
     split = pd.read_csv(prepared / "split.csv", dtype={"visit_id": str})
     tables = []
     for m in ("smri", "dti"):
-        path = prepared / f"features_{m}.csv"
+        path = prepared / f"features_{(feature_tables or {}).get(m, m)}.csv"
         if path.is_file():
             df = pd.read_csv(path, dtype={"visit_id": str}).set_index("visit_id")
             tables.append(df.drop(columns=[c for c in df.columns if c.endswith("_image_id")]))
@@ -194,7 +166,8 @@ if __name__ == "__main__":
                                 fill_value=0).astype(int)
     wide = wide[[g for g in groups if g in wide.columns]]
     wide = wide[(wide > 0).any(axis=1)]
-    links = correlations(list(wide.index), groups[reference][0]["prepared_dir"])
+    links = correlations(list(wide.index), groups[reference][0]["prepared_dir"],
+                         groups[reference][0]["feature_tables"])
     links = wide.add_prefix("seeds_").reset_index().merge(links, on="feature", how="left")
     order = [f"seeds_{g}" for g in groups]
     if len(groups) > 1:

@@ -1,0 +1,2 @@
+data: {modality: md, feature_tables: {dti: dti_gm}}
+training: {seed: 5, cluster_age_adjust: false}

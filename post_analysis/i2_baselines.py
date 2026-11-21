@@ -51,9 +51,9 @@ def load_inputs():
               .merge(cohort, on="visit_id", how="left")
               .merge(etiv, on="visit_id", how="left"))
     feats = {}
-    for m in ("smri", "dti"):
-        df = pd.read_csv(PREPARED_DIR / f"features_{m}.csv", dtype={"visit_id": str})
-        feats[m] = df.drop(columns=[f"{m}_image_id"]).set_index("visit_id")
+    for m, table in (("smri", "smri"), ("dti", "dti_gm")):
+        df = pd.read_csv(PREPARED_DIR / f"features_{table}.csv", dtype={"visit_id": str})
+        feats[m] = df.drop(columns=[c for c in df.columns if c.endswith("_image_id")]).set_index("visit_id")
     return visits, feats
 
 
