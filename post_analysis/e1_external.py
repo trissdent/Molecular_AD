@@ -24,7 +24,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 sys.path.insert(0, str(PROJECT_ROOT / "preprocessing"))
 
-from cache_volumes import CROP, brain_box, crop_cube, load, minmax, resize  # noqa: E402
+from cache_volumes import CROP, MD_SCALE, brain_box, crop_cube, load, minmax, resize  # noqa: E402
 from configs.config import ConfigReader  # noqa: E402
 from extract_latents import load_model  # noqa: E402
 from shared.models.metrics import MetricHandler  # noqa: E402
@@ -90,38 +90,53 @@ def drop_ptau_outliers(df):
     return df[~df["subject_id"].isin(flagged)]
 
 
-def build_cubes(cohort, t1_root, cache_dir, adni_cache):
-    info = json.loads((adni_cache / "cache_info.json").read_text())
-    if info.get("crop") != CROP:
-        sys.exit(f"ADNI cache was built with crop={info.get('crop')}, this script uses {CROP}")
-    margin, target = int(info["margin"]), tuple(info["target_shape"])
-    mine = {**info, "box": "t1_only"}
+CACHE_KEYS = {"smri": "smri", "md": "dti_md"}
 
-    cache_dir.mkdir(parents=True, exist_ok=True)
-    info_path = cache_dir / "cache_info.json"
-    if info_path.is_file() and json.loads(info_path.read_text()) != mine:
-        sys.exit(f"{cache_dir} was built with other settings; delete it to rebuild")
-    info_path.write_text(json.dumps(mine))
+
+def build_cubes(cohort, t1_root, dti_root, caches, adni_caches):
+    infos = {k: json.loads((adni_caches[k] / "cache_info.json").read_text()) for k in caches}
+    if infos["smri"].get("crop") != CROP:
+        sys.exit(f"ADNI cache was built with crop={infos['smri'].get('crop')}, this script uses {CROP}")
+    margin, target = int(infos["smri"]["margin"]), tuple(infos["smri"]["target_shape"])
+
+    for k, cache in caches.items():
+        mine = {**infos[k], "box": "t1_fa"}
+        cache.mkdir(parents=True, exist_ok=True)
+        info_path = cache / "cache_info.json"
+        if info_path.is_file() and json.loads(info_path.read_text()) != mine:
+            sys.exit(f"{cache} was built with other settings; delete it to rebuild")
+        info_path.write_text(json.dumps(mine))
 
     status = {}
     for sid in cohort["subject_id"]:
-        out = cache_dir / f"{sid}.npy"
-        t1_path = t1_root / sid / "mri" / "brain.finalsurfs.mgz"
-        if out.is_file():
+        outs = {k: c / f"{sid}.npy" for k, c in caches.items()}
+        inputs = {"t1": t1_root / sid / "mri" / "brain.finalsurfs.mgz",
+                  "fa": dti_root / sid / "FA_in_t1.nii.gz",
+                  "md": dti_root / sid / "MD_in_t1.nii.gz"}
+        if all(o.is_file() for o in outs.values()):
             status[sid] = "skipped"
-        elif not t1_path.is_file():
-            status[sid] = "no_t1"
-        else:
-            t1 = load(t1_path)
-            center, side = brain_box(t1, np.zeros_like(t1), margin)
-            np.save(out, minmax(resize(crop_cube(t1, center, side), target)))
-            status[sid] = "done"
+            continue
+        missing = [k for k, path in inputs.items() if not path.is_file()]
+        if missing:
+            status[sid] = "no_" + "_".join(missing)
+            continue
+        t1 = load(inputs["t1"])
+        center, side = brain_box(t1, load(inputs["fa"]), margin)
+
+        def cube(volume):
+            return resize(crop_cube(volume, center, side), target)
+
+        if not outs["smri"].is_file():
+            np.save(outs["smri"], minmax(cube(t1)))
+        if not outs["md"].is_file():
+            np.save(outs["md"], np.clip(cube(load(inputs["md"])) / MD_SCALE, 0.0, 1.0))
+        status[sid] = "done"
     counts = pd.Series(status).value_counts().to_dict()
-    print(f"cubes in {cache_dir} (margin {margin}, {target}): {counts}")
-    missing = [s for s, v in status.items() if v == "no_t1"]
-    if missing:
-        print(f"WARNING: no {t1_root}/<id>/mri/brain.finalsurfs.mgz for {missing}; left out")
-    return cohort[~cohort["subject_id"].isin(missing)].reset_index(drop=True)
+    print(f"cubes in {', '.join(map(str, caches.values()))} (margin {margin}, {target}): {counts}")
+    dropped = {s: v for s, v in status.items() if v.startswith("no_")}
+    if dropped:
+        print(f"WARNING: left out (missing input files): {dropped}")
+    return cohort[~cohort["subject_id"].isin(dropped)].reset_index(drop=True)
 
 
 # ---------- 2-3. latents and index, per run ----------
@@ -129,8 +144,8 @@ def build_cubes(cohort, t1_root, cache_dir, adni_cache):
 @torch.no_grad()
 def encode(run, cohort, cache_dir, device):
     config = ConfigReader.merge(str(LOGS / run / "config.yml"))
-    if config.data.modality != "smri":
-        sys.exit(f"{run}: modality {config.data.modality}; this cohort has T1 only")
+    if config.data.modality not in CACHE_KEYS:
+        sys.exit(f"{run}: modality {config.data.modality}; only {', '.join(CACHE_KEYS)} are supported")
     n_features = len(pd.read_csv(CHECKPOINTS / run / "feature_mean.csv"))
     model = load_model(config, n_features, CHECKPOINTS / run / "best.ckpt", device)
     mus = []
@@ -754,6 +769,7 @@ def parse_args():
     parser.add_argument("--name", required=True)
     parser.add_argument("--csv", required=True, type=Path)
     parser.add_argument("--t1-root", required=True, type=Path)
+    parser.add_argument("--dti-root", required=True, type=Path)
     parser.add_argument("--runs", nargs="+", required=True)
     parser.add_argument("--keep-ptau-outliers", action="store_true")
     parser.add_argument("--features", type=Path, default=None)
@@ -769,16 +785,25 @@ if __name__ == "__main__":
         sys.exit(f"no trained runs match {args.runs}")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    first = yaml.safe_load((LOGS / runs[0] / "config.yml").read_text())
-    adni_cache = Path(first["data"]["cache_dirs"]["smri"])
-    cache_dir = adni_cache.parent / f"cache_{args.name}"
+    configs = {r: yaml.safe_load((LOGS / r / "config.yml").read_text()) for r in runs}
+    modalities = {c["data"]["modality"] for c in configs.values()}
+    if len(modalities) != 1:
+        sys.exit(f"runs mix modalities {sorted(modalities)}; run T1 and DTI separately")
+    modality = modalities.pop()
+    if modality not in CACHE_KEYS:
+        sys.exit(f"modality {modality}; only {', '.join(CACHE_KEYS)} are supported")
+    first = configs[runs[0]]
+    adni_caches = {k: Path(first["data"]["cache_dirs"][v]) for k, v in CACHE_KEYS.items()}
+    caches = {"smri": adni_caches["smri"].parent / f"cache_{args.name}",
+              "md": adni_caches["smri"].parent / f"cache_{args.name}_md"}
+    adni_cache, cache_dir = adni_caches[modality], caches[modality]
 
     cohort = load_cohort(args.csv, args.keep_ptau_outliers)
     if args.etiv:
         etiv = pd.read_csv(args.etiv, dtype={"subject_id": str})
         etiv["subject_id"] = etiv["subject_id"].str.strip()
         cohort = cohort.merge(etiv[["subject_id", "etiv"]], on="subject_id", how="left")
-    cohort = build_cubes(cohort, args.t1_root, cache_dir, adni_cache)
+    cohort = build_cubes(cohort, args.t1_root, args.dti_root, caches, adni_caches)
     print(f"{args.name}: {len(cohort)} subjects "
           f"({(cohort['diagnosis'] == 'cn').sum()} CN, {(cohort['diagnosis'] == 'ad').sum()} AD)")
 
