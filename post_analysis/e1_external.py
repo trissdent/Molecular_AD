@@ -93,14 +93,15 @@ def drop_ptau_outliers(df):
 CACHE_KEYS = {"smri": "smri", "md": "dti_md"}
 
 
-def build_cubes(cohort, t1_root, dti_root, caches, adni_caches):
+def build_cubes(cohort, t1_root, dti_root, caches, adni_caches, modality):
     infos = {k: json.loads((adni_caches[k] / "cache_info.json").read_text()) for k in caches}
     if infos["smri"].get("crop") != CROP:
         sys.exit(f"ADNI cache was built with crop={infos['smri'].get('crop')}, this script uses {CROP}")
     margin, target = int(infos["smri"]["margin"]), tuple(infos["smri"]["target_shape"])
 
+    boxes = {"smri": "t1_only", "md": "t1_fa"}
     for k, cache in caches.items():
-        mine = {**infos[k], "box": "t1_fa"}
+        mine = {**infos[k], "box": boxes[k]}
         cache.mkdir(parents=True, exist_ok=True)
         info_path = cache / "cache_info.json"
         if info_path.is_file() and json.loads(info_path.read_text()) != mine:
@@ -109,31 +110,30 @@ def build_cubes(cohort, t1_root, dti_root, caches, adni_caches):
 
     status = {}
     for sid in cohort["subject_id"]:
-        outs = {k: c / f"{sid}.npy" for k, c in caches.items()}
-        inputs = {"t1": t1_root / sid / "mri" / "brain.finalsurfs.mgz",
-                  "fa": dti_root / sid / "FA_in_t1.nii.gz",
-                  "md": dti_root / sid / "MD_in_t1.nii.gz"}
-        if all(o.is_file() for o in outs.values()):
-            status[sid] = "skipped"
+        t1_path = t1_root / sid / "mri" / "brain.finalsurfs.mgz"
+        if not t1_path.is_file():
+            status[sid] = "no_t1"
             continue
-        missing = [k for k, path in inputs.items() if not path.is_file()]
-        if missing:
-            status[sid] = "no_" + "_".join(missing)
-            continue
-        t1 = load(inputs["t1"])
-        center, side = brain_box(t1, load(inputs["fa"]), margin)
-
-        def cube(volume):
-            return resize(crop_cube(volume, center, side), target)
-
-        if not outs["smri"].is_file():
-            np.save(outs["smri"], minmax(cube(t1)))
-        if not outs["md"].is_file():
-            np.save(outs["md"], np.clip(cube(load(inputs["md"])) / MD_SCALE, 0.0, 1.0))
-        status[sid] = "done"
+        out_t1 = caches["smri"] / f"{sid}.npy"
+        if not out_t1.is_file():
+            t1 = load(t1_path)
+            center, side = brain_box(t1, np.zeros_like(t1), margin)
+            np.save(out_t1, minmax(resize(crop_cube(t1, center, side), target)))
+        if modality == "md":
+            fa_path, md_path = dti_root / sid / "FA_in_t1.nii.gz", dti_root / sid / "MD_in_t1.nii.gz"
+            out_md = caches["md"] / f"{sid}.npy"
+            if not out_md.is_file():
+                if not (fa_path.is_file() and md_path.is_file()):
+                    status[sid] = "no_dti"
+                    continue
+                t1 = load(t1_path)
+                center, side = brain_box(t1, load(fa_path), margin)
+                np.save(out_md, np.clip(resize(crop_cube(load(md_path), center, side), target) / MD_SCALE,
+                                        0.0, 1.0))
+        status[sid] = "ok"
     counts = pd.Series(status).value_counts().to_dict()
-    print(f"cubes in {', '.join(map(str, caches.values()))} (margin {margin}, {target}): {counts}")
-    dropped = {s: v for s, v in status.items() if v.startswith("no_")}
+    print(f"cubes in {caches[modality]} (margin {margin}, {target}): {counts}")
+    dropped = {s: v for s, v in status.items() if v != "ok"}
     if dropped:
         print(f"WARNING: left out (missing input files): {dropped}")
     return cohort[~cohort["subject_id"].isin(dropped)].reset_index(drop=True)
@@ -769,7 +769,7 @@ def parse_args():
     parser.add_argument("--name", required=True)
     parser.add_argument("--csv", required=True, type=Path)
     parser.add_argument("--t1-root", required=True, type=Path)
-    parser.add_argument("--dti-root", required=True, type=Path)
+    parser.add_argument("--dti-root", type=Path, default=None)
     parser.add_argument("--runs", nargs="+", required=True)
     parser.add_argument("--keep-ptau-outliers", action="store_true")
     parser.add_argument("--features", type=Path, default=None)
@@ -797,13 +797,16 @@ if __name__ == "__main__":
     caches = {"smri": adni_caches["smri"].parent / f"cache_{args.name}",
               "md": adni_caches["smri"].parent / f"cache_{args.name}_md"}
     adni_cache, cache_dir = adni_caches[modality], caches[modality]
+    tag = args.name if modality == "smri" else f"{args.name}_dti"
 
     cohort = load_cohort(args.csv, args.keep_ptau_outliers)
     if args.etiv:
         etiv = pd.read_csv(args.etiv, dtype={"subject_id": str})
         etiv["subject_id"] = etiv["subject_id"].str.strip()
         cohort = cohort.merge(etiv[["subject_id", "etiv"]], on="subject_id", how="left")
-    cohort = build_cubes(cohort, args.t1_root, args.dti_root, caches, adni_caches)
+    if modality == "md" and args.dti_root is None:
+        sys.exit("DTI runs need --dti-root")
+    cohort = build_cubes(cohort, args.t1_root, args.dti_root, caches, adni_caches, modality)
     print(f"{args.name}: {len(cohort)} subjects "
           f"({(cohort['diagnosis'] == 'cn').sum()} CN, {(cohort['diagnosis'] == 'ad').sum()} AD)")
 
@@ -859,15 +862,16 @@ if __name__ == "__main__":
 
     per_run = pd.concat(per_run, ignore_index=True)
     per_run_adj = pd.concat(per_run_adj, ignore_index=True)
-    adj_wide = per_run_adj.pivot_table(index=["run", "index_name"], columns="target",
-                                       values=["adjusted_r", "adjusted_p"])
-    adj_wide.columns = [f"{t}_ad_{v.replace('adjusted', 'adj')}" for v, t in adj_wide.columns]
-    per_run = per_run.merge(adj_wide.reset_index(), on=["run", "index_name"], how="left")
+    if "adjusted_r" in per_run_adj:
+        adj_wide = per_run_adj.pivot_table(index=["run", "index_name"], columns="target",
+                                           values=["adjusted_r", "adjusted_p"])
+        adj_wide.columns = [f"{t}_ad_{v.replace('adjusted', 'adj')}" for v, t in adj_wide.columns]
+        per_run = per_run.merge(adj_wide.reset_index(), on=["run", "index_name"], how="left")
     summary = summarize(per_run)
 
     RESULTS.mkdir(parents=True, exist_ok=True)
-    per_run.to_csv(RESULTS / f"{args.name}_runs.csv", index=False)
-    summary.to_csv(RESULTS / f"{args.name}_summary.csv", index=False)
+    per_run.to_csv(RESULTS / f"{tag}_runs.csv", index=False)
+    summary.to_csv(RESULTS / f"{tag}_summary.csv", index=False)
 
     pd.set_option("display.width", 220)
     show = ["index_name", "n_runs", "auc mean", "cohens_d mean", "mmse_ad_r mean", "mmse_ad_p<0.05",
@@ -876,14 +880,14 @@ if __name__ == "__main__":
     print(f"\n{args.name}: mean over {len(runs)} runs\n"
           + summary[[c for c in show if c in summary.columns]].round(3).to_string(index=False))
     alignment = pd.concat(align_runs, ignore_index=True)
-    alignment.to_csv(RESULTS / f"{args.name}_alignment.csv", index=False)
+    alignment.to_csv(RESULTS / f"{tag}_alignment.csv", index=False)
     spaces = [c for c in ("before", "after", "features") if c in alignment.columns]
     print(f"\ns3 decodability on {args.name} (balanced accuracy, probes fitted on ADNI train; "
           f"mean over runs)\n"
           + alignment.groupby("target", sort=False)[["chance"] + spaces].mean().round(3).to_string())
     if dci_runs:
         dci = pd.concat(dci_runs, ignore_index=True)
-        dci.to_csv(RESULTS / f"{args.name}_dci.csv", index=False)
+        dci.to_csv(RESULTS / f"{tag}_dci.csv", index=False)
         print(f"\ns1 DCI (mean over runs)\n"
               + dci.groupby("set")[["n", "D", "C", "I"]].mean().round(3).to_string())
         print(f"Saved: {RESULTS / f'{args.name}_dci.csv'}")

@@ -568,8 +568,14 @@ if __name__ == "__main__":
         if ext:
             fig_scatter(ext, AGECORR_INDEX, ["mmse", "ptau217"], "fig7_external", box_first=True)
             fig_scatter(ext, RAW_INDEX, ["mmse", "ptau217"], "supp_fig7_uncorrected", box_first=True)
-            ext_partials = {k: pd.read_csv(runs[k] / f"external_{args.external}" / "s4_apoe" / "apoe_partial_model.csv")
-                            for k in ext}
-            fig_apoe({k: with_e4(d) for k, d in ext.items()}, ext_partials, AGECORR_INDEX, ["mmse", "ptau217"],
-                     "supp_apoe_partial_external")
+            ext_partials = {}
+            for k in ext:
+                path = runs[k] / f"external_{args.external}" / "s4_apoe" / "apoe_partial_model.csv"
+                try:
+                    ext_partials[k] = pd.read_csv(path)
+                except pd.errors.EmptyDataError:
+                    print(f"{MODELS[k]}: too few AD with covariates in {args.external}, left out of the APOE figure")
+            if ext_partials:
+                fig_apoe({k: with_e4(ext[k]) for k in ext_partials}, ext_partials, AGECORR_INDEX,
+                         ["mmse", "ptau217"], "supp_apoe_partial_external")
             fig_latent_external(runs, args.external, "supp_latent_space_external")

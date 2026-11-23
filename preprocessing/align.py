@@ -17,6 +17,7 @@ Safe to rerun: finished visits are skipped. A visit aligned before MD was added 
 MD_in_t1 from its saved transform (status md_added); the registration is not redone.
 """
 
+import argparse
 import concurrent.futures
 import json
 import shutil
@@ -120,13 +121,26 @@ if __name__ == "__main__":
     if shutil.which("flirt") is None:
         sys.exit("flirt not found: load FSL first")
 
-    config = load_config()
-    smri_root = Path(config["modalities"]["smri"]["scan_root"])
-    dti_root = Path(config["modalities"]["dti"]["scan_root"])
-    aligned_dir = Path(config["paths"]["aligned_dir"])
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--external-csv", type=Path, default=None)
+    parser.add_argument("--t1-root", type=Path, default=None)
+    parser.add_argument("--dti-root", type=Path, default=None)
+    parser.add_argument("--out", type=Path, default=None)
+    args, rest = parser.parse_known_args()
+    if args.external_csv:
+        smri_root, dti_root, aligned_dir = args.t1_root, args.dti_root, args.out
+        ids = pd.read_csv(args.external_csv, dtype=str)["subject_id"].str.strip()
+        cohort = pd.DataFrame({"adni_id": ids, "smri_image_id": "", "dti_image_id": ids + "_dti",
+                               "visit_id": ids})
+        report_dir = aligned_dir
+    else:
+        config = load_config(rest)
+        smri_root = Path(config["modalities"]["smri"]["scan_root"])
+        dti_root = Path(config["modalities"]["dti"]["scan_root"])
+        aligned_dir = Path(config["paths"]["aligned_dir"])
+        cohort = pd.read_csv(out_dir(config) / "cohort.csv", dtype=str)
+        report_dir = out_dir(config)
     aligned_dir.mkdir(parents=True, exist_ok=True)
-
-    cohort = pd.read_csv(out_dir(config) / "cohort.csv", dtype=str)
     print(f"{len(cohort)} visits -> {aligned_dir}")
 
     rows = []
@@ -144,7 +158,7 @@ if __name__ == "__main__":
             report[col] = np.nan
     median, cutoff = flag_outliers(report)
     report = report.sort_values(["outlier", "brain_dice"], ascending=[False, True])
-    report.to_csv(out_dir(config) / "align_report.csv", index=False)
+    report.to_csv(report_dir / "align_report.csv", index=False)
 
     print(f"\nstatus: {report['status'].value_counts().to_dict()}")
     print(f"brain overlap: median {median:.3f}, outlier below {cutoff:.3f}")
@@ -152,4 +166,4 @@ if __name__ == "__main__":
     print(report[report["outlier"]
                  | report["status"].isin(["failed", "missing_data", "missing_md", "md_failed"])]
           [["visit_id", "dti_type", "status", "brain_dice", "detail"]].to_string(index=False))
-    print(f"\nSaved: {out_dir(config) / 'align_report.csv'}")
+    print(f"\nSaved: {report_dir / 'align_report.csv'}")
